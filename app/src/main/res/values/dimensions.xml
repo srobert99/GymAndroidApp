@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_padding">50dp</dimen>
+
+    <dimen name="login_page_data">20dp</dimen>
+
+    <dimen name="logo_size">150dp</dimen>
+
+
+    <dimen name="login_page_title_size">50sp</dimen>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GymAppAndroid</string>
+    <string name="title_activity_colors">Colors</string>
+    <string name="title_activity_custom_edit_text_composable">CustomEditTextComposable</string>
+    <string name="title_activity_custom_text_field">CustomTextField</string>
+    <string name="login_page_title">LOGIN</string>
+</resources>
