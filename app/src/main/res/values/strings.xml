@@ -4,4 +4,6 @@
     <string name="title_activity_custom_edit_text_composable">CustomEditTextComposable</string>
     <string name="title_activity_custom_text_field">CustomTextField</string>
     <string name="login_page_title">LOGIN</string>
+    <string name="title_activity_helpers">Helpers</string>
+    <string name="title_activity_user_info_box">UserInfoBox</string>
 </resources>

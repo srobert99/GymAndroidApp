@@ -10,6 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GymAppAndroid">
         <activity
+            android:name=".helpers.UserInfoBox"
+            android:exported="false"
+            android:label="@string/title_activity_user_info_box"
+            android:theme="@style/Theme.GymAppAndroid.NoActionBar" />
+        <activity
+            android:name=".Helpers"
+            android:exported="false"
+            android:label="@string/title_activity_helpers"
+            android:theme="@style/Theme.GymAppAndroid.NoActionBar" />
+        <activity
             android:name=".CustomTextField"
             android:exported="false"
             android:label="@string/title_activity_custom_text_field"
