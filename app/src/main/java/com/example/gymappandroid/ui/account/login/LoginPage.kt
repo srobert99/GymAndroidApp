@@ -13,20 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
-import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
-import com.example.gymappandroid.R
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -61,19 +62,21 @@ fun LoginScreen(navController: NavController) {
                         modifier = Modifier.padding(bottom = 20.dp),
                     )
                     UserInfoBox("Email", Icons.Filled.Email)
+                    Spacer(modifier = Modifier.size(20.dp))
                     PasswordTextField()
 
                     Button(
-                        onClick = {navController.navigate("register_screen")}, shape = RoundedCornerShape(20.dp),
+                        onClick = { navController.navigate("register_screen") },
+                        shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .padding(top = 60.dp)
+                            .padding(top = 30.dp)
                             .size(height = 50.dp, width = 200.dp),
                     ) {
                         Text(
                             "LOGIN",
                             fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            color = colorResource(id = R.color.dark_blue)
                         )
                     }
                     Column(
@@ -83,12 +86,18 @@ fun LoginScreen(navController: NavController) {
                         Text(
                             "Forgot Password?",
                             fontSize = 12.sp,
-                            modifier = Modifier.padding(bottom = 20.dp)
+                            modifier = Modifier.padding(bottom = 20.dp),
+                            textDecoration = TextDecoration.Underline
                         )
                         Text(
                             buildAnnotatedString {
                                 append("Don't have an account? ")
-                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color  = Color.Magenta)) {
+                                withStyle(
+                                    style = SpanStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        color = colorResource(id = R.color.teal_200)
+                                    )
+                                ) {
                                     append("Sign up")
                                 }
                             }, modifier = Modifier.padding(top = 10.dp), color = Color.Gray

@@ -17,7 +17,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -29,7 +28,8 @@ fun RegisterScreen(navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            horizontalAlignment = CenterHorizontally
         ) {
             Text(
                 text = "Create Account",
@@ -41,8 +41,7 @@ fun RegisterScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .weight(3f)
-                    .align(CenterHorizontally)
-                    .padding(vertical = 20.dp), Arrangement.SpaceBetween
+                    .padding(20.dp), Arrangement.SpaceBetween
             ) {
                 UserInfoBox(labelText = "Full Name", leadingIcon = Icons.Filled.Person)
                 UserInfoBox(
@@ -56,7 +55,6 @@ fun RegisterScreen(navController: NavController) {
             }
             Column(modifier = Modifier
                 .weight(1f)
-                .align(CenterHorizontally)
                 .padding(top = 20.dp)) {
                 Button(
                     onClick = { navController.popBackStack()},
