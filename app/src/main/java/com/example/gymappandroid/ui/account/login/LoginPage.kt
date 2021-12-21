@@ -1,6 +1,7 @@
 package com.example.gymappandroid.ui.account
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -26,11 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
+import com.example.gymappandroid.ui.account.auth.AuthViewModel
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, viewModel: AuthViewModel) {
     Scaffold {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -61,9 +63,9 @@ fun LoginScreen(navController: NavController) {
                         color = Color.White,
                         modifier = Modifier.padding(bottom = 20.dp),
                     )
-                    UserInfoBox("Email", Icons.Filled.Email)
+                    UserInfoBox(labelText = "Email", leadingIcon = Icons.Filled.Email, isNumber = false, onValueChange = {}, currentText = "")
                     Spacer(modifier = Modifier.size(20.dp))
-                    PasswordTextField()
+                    PasswordTextField(onPasswordChange = {})
 
                     Button(
                         onClick = { navController.navigate("register_screen") },
@@ -100,7 +102,10 @@ fun LoginScreen(navController: NavController) {
                                 ) {
                                     append("Sign up")
                                 }
-                            }, modifier = Modifier.padding(top = 10.dp), color = Color.Gray
+                            }, modifier = Modifier
+                                .padding(top = 10.dp)
+                                .clickable { },
+                            color = Color.Gray
                         )
                     }
                 }
