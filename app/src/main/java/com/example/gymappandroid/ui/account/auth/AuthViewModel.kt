@@ -1,5 +1,6 @@
 package com.example.gymappandroid.ui.account.auth
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +14,10 @@ class AuthViewModel(
 ) : ViewModel() {
 
     private val _name = MutableLiveData("")
-    val name:LiveData<String> = _name
+    val name: LiveData<String> = _name
 
     private val _phoneNumber = MutableLiveData("")
-    val phoneNumber:LiveData<String> = _phoneNumber
+    val phoneNumber: LiveData<String> = _phoneNumber
 
     private val _email = MutableLiveData("")
     val email: LiveData<String> = _email
@@ -36,26 +37,29 @@ class AuthViewModel(
     }
 
     fun login() {
-        if (email.value != null && password.value != null && password.value == confirmedPassword.value) {
+        if (email.value != null && password.value != null) {
             authListener?.onStarted()
 
             val disposable = repository.login(email = email.value!!, password.value!!)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     authListener?.onSucces()
+                    Log.d("Login", "Succes")
                 }, {
                     authListener?.onFailure(it.message!!)
+                    Log.d("Login", "Password/email wrong")
                 })
             disposables.add(disposable)
 
             authListener?.onStarted()
-        }else{
-            authListener?.onFailure("Something went wrong")
+        } else {
+            //authListener?.onFailure("Something went wrong")
+            Log.d("Login", "Something went wrong")
         }
     }
 
     fun signup() {
-        if (email.value != null && password.value != null && password.value == confirmedPassword.value){
+        if (email.value != null && password.value != null && password.value == confirmedPassword.value) {
             authListener?.onStarted()
             val disposable = repository.register(email.value!!, password.value!!)
                 .subscribeOn(Schedulers.io())
@@ -66,7 +70,7 @@ class AuthViewModel(
                     authListener?.onFailure(it.message!!)
                 })
             disposables.add(disposable)
-        }else{
+        } else {
             authListener?.onFailure("Something went wrong")
         }
     }
@@ -76,19 +80,19 @@ class AuthViewModel(
         disposables.dispose()
     }
 
-    fun onEmailChange(newEmail: String =""){
+    fun onEmailChange(newEmail: String = "") {
         _email.value = newEmail
     }
 
-    fun onNameChange(newName:String){
+    fun onNameChange(newName: String) {
         _name.value = newName
     }
 
-    fun onPasswordChange(newPassword:String){
+    fun onPasswordChange(newPassword: String) {
         _password.value = newPassword
     }
 
-    fun onCPasswordChange(newCPassword: String){
+    fun onCPasswordChange(newCPassword: String) {
         _confirmedPassword.value = newCPassword
     }
 

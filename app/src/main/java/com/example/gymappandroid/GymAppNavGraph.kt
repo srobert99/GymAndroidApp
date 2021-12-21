@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.gymappandroid.ui.account.LoginScreen
 import com.example.gymappandroid.ui.account.RegisterScreen
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
+import com.example.gymappandroid.ui.account.menu.MainScreen
 
 @Composable
 fun GymAppNavGraph(authViewModel: AuthViewModel){
@@ -15,5 +16,6 @@ fun GymAppNavGraph(authViewModel: AuthViewModel){
     NavHost(navController = navController, startDestination = "login_screen"){
         composable("login_screen"){ LoginScreen(navController,authViewModel)}
         composable("register_screen"){ RegisterScreen(navController,authViewModel)}
+        composable("main_screen"){ MainScreen()}
     }
 }

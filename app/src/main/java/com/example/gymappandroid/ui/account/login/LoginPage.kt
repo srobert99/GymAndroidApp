@@ -11,6 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,7 +34,9 @@ import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: AuthViewModel) {
+fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
+    val email by authViewModel.email.observeAsState("")
+    val password by authViewModel.password.observeAsState("")
     Scaffold {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -63,12 +67,19 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel) {
                         color = Color.White,
                         modifier = Modifier.padding(bottom = 20.dp),
                     )
-                    UserInfoBox(labelText = "Email", leadingIcon = Icons.Filled.Email, isNumber = false, onValueChange = {}, currentText = "")
+                    UserInfoBox(
+                        labelText = "Email",
+                        leadingIcon = Icons.Filled.Email,
+                        isNumber = false,
+                        onValueChange = { authViewModel.onEmailChange(it) },
+                        currentText = email
+                    )
                     Spacer(modifier = Modifier.size(20.dp))
-                    PasswordTextField(onPasswordChange = {})
-
+                    PasswordTextField(
+                        currentText = password,
+                        onPasswordChange = { authViewModel.onPasswordChange(it) })
                     Button(
-                        onClick = { navController.navigate("register_screen") },
+                        onClick = { authViewModel.login() },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
