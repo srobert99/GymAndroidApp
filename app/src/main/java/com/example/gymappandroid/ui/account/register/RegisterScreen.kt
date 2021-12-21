@@ -83,6 +83,7 @@ fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
                 PasswordTextField(
                     labelText = "Confirm Password",
                     currentText = cPassword,
+                    modifier = Modifier.fillMaxWidth(),
                     onPasswordChange = { authViewModel.onCPasswordChange(it) })
             }
             Column(
