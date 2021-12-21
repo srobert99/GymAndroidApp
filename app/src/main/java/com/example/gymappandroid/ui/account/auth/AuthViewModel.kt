@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gymappandroid.data.repositories.UserRepository
+import com.google.firebase.auth.UserProfileChangeRequest
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -44,7 +45,6 @@ class AuthViewModel(
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     authListener?.onSucces()
-                    Log.d("Login", "Succes")
                 }, {
                     authListener?.onFailure(it.message!!)
                     Log.d("Login", "Password/email wrong")
@@ -73,6 +73,10 @@ class AuthViewModel(
         } else {
             authListener?.onFailure("Something went wrong")
         }
+    }
+
+    fun logout(){
+        repository.logout()
     }
 
     override fun onCleared() {
