@@ -6,16 +6,27 @@ import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.CombinedModifier
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.gymappandroid.ui.account.auth.AuthViewModel
 
 @Composable
-fun UserInfoBox(labelText: String, leadingIcon: ImageVector, isNumber: Boolean = false) {
-    var text by remember { mutableStateOf("") }
+fun UserInfoBox(
+    modifier: Modifier = Modifier,
+    labelText: String,
+    leadingIcon: ImageVector,
+    isNumber: Boolean = false,
+    onValueChange: (String) -> Unit,
+    currentText: String,
+) {
     OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
+        value = currentText,
+        onValueChange = { text ->
+            onValueChange(text)
+        },
         label = { Text(labelText) },
         leadingIcon = {
             Icon(
@@ -28,6 +39,6 @@ fun UserInfoBox(labelText: String, leadingIcon: ImageVector, isNumber: Boolean =
         else KeyboardOptions(
             keyboardType = KeyboardType.Text
         ),
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
     )
 }

@@ -6,8 +6,11 @@ import com.example.gymappandroid.ui.account.auth.AuthViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val firebaseAuthModule = module {
+val appModule = module {
     single { FirebaseSource() }
     single { UserRepository(get()) }
-    viewModel { AuthViewModel(get()) }
+}
+
+val authViewModelModule = module{
+    viewModel { AuthViewModel(get())}
 }

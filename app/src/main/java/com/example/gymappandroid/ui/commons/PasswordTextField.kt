@@ -18,8 +18,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import com.example.gymappandroid.R
 
 @Composable
-fun PasswordTextField(labelText: String = "Password") {
-    var password by rememberSaveable { mutableStateOf("") }
+fun PasswordTextField(
+    modifier: Modifier = Modifier,
+    labelText: String = "Password",
+    currentText: String = "",
+    onPasswordChange: (String) -> Unit
+) {
     var passwordVisibility by remember { mutableStateOf(false) }
 
     val icon = if (passwordVisibility)
@@ -28,10 +32,8 @@ fun PasswordTextField(labelText: String = "Password") {
         painterResource(id = R.drawable.design_ic_visibility_off)
 
     OutlinedTextField(
-        value = password,
-        onValueChange = {
-            password = it
-        },
+        value = currentText,
+        onValueChange = onPasswordChange,
         placeholder = { Text(text = labelText) },
         label = { Text(text = labelText) },
         leadingIcon = {
@@ -55,6 +57,6 @@ fun PasswordTextField(labelText: String = "Password") {
         ),
         visualTransformation = if (passwordVisibility) VisualTransformation.None
         else PasswordVisualTransformation(),
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
     )
 }
