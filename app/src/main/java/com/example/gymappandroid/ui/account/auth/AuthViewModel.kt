@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gymappandroid.data.repositories.UserRepository
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.example.gymappandroid.ui.account.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -59,9 +59,11 @@ class AuthViewModel(
     }
 
     fun signup() {
-        if (email.value != null && password.value != null && password.value == confirmedPassword.value) {
+        if (email.value != null && password.value != null && password.value == confirmedPassword.value && phoneNumber.value != null && name.value != null) {
+            val newUser =
+                User(email = email.value!!, phone = phoneNumber.value!!, name = name.value!!)
             authListener?.onStarted()
-            val disposable = repository.register(email.value!!, password.value!!)
+            val disposable = repository.register(newUser, password.value!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -75,7 +77,7 @@ class AuthViewModel(
         }
     }
 
-    fun logout(){
+    fun logout() {
         repository.logout()
     }
 

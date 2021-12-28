@@ -1,6 +1,9 @@
 package com.example.gymappandroid.data.firebase
 
+import com.example.gymappandroid.ui.account.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 
 class FirebaseSource {
@@ -9,10 +12,12 @@ class FirebaseSource {
         FirebaseAuth.getInstance()
     }
 
-    fun login(email:String, password:String) = Completable.create { emitter ->
+    private val userDataBase = Firebase.firestore
+
+    fun login(email: String, password: String) = Completable.create { emitter ->
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if(!emitter.isDisposed) {
-                if(it.isSuccessful)
+            if (!emitter.isDisposed) {
+                if (it.isSuccessful)
                     emitter.onComplete()
                 else
                     emitter.onError(it.exception!!)
@@ -20,11 +25,15 @@ class FirebaseSource {
         }
     }
 
-    fun register(email: String, password: String) = Completable.create { emitter ->
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+    fun register(user: User, password: String) = Completable.create { emitter ->
+        firebaseAuth.createUserWithEmailAndPassword(user.email, password).addOnCompleteListener {
             if (!emitter.isDisposed) {
-                if (it.isSuccessful)
-                    emitter.onComplete()
+                if (it.isSuccessful){
+                    user.uid = currentUser()!!.uid
+                    userDataBase.collection("user").document(user.uid).set(user).addOnSuccessListener {
+                        emitter.onComplete()
+                    }
+                }
                 else
                     emitter.onError(it.exception!!)
             }

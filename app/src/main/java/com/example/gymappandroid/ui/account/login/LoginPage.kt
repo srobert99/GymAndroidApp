@@ -115,7 +115,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                                 }
                             }, modifier = Modifier
                                 .padding(top = 10.dp)
-                                .clickable { },
+                                .clickable { navController.navigate("register_screen")},
                             color = Color.Gray
                         )
                     }
