@@ -86,6 +86,8 @@ class AuthViewModel(
         disposables.dispose()
     }
 
+
+
     fun onEmailChange(newEmail: String = "") {
         _email.value = newEmail
     }

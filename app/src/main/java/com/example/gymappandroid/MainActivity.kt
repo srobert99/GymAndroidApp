@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
+import com.example.gymappandroid.ui.account.user_details.DetailsContent
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import com.google.firebase.auth.FirebaseUser
 import org.koin.android.ext.koin.androidContext
@@ -37,11 +38,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GymAppAndroidTheme {
-                if (authViewModel.user != null) {
-                    MainPage(authViewModel = authViewModel)
-                } else {
-                    GymAppNavGraph(authViewModel = authViewModel)
-                }
+//                if (authViewModel.user != null) {
+//                    MainPage(authViewModel = authViewModel)
+//                } else {
+//                    GymAppNavGraph(authViewModel = authViewModel)
+//                }
+                DetailsContent()
             }
         }
     }

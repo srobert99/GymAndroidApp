@@ -50,7 +50,6 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .size(dimensionResource(id = R.dimen.logo_size))
-                        .fillMaxSize()
                 )
                 Column(
                     modifier = Modifier
@@ -109,13 +108,13 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         color = colorResource(id = R.color.teal_200)
-                                    )
+                                    ),
                                 ) {
-                                    append("Sign up")
+                                    append(" Sign up")
                                 }
                             }, modifier = Modifier
                                 .padding(top = 10.dp)
-                                .clickable { navController.navigate("register_screen")},
+                                .clickable { navController.navigate("register_screen") },
                             color = Color.Gray
                         )
                     }

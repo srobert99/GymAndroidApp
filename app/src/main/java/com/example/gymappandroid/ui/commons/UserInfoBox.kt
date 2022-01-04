@@ -15,7 +15,7 @@ import com.example.gymappandroid.ui.account.auth.AuthViewModel
 
 @Composable
 fun UserInfoBox(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxWidth(),
     labelText: String,
     leadingIcon: ImageVector,
     isNumber: Boolean = false,
