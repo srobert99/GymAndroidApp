@@ -2,11 +2,13 @@ package com.example.gymappandroid.ui.account.user_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Absolute.Center
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,19 +47,17 @@ fun DetailsContent() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                        .padding(35.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("WELCOME", fontSize = 16.sp, fontWeight = Bold)
-                        Text(
-                            "WE WOULD LIKE TO KNOW MORE ABOUT YOU",
-                            fontSize = 16.sp,
-                            fontWeight = Bold,
-                            modifier = Modifier.padding(bottom = 20.dp)
-                        )
-                    }
+                    Text(
+                        "WELCOME \n WE WOULD LIKE TO KNOW MORE ABOUT YOU",
+                        fontWeight = Bold,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
+
+                    )
                     Image(
                         painter = painterResource(image),
                         contentDescription = null,
@@ -105,6 +106,13 @@ fun DetailsContent() {
                         leadingIcon = Icons.Filled.Person,
                         onValueChange = {},
                         currentText = ""
+                    )
+                    UserInfoBox(
+                        labelText = "Phone number",
+                        leadingIcon = Icons.Filled.Phone,
+                        onValueChange = {},
+                        currentText = "",
+                        isNumber = true
                     )
                     DateTextField(
                         labelText = "Birthdate",
