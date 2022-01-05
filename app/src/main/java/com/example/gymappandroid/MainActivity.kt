@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 //                if (authViewModel.user != null) {
 //                    MainPage(authViewModel = authViewModel)
 //                } else {
-//                    GymAppNavGraph(authViewModel = authViewModel)
+                    GymAppNavGraph(authViewModel = authViewModel)
 //                }
                 DetailsContent()
             }

@@ -1,8 +1,9 @@
 package com.example.gymappandroid.data.firebase
 
-import com.example.gymappandroid.ui.account.model.User
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
 
@@ -25,19 +26,34 @@ class FirebaseSource {
         }
     }
 
-    fun register(user: User, password: String) = Completable.create { emitter ->
-        firebaseAuth.createUserWithEmailAndPassword(user.email, password).addOnCompleteListener {
+    fun register(email: String, password: String) = Completable.create { emitter ->
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (!emitter.isDisposed) {
-                if (it.isSuccessful){
-                    user.uid = currentUser()!!.uid
-                    userDataBase.collection("user").document(user.uid).set(user).addOnSuccessListener {
-                        emitter.onComplete()
-                    }
-                }
-                else
-                    emitter.onError(it.exception!!)
-            }
+                if (it.isSuccessful)
+                    emitter.onComplete()
+
+            } else
+                emitter.onError(it.exception!!)
         }
+    }
+
+    fun saveUserData(newUser: User) {
+        userDataBase.collection("user")
+            .add(newUser)
+            .addOnSuccessListener {
+                Log.d("Firestore", "it works")
+            }.addOnFailureListener {
+                Log.d("Firestore", "it didn't work")
+            }
+    }
+
+    fun getUserData(uid: String): User? {
+        val userRef = userDataBase.collection("users").document(uid)
+        var user: User? = null
+        userRef.get().addOnSuccessListener {
+            user = it.toObject<User>()
+        }
+        return user
     }
 
     fun logout() = firebaseAuth.signOut()

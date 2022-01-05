@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserRepository
-import com.example.gymappandroid.ui.account.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -60,10 +60,8 @@ class AuthViewModel(
 
     fun signup() {
         if (email.value != null && password.value != null && password.value == confirmedPassword.value && phoneNumber.value != null && name.value != null) {
-            val newUser =
-                User(email = email.value!!, phone = phoneNumber.value!!, name = name.value!!)
             authListener?.onStarted()
-            val disposable = repository.register(newUser, password.value!!)
+            val disposable = repository.register(email.value!!, password.value!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -77,6 +75,10 @@ class AuthViewModel(
         }
     }
 
+    fun saveUserData(user:User) = repository.saveUserData(user)
+
+    fun getUserData(uid:String) = repository.getUserData(uid)
+
     fun logout() {
         repository.logout()
     }
@@ -85,8 +87,6 @@ class AuthViewModel(
         super.onCleared()
         disposables.dispose()
     }
-
-
 
     fun onEmailChange(newEmail: String = "") {
         _email.value = newEmail
