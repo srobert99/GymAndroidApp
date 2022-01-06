@@ -38,12 +38,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GymAppAndroidTheme {
-//                if (authViewModel.user != null) {
-//                    MainPage(authViewModel = authViewModel)
-//                } else {
+                if (authViewModel.user != null) {
+                    MainPage(authViewModel = authViewModel)
+                } else {
                     GymAppNavGraph(authViewModel = authViewModel)
-//                }
-                DetailsContent()
+                }
             }
         }
     }

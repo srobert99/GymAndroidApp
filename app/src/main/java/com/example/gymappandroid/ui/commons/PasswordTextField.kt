@@ -19,7 +19,7 @@ import com.example.gymappandroid.R
 
 @Composable
 fun PasswordTextField(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxWidth(),
     labelText: String = "Password",
     currentText: String = "",
     onPasswordChange: (String) -> Unit

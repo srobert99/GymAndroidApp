@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,22 +27,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import com.example.gymappandroid.R
+import com.example.gymappandroid.ui.account.auth.AuthViewModel
 import com.example.gymappandroid.ui.commons.DateTextField
 import com.example.gymappandroid.ui.commons.RoundedToggleButton
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 
 @Composable
-fun DetailsContent() {
+fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
     GymAppAndroidTheme {
-        Scaffold {
-            val maleState: MutableState<Boolean> = remember { mutableStateOf(true) }
-            val femaleState: MutableState<Boolean> = remember { mutableStateOf(false) }
+        Scaffold{
+            val isMale by authViewModel.isMale.observeAsState(true)
+            val phoneNumber by authViewModel.phoneNumber.observeAsState("")
+            val birthDate by authViewModel.birthDate.observeAsState("")
+            val name by authViewModel.name.observeAsState("")
+            val lastname by authViewModel.lastname.observeAsState("")
             var image by remember { mutableStateOf(R.drawable.detailspatgemale) }
 
             image =
-                if (maleState.value) R.drawable.detailspatgemale else R.drawable.detailspagefemale
+                if (isMale) R.drawable.detailspatgemale else R.drawable.detailspagefemale
 
             Surface(modifier = Modifier.fillMaxSize()) {
                 Column(
@@ -73,22 +80,20 @@ fun DetailsContent() {
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         RoundedToggleButton(
-                            state = maleState,
+                            state = isMale,
                             text = "Male",
                             onClick = {
-                                maleState.value = true
-                                femaleState.value = false
+                                      authViewModel.onGenderSelection(true)
                             },
                             modifier = Modifier
                                 .padding(end = 8.dp)
                                 .weight(1f)
                         )
                         RoundedToggleButton(
-                            state = femaleState,
+                            state = !isMale,
                             text = "Female",
                             onClick = {
-                                femaleState.value = true
-                                maleState.value = false
+                                      authViewModel.onGenderSelection(false)
                             },
                             modifier = Modifier
                                 .padding(start = 8.dp)
@@ -98,30 +103,30 @@ fun DetailsContent() {
                     UserInfoBox(
                         labelText = "Name",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = {},
-                        currentText = "",
+                        onValueChange = {authViewModel.onNameChange(it)},
+                        currentText = name,
                     )
                     UserInfoBox(
                         labelText = "Surname",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = {},
-                        currentText = ""
+                        onValueChange = {authViewModel.onLastNameChange(it)},
+                        currentText = lastname,
                     )
                     UserInfoBox(
                         labelText = "Phone number",
                         leadingIcon = Icons.Filled.Phone,
-                        onValueChange = {},
-                        currentText = "",
+                        onValueChange = {authViewModel.onPhoneNumberChange(it)},
+                        currentText = phoneNumber,
                         isNumber = true
                     )
                     DateTextField(
                         labelText = "Birthdate",
                         leadingIcon = Icons.Filled.DateRange,
-                        onValueChange = {},
-                        currentText = ""
+                        onValueChange = {authViewModel.onBirthDateChange(it)},
+                        currentText = birthDate
                     )
                     Button(
-                        onClick = {},
+                        onClick = { authViewModel.saveUserData()},
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
@@ -136,8 +141,3 @@ fun DetailsContent() {
     }
 }
 
-@Preview
-@Composable
-private fun previewDetailsScreen() {
-    DetailsContent()
-}

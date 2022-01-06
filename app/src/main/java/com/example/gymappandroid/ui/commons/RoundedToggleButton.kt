@@ -20,7 +20,7 @@ private val IconButtonSizeModifier = Modifier.height(50.dp)
 
 @Composable
 fun RoundedToggleButton(
-    state: MutableState<Boolean>,
+    state: Boolean,
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -32,8 +32,8 @@ fun RoundedToggleButton(
         shape = RoundedCornerShape(10.dp),
         modifier = modifier then IconButtonSizeModifier,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (state.value) activeColor else inactiveColor,
-            contentColor = if (state.value) DarkBlue else Color.Gray
+            backgroundColor = if (state) activeColor else inactiveColor,
+            contentColor = if (state) DarkBlue else Color.Gray
         )
     ) {
         Text(text = text, fontSize = 16.sp, color = White)

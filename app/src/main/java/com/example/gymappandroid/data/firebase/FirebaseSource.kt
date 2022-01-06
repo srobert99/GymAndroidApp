@@ -1,6 +1,7 @@
 package com.example.gymappandroid.data.firebase
 
 import android.util.Log
+import com.example.gymappandroid.data.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
