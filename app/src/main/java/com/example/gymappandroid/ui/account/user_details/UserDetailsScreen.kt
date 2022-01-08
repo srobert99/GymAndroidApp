@@ -142,7 +142,7 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
 }
 
 private fun saveUserData(authViewModel: AuthViewModel, navController: NavController) {
-    authViewModel.saveUserData()
+//    authViewModel.saveUserData()
     navController.navigate("main_screen")
 }
 

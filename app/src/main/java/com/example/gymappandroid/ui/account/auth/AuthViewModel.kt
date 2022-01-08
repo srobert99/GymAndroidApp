@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class AuthViewModel(
@@ -39,6 +42,9 @@ class AuthViewModel(
     private val _confirmedPassword = MutableLiveData("")
     val confirmedPassword: LiveData<String> = _confirmedPassword
 
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     var authListener: AuthListener? = null
 
     private val disposables = CompositeDisposable()
@@ -49,22 +55,11 @@ class AuthViewModel(
 
     fun login() {
         if (email.value != null && password.value != null) {
-            authListener?.onStarted()
-
-            val disposable = repository.login(email = email.value!!, password.value!!)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    authListener?.onSucces()
-                }, {
-                    authListener?.onFailure(it.message!!)
-                    Log.d("Login", "Password/email wrong")
-                })
-            disposables.add(disposable)
-
-            authListener?.onStarted()
-        } else {
-            //authListener?.onFailure("Something went wrong")
-            Log.d("Login", "Something went wrong")
+            viewModelScope.launch(Dispatchers.IO) {
+                load()
+                repository.login(email.value!!, password.value!!)
+                load()
+            }
         }
     }
 
@@ -85,7 +80,7 @@ class AuthViewModel(
         }
     }
 
-    fun saveUserData() {
+    suspend fun saveUserData() {
         val curUserDetails = User(
             user!!.uid,
             name.value!!,
@@ -113,6 +108,10 @@ class AuthViewModel(
         disposables.dispose()
     }
 
+    fun load(){
+        _isLoading.postValue(!_isLoading.value!!)
+    }
+
     fun onEmailChange(newEmail: String = "") {
         _email.value = newEmail
     }
@@ -121,7 +120,7 @@ class AuthViewModel(
         _firstname.value = newName
     }
 
-    fun onLastNameChange(newLastName:String) {
+    fun onLastNameChange(newLastName: String) {
         _lastname.value = newLastName
     }
 
@@ -137,11 +136,11 @@ class AuthViewModel(
         _phoneNumber.value = newPhoneNumber
     }
 
-    fun onBirthDateChange(newBirthDate:String){
+    fun onBirthDateChange(newBirthDate: String) {
         _birthDate.value = newBirthDate
     }
 
-    fun onGenderSelection(isMale:Boolean){
+    fun onGenderSelection(isMale: Boolean) {
         _isMale.value = isMale
     }
 }

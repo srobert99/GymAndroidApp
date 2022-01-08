@@ -4,16 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -37,6 +37,7 @@ import com.example.gymappandroid.ui.commons.UserInfoBox
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
     val email by authViewModel.email.observeAsState("")
     val password by authViewModel.password.observeAsState("")
+    val isLoading by authViewModel.isLoading.observeAsState(false)
     Scaffold {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -77,18 +78,27 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                     PasswordTextField(
                         currentText = password,
                         onPasswordChange = { authViewModel.onPasswordChange(it) })
-                    Button(
-                        onClick = { authViewModel.login() },
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(top = 30.dp)
-                            .size(height = 50.dp, width = 200.dp),
-                    ) {
-                        Text(
-                            "LOGIN",
-                            fontWeight = FontWeight.Bold,
-                            color = colorResource(id = R.color.dark_blue)
+                    if (!isLoading) {
+                        Button(
+                            onClick = { authViewModel.login() },
+                            shape = RoundedCornerShape(20.dp),
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(top = 30.dp)
+                                .size(height = 50.dp, width = 200.dp),
+                        ) {
+                            Text(
+                                "LOGIN",
+                                fontWeight = FontWeight.Bold,
+                                color = colorResource(id = R.color.dark_blue)
+                            )
+                        }
+                    } else {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .align(CenterHorizontally)
+                                .padding(top = 30.dp)
+                                .size(50.dp)
                         )
                     }
                     Column(
@@ -122,4 +132,8 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
             }
         }
     }
+}
+
+private fun login(authViewModel: AuthViewModel) {
+    authViewModel.login()
 }

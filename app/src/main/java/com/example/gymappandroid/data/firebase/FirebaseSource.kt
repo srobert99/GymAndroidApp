@@ -7,6 +7,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import io.reactivex.Completable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 class FirebaseSource {
 
@@ -16,15 +19,27 @@ class FirebaseSource {
 
     private val userDataBase = Firebase.firestore
 
-    fun login(email: String, password: String) = Completable.create { emitter ->
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (!emitter.isDisposed) {
-                if (it.isSuccessful)
-                    emitter.onComplete()
-                else
-                    emitter.onError(it.exception!!)
-            }
-        }
+//    fun login(email: String, password: String) = Completable.create { emitter ->
+//        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+//            if (!emitter.isDisposed) {
+//                if (it.isSuccessful)
+//                    emitter.onComplete()
+//                else
+//                    emitter.onError(it.exception!!)
+//            }
+//        }
+//    }
+
+    suspend fun login(email: String, password: String): Boolean {
+        delay(3000L)
+        return true
+//        return try {
+//            delay(3000L)
+//            firebaseAuth.signInWithEmailAndPassword(email, password).await()
+//            true
+//        } catch (e: Exception) {
+//            false
+//        }
     }
 
     fun register(email: String, password: String) = Completable.create { emitter ->
@@ -38,14 +53,25 @@ class FirebaseSource {
         }
     }
 
-    fun saveUserData(newUser: User) {
-        userDataBase.collection("user")
-            .add(newUser)
-            .addOnSuccessListener {
-                Log.d("Firestore", "it works")
-            }.addOnFailureListener {
-                Log.d("Firestore", "it didn't work")
-            }
+//    fun saveUserData(newUser: User) {
+//        userDataBase.collection("user")
+//            .add(newUser)
+//            .addOnSuccessListener {
+//                Log.d("Firestore", "it works")
+//            }.addOnFailureListener {
+//                Log.d("Firestore", "it didn't work")
+//            }
+//    }
+
+    suspend fun saveUserData(newUser: User): Boolean {
+        return try {
+            userDataBase.collection("user")
+                .add(newUser)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     fun getUserData(uid: String): User? {
