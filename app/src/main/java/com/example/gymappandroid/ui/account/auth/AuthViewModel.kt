@@ -1,22 +1,23 @@
 package com.example.gymappandroid.ui.account.auth
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserRepository
+import com.google.firebase.auth.FirebaseUser
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class AuthViewModel(
     private val repository: UserRepository
 ) : ViewModel() {
+
+    var firebaseUser: FirebaseUser? = null
 
     private val _firstname = MutableLiveData("")
     val name: LiveData<String> = _firstname
@@ -45,12 +46,12 @@ class AuthViewModel(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    var authListener: AuthListener? = null
+    private var authListener: AuthListener? = null
 
     private val disposables = CompositeDisposable()
 
-    val user by lazy {
-        repository.currentUser()
+    init {
+        getFirebaseUser()
     }
 
     fun login() {
@@ -71,6 +72,7 @@ class AuthViewModel(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     authListener?.onSucces()
+                    getFirebaseUser()
                 }, {
                     authListener?.onFailure(it.message!!)
                 })
@@ -80,24 +82,24 @@ class AuthViewModel(
         }
     }
 
-    suspend fun saveUserData() {
+    fun saveUserData() {
         val curUserDetails = User(
-            user!!.uid,
+            firebaseUser!!.uid,
             name.value!!,
             lastname.value!!,
             isMale.value!!,
             phoneNumber.value!!,
             birthDate.value!!,
-            email = user?.email!!
+            email = firebaseUser!!.email!!
         )
-        try {
+        viewModelScope.launch {
+            load()
             repository.saveUserData(curUserDetails)
-        } catch (e: Exception) {
-            Log.d("Firestore Error", e.toString())
+            load()
         }
     }
 
-    fun getUserData() = repository.getUserData(user!!.uid)
+    fun getUserData() = repository.getUserData(firebaseUser!!.uid)
 
     fun logout() {
         repository.logout()
@@ -108,7 +110,7 @@ class AuthViewModel(
         disposables.dispose()
     }
 
-    fun load(){
+    fun load() {
         _isLoading.postValue(!_isLoading.value!!)
     }
 
@@ -142,5 +144,9 @@ class AuthViewModel(
 
     fun onGenderSelection(isMale: Boolean) {
         _isMale.value = isMale
+    }
+
+    private fun getFirebaseUser(){
+        firebaseUser = repository.currentUser()
     }
 }

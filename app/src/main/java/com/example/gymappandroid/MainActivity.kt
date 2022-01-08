@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GymAppAndroidTheme {
-                if (authViewModel.user != null) {
+                if (authViewModel.firebaseUser != null) {
                     MainPage(authViewModel = authViewModel)
                 } else {
                     GymAppNavGraph(authViewModel = authViewModel)

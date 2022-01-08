@@ -64,6 +64,7 @@ class FirebaseSource {
 //    }
 
     suspend fun saveUserData(newUser: User): Boolean {
+        delay(3000L)
         return try {
             userDataBase.collection("user")
                 .add(newUser)

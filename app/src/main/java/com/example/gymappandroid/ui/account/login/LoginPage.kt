@@ -80,7 +80,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                         onPasswordChange = { authViewModel.onPasswordChange(it) })
                     if (!isLoading) {
                         Button(
-                            onClick = { authViewModel.login() },
+                            onClick = { login(authViewModel, navController) },
                             shape = RoundedCornerShape(20.dp),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -134,6 +134,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
     }
 }
 
-private fun login(authViewModel: AuthViewModel) {
+private fun login(authViewModel: AuthViewModel, navController: NavController) {
     authViewModel.login()
+    navController.navigate("main_screen")
 }
