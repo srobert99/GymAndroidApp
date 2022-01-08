@@ -69,7 +69,7 @@ class AuthViewModel(
     }
 
     fun signup() {
-        if (email.value != null && password.value != null && password.value == confirmedPassword.value && phoneNumber.value != null && name.value != null) {
+        if (email.value != null && password.value != null && password.value == confirmedPassword.value) {
             authListener?.onStarted()
             val disposable = repository.register(email.value!!, password.value!!)
                 .subscribeOn(Schedulers.io())

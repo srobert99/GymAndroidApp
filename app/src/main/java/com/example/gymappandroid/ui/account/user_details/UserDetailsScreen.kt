@@ -39,7 +39,7 @@ import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 @Composable
 fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
     GymAppAndroidTheme {
-        Scaffold{
+        Scaffold {
             val isMale by authViewModel.isMale.observeAsState(true)
             val phoneNumber by authViewModel.phoneNumber.observeAsState("")
             val birthDate by authViewModel.birthDate.observeAsState("")
@@ -83,7 +83,7 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                             state = isMale,
                             text = "Male",
                             onClick = {
-                                      authViewModel.onGenderSelection(true)
+                                authViewModel.onGenderSelection(true)
                             },
                             modifier = Modifier
                                 .padding(end = 8.dp)
@@ -93,7 +93,7 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                             state = !isMale,
                             text = "Female",
                             onClick = {
-                                      authViewModel.onGenderSelection(false)
+                                authViewModel.onGenderSelection(false)
                             },
                             modifier = Modifier
                                 .padding(start = 8.dp)
@@ -103,30 +103,30 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                     UserInfoBox(
                         labelText = "Name",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = {authViewModel.onNameChange(it)},
+                        onValueChange = { authViewModel.onNameChange(it) },
                         currentText = name,
                     )
                     UserInfoBox(
                         labelText = "Surname",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = {authViewModel.onLastNameChange(it)},
+                        onValueChange = { authViewModel.onLastNameChange(it) },
                         currentText = lastname,
                     )
                     UserInfoBox(
                         labelText = "Phone number",
                         leadingIcon = Icons.Filled.Phone,
-                        onValueChange = {authViewModel.onPhoneNumberChange(it)},
+                        onValueChange = { authViewModel.onPhoneNumberChange(it) },
                         currentText = phoneNumber,
                         isNumber = true
                     )
                     DateTextField(
                         labelText = "Birthdate",
                         leadingIcon = Icons.Filled.DateRange,
-                        onValueChange = {authViewModel.onBirthDateChange(it)},
+                        onValueChange = { authViewModel.onBirthDateChange(it) },
                         currentText = birthDate
                     )
                     Button(
-                        onClick = { authViewModel.saveUserData()},
+                        onClick = { saveUserData(authViewModel,navController) },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
@@ -139,5 +139,10 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
             }
         }
     }
+}
+
+private fun saveUserData(authViewModel: AuthViewModel, navController: NavController) {
+    authViewModel.saveUserData()
+    navController.navigate("main_screen")
 }
 

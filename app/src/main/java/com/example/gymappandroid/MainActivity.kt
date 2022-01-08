@@ -51,13 +51,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainPage(authViewModel: AuthViewModel) {
     Surface() {
-        val name = authViewModel.user?.uid
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Hello $name")
+            Text("Hello Roberto")
             Button(onClick = { authViewModel.logout() }, modifier = Modifier.padding(100.dp)) {
                 Text("Logout")
             }

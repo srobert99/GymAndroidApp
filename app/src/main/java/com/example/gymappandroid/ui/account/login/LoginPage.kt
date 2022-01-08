@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.account
+package com.example.gymappandroid.ui.account.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -114,7 +114,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                                 }
                             }, modifier = Modifier
                                 .padding(top = 10.dp)
-                                .clickable { navController.navigate("details_screen") },
+                                .clickable { navController.navigate("register_screen") },
                             color = Color.Gray
                         )
                     }
