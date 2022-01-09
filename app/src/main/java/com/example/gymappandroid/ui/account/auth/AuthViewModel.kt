@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserRepository
+import com.example.gymappandroid.ui.commons.core.SingleLiveEvent
 import com.google.firebase.auth.FirebaseUser
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,6 +19,11 @@ class AuthViewModel(
 ) : ViewModel() {
 
     var firebaseUser: FirebaseUser? = null
+
+    private val _userDetails = MutableLiveData<User>()
+    val userDetails: LiveData<User> = _userDetails
+
+    val moveToMain = SingleLiveEvent<Boolean>()
 
     private val _firstname = MutableLiveData("")
     val name: LiveData<String> = _firstname
@@ -59,6 +65,7 @@ class AuthViewModel(
             viewModelScope.launch(Dispatchers.IO) {
                 load()
                 repository.login(email.value!!, password.value!!)
+                moveToMain.postValue(true)
                 load()
             }
         }
@@ -66,19 +73,9 @@ class AuthViewModel(
 
     fun signup() {
         if (email.value != null && password.value != null && password.value == confirmedPassword.value) {
-            authListener?.onStarted()
-            val disposable = repository.register(email.value!!, password.value!!)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    authListener?.onSucces()
-                    getFirebaseUser()
-                }, {
-                    authListener?.onFailure(it.message!!)
-                })
-            disposables.add(disposable)
-        } else {
-            authListener?.onFailure("Something went wrong")
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.register(email.value!!, password.value!!)
+            }
         }
     }
 
@@ -99,7 +96,11 @@ class AuthViewModel(
         }
     }
 
-    fun getUserData() = repository.getUserData(firebaseUser!!.uid)
+    fun getUserData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _userDetails.postValue(repository.getUserData(firebaseUser!!.uid))
+        }
+    }
 
     fun logout() {
         repository.logout()
@@ -146,7 +147,7 @@ class AuthViewModel(
         _isMale.value = isMale
     }
 
-    private fun getFirebaseUser(){
+    private fun getFirebaseUser() {
         firebaseUser = repository.currentUser()
     }
 }

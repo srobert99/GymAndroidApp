@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
@@ -35,21 +36,18 @@ class MainActivity : ComponentActivity() {
         }
 
         val authViewModel = getViewModel<AuthViewModel>()
+        val isLogged = (authViewModel.firebaseUser != null)
 
         setContent {
             GymAppAndroidTheme {
-                if (authViewModel.firebaseUser != null) {
-                    MainPage(authViewModel = authViewModel)
-                } else {
-                    GymAppNavGraph(authViewModel = authViewModel)
-                }
+                GymAppNavGraph(authViewModel = authViewModel, isLogged = isLogged)
             }
         }
     }
 }
 
 @Composable
-fun MainPage(authViewModel: AuthViewModel) {
+fun MainPage(authViewModel: AuthViewModel, navController: NavController) {
     Surface() {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -57,10 +55,17 @@ fun MainPage(authViewModel: AuthViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Hello Roberto")
-            Button(onClick = { authViewModel.logout() }, modifier = Modifier.padding(100.dp)) {
+            Button(
+                onClick = { logout(authViewModel, navController) },
+                modifier = Modifier.padding(100.dp)
+            ) {
                 Text("Logout")
             }
         }
     }
+}
 
+private fun logout(authViewModel: AuthViewModel, navController: NavController) {
+    authViewModel.logout()
+    navController.navigate("login_screen")
 }

@@ -6,11 +6,11 @@ import com.example.gymappandroid.data.models.User
 class UserRepository(private val firebase: FirebaseSource) {
     suspend fun login(email: String, password: String) = firebase.login(email, password)
 
-    fun register(email: String, password: String) = firebase.register(email, password)
+    suspend fun register(email: String, password: String) = firebase.register(email, password)
 
     suspend fun saveUserData(user: User) = firebase.saveUserData(user)
 
-    fun getUserData(uid: String) = firebase.getUserData(uid)
+    suspend fun getUserData(uid: String) = firebase.getUserData(uid)
 
     fun currentUser() = firebase.currentUser()
 

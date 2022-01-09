@@ -19,69 +19,45 @@ class FirebaseSource {
 
     private val userDataBase = Firebase.firestore
 
-//    fun login(email: String, password: String) = Completable.create { emitter ->
-//        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-//            if (!emitter.isDisposed) {
-//                if (it.isSuccessful)
-//                    emitter.onComplete()
-//                else
-//                    emitter.onError(it.exception!!)
-//            }
-//        }
-//    }
-
     suspend fun login(email: String, password: String): Boolean {
-        delay(3000L)
-        return true
-//        return try {
-//            delay(3000L)
-//            firebaseAuth.signInWithEmailAndPassword(email, password).await()
-//            true
-//        } catch (e: Exception) {
-//            false
-//        }
-    }
-
-    fun register(email: String, password: String) = Completable.create { emitter ->
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (!emitter.isDisposed) {
-                if (it.isSuccessful)
-                    emitter.onComplete()
-
-            } else
-                emitter.onError(it.exception!!)
-        }
-    }
-
-//    fun saveUserData(newUser: User) {
-//        userDataBase.collection("user")
-//            .add(newUser)
-//            .addOnSuccessListener {
-//                Log.d("Firestore", "it works")
-//            }.addOnFailureListener {
-//                Log.d("Firestore", "it didn't work")
-//            }
-//    }
-
-    suspend fun saveUserData(newUser: User): Boolean {
-        delay(3000L)
         return try {
-            userDataBase.collection("user")
-                .add(newUser)
-                .await()
+            firebaseAuth.signInWithEmailAndPassword(email, password).await()
             true
         } catch (e: Exception) {
             false
         }
     }
 
-    fun getUserData(uid: String): User? {
-        val userRef = userDataBase.collection("users").document(uid)
-        var user: User? = null
-        userRef.get().addOnSuccessListener {
-            user = it.toObject<User>()
+    suspend fun register(email: String, password: String): Boolean {
+        return try {
+            firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            true
+        } catch (e: Exception) {
+            Log.d("firebase register", e.message.toString())
+            false
         }
-        return user
+    }
+
+    suspend fun saveUserData(newUser: User): Boolean {
+        return try {
+            userDataBase.collection("user")
+                .add(newUser)
+                .await()
+            true
+        } catch (e: Exception) {
+            Log.d("firestore_save_user_data", e.message.toString())
+            false
+        }
+    }
+
+    suspend fun getUserData(uid: String): User? {
+        val userRef = userDataBase.collection("users").document(uid)
+        return try {
+            userRef.get().await().toObject<User>()
+        } catch (e: Exception) {
+            Log.d("firestore_get_user", e.message.toString())
+            return null
+        }
     }
 
     fun logout() = firebaseAuth.signOut()
