@@ -49,7 +49,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = null,
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
+                        .align(CenterHorizontally)
                         .size(dimensionResource(id = R.dimen.logo_size))
                 )
                 Column(
@@ -103,7 +103,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                     }
                     Column(
                         modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = CenterHorizontally
                     ) {
                         Text(
                             "Forgot Password?",
@@ -135,9 +135,4 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
     if(isLoading){
         navController.navigate("main_screen")
     }
-}
-
-private fun login(authViewModel: AuthViewModel, navController: NavController) {
-    authViewModel.login()
-    navController.navigate("main_screen")
 }

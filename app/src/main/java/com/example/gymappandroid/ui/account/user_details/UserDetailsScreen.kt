@@ -2,36 +2,29 @@ package com.example.gymappandroid.ui.account.user_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement.Absolute.Center
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
 import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
-import com.example.gymappandroid.ui.commons.DateTextField
+import com.example.gymappandroid.ui.commons.DatePickerField
 import com.example.gymappandroid.ui.commons.RoundedToggleButton
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
@@ -119,14 +112,14 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                         currentText = phoneNumber,
                         isNumber = true
                     )
-                    DateTextField(
-                        labelText = "Birthdate",
-                        leadingIcon = Icons.Filled.DateRange,
-                        onValueChange = { authViewModel.onBirthDateChange(it) },
-                        currentText = birthDate
+                    DatePickerField(
+                        context = LocalContext.current,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp)
                     )
                     Button(
-                        onClick = { saveUserData(authViewModel,navController) },
+                        onClick = { saveUserData(authViewModel, navController) },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)

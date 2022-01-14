@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
-import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,9 +18,8 @@ import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
-import com.example.gymappandroid.ui.account.user_details.DetailsContent
+import com.example.gymappandroid.ui.commons.DatePickerDemo
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
-import com.google.firebase.auth.FirebaseUser
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.startKoin
