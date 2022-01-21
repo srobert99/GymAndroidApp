@@ -6,12 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserRepository
-import com.example.gymappandroid.ui.commons.core.SingleLiveEvent
 import com.google.firebase.auth.FirebaseUser
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
@@ -23,7 +21,7 @@ class AuthViewModel(
     private val _userDetails = MutableLiveData<User>()
     val userDetails: LiveData<User> = _userDetails
 
-    val moveToMain = SingleLiveEvent<Boolean>()
+    val moveToMain = MutableLiveData(false)
 
     private val _firstname = MutableLiveData("")
     val name: LiveData<String> = _firstname
@@ -52,22 +50,18 @@ class AuthViewModel(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private var authListener: AuthListener? = null
-
     private val disposables = CompositeDisposable()
 
     init {
         getFirebaseUser()
     }
 
-    fun login() {
+    suspend fun login() {
         if (email.value != null && password.value != null) {
-            viewModelScope.launch(Dispatchers.IO) {
                 load()
                 repository.login(email.value!!, password.value!!)
                 moveToMain.postValue(true)
                 load()
-            }
         }
     }
 

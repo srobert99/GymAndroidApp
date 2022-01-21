@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
-import com.example.gymappandroid.ui.commons.DatePickerDemo
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel

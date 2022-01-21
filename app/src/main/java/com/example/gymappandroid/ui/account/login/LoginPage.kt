@@ -10,9 +10,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,12 +30,22 @@ import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.account.auth.AuthViewModel
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
     val email by authViewModel.email.observeAsState("")
     val password by authViewModel.password.observeAsState("")
     val isLoading by authViewModel.isLoading.observeAsState(false)
+    val coroutineScope = rememberCoroutineScope()
+
+    val loginUser: () -> Unit = {
+        coroutineScope.launch {
+            authViewModel.login()
+            navController.navigate("main_screen")
+        }
+    }
+
     Scaffold {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -80,7 +88,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                         onPasswordChange = { authViewModel.onPasswordChange(it) })
                     if (!isLoading) {
                         Button(
-                            onClick = { authViewModel.login() },
+                            onClick = { loginUser() },
                             shape = RoundedCornerShape(20.dp),
                             modifier = Modifier
                                 .align(CenterHorizontally)
@@ -131,8 +139,5 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                 }
             }
         }
-    }
-    if(isLoading){
-        navController.navigate("main_screen")
     }
 }
