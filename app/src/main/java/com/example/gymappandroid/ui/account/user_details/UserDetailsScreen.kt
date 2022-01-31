@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,21 +22,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
-import com.example.gymappandroid.ui.account.auth.AuthViewModel
+import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.commons.DatePickerField
 import com.example.gymappandroid.ui.commons.RoundedToggleButton
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 
 @Composable
-fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
+fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel) {
     GymAppAndroidTheme {
         Scaffold {
-            val isMale by authViewModel.isMale.observeAsState(true)
-            val phoneNumber by authViewModel.phoneNumber.observeAsState("")
-            val birthDate by authViewModel.birthDate.observeAsState("")
-            val name by authViewModel.name.observeAsState("")
-            val lastname by authViewModel.lastname.observeAsState("")
+            val isMale by loginViewModel.isMale.observeAsState(true)
+            val phoneNumber by loginViewModel.phoneNumber.observeAsState("")
+            val birthDate by loginViewModel.birthDate.observeAsState("")
+            val name by loginViewModel.name.observeAsState("")
+            val lastname by loginViewModel.lastname.observeAsState("")
             var image by remember { mutableStateOf(R.drawable.detailspatgemale) }
 
             image =
@@ -76,7 +75,7 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                             state = isMale,
                             text = "Male",
                             onClick = {
-                                authViewModel.onGenderSelection(true)
+                                loginViewModel.onGenderSelection(true)
                             },
                             modifier = Modifier
                                 .padding(end = 8.dp)
@@ -86,7 +85,7 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                             state = !isMale,
                             text = "Female",
                             onClick = {
-                                authViewModel.onGenderSelection(false)
+                                loginViewModel.onGenderSelection(false)
                             },
                             modifier = Modifier
                                 .padding(start = 8.dp)
@@ -96,19 +95,19 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                     UserInfoBox(
                         labelText = "Name",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = { authViewModel.onNameChange(it) },
+                        onValueChange = { loginViewModel.onNameChange(it) },
                         currentText = name,
                     )
                     UserInfoBox(
                         labelText = "Surname",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = { authViewModel.onLastNameChange(it) },
+                        onValueChange = { loginViewModel.onLastNameChange(it) },
                         currentText = lastname,
                     )
                     UserInfoBox(
                         labelText = "Phone number",
                         leadingIcon = Icons.Filled.Phone,
-                        onValueChange = { authViewModel.onPhoneNumberChange(it) },
+                        onValueChange = { loginViewModel.onPhoneNumberChange(it) },
                         currentText = phoneNumber,
                         isNumber = true
                     )
@@ -119,7 +118,7 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
                             .padding(vertical = 10.dp)
                     )
                     Button(
-                        onClick = { saveUserData(authViewModel, navController) },
+                        onClick = { saveUserData(loginViewModel, navController) },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
@@ -134,8 +133,8 @@ fun DetailsContent(navController: NavController, authViewModel: AuthViewModel) {
     }
 }
 
-private fun saveUserData(authViewModel: AuthViewModel, navController: NavController) {
-    authViewModel.saveUserData()
+private fun saveUserData(loginViewModel: LoginViewModel, navController: NavController) {
+    loginViewModel.saveUserData()
     //navController.navigate("main_screen")
 }
 

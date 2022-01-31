@@ -1,5 +1,6 @@
-package com.example.gymappandroid.ui.account.login
+package com.example.gymappandroid.ui.account.auth.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -27,22 +29,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
-import com.example.gymappandroid.ui.account.auth.AuthViewModel
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
-    val email by authViewModel.email.observeAsState("")
-    val password by authViewModel.password.observeAsState("")
-    val isLoading by authViewModel.isLoading.observeAsState(false)
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
+    val email by loginViewModel.email.observeAsState("")
+    val password by loginViewModel.password.observeAsState("")
+    val isLoading by loginViewModel.isLoading.observeAsState(false)
+    val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("")
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     val loginUser: () -> Unit = {
         coroutineScope.launch {
-            authViewModel.login()
-            navController.navigate("main_screen")
+            loginViewModel.login()
+            if (firebaseResponse == "Success") {
+                navController.navigate("main_screen")
+            } else {
+                Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -79,13 +86,13 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
                         labelText = "Email",
                         leadingIcon = Icons.Filled.Email,
                         isNumber = false,
-                        onValueChange = { authViewModel.onEmailChange(it) },
+                        onValueChange = { loginViewModel.onEmailChange(it) },
                         currentText = email
                     )
                     Spacer(modifier = Modifier.size(20.dp))
                     PasswordTextField(
                         currentText = password,
-                        onPasswordChange = { authViewModel.onPasswordChange(it) })
+                        onPasswordChange = { loginViewModel.onPasswordChange(it) })
                     if (!isLoading) {
                         Button(
                             onClick = { loginUser() },

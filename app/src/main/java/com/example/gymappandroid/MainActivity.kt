@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
-import com.example.gymappandroid.ui.account.auth.AuthViewModel
+import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -32,19 +32,19 @@ class MainActivity : ComponentActivity() {
             modules(listOf(appModule, authViewModelModule))
         }
 
-        val authViewModel = getViewModel<AuthViewModel>()
+        val authViewModel = getViewModel<LoginViewModel>()
         val isLogged = (authViewModel.firebaseUser != null)
 
         setContent {
             GymAppAndroidTheme {
-                GymAppNavGraph(authViewModel = authViewModel, isLogged = isLogged)
+                GymAppNavGraph(loginViewModel = authViewModel, isLogged = isLogged)
             }
         }
     }
 }
 
 @Composable
-fun MainPage(authViewModel: AuthViewModel, navController: NavController) {
+fun MainPage(loginViewModel: LoginViewModel, navController: NavController) {
     Surface() {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -53,7 +53,7 @@ fun MainPage(authViewModel: AuthViewModel, navController: NavController) {
         ) {
             Text("Hello Roberto")
             Button(
-                onClick = { logout(authViewModel, navController) },
+                onClick = { logout(loginViewModel, navController) },
                 modifier = Modifier.padding(100.dp)
             ) {
                 Text("Logout")
@@ -62,7 +62,7 @@ fun MainPage(authViewModel: AuthViewModel, navController: NavController) {
     }
 }
 
-private fun logout(authViewModel: AuthViewModel, navController: NavController) {
-    authViewModel.logout()
+private fun logout(loginViewModel: LoginViewModel, navController: NavController) {
+    loginViewModel.logout()
     navController.navigate("login_screen")
 }

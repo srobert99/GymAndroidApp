@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.account.register
+package com.example.gymappandroid.ui.account.auth.register
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,15 +20,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.gymappandroid.ui.account.auth.AuthViewModel
+import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 
 @Composable
-fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
-    val email by authViewModel.email.observeAsState("")
-    val password by authViewModel.password.observeAsState("")
-    val cPassword by authViewModel.confirmedPassword.observeAsState("")
+fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel) {
+    val email by loginViewModel.email.observeAsState("")
+    val password by loginViewModel.password.observeAsState("")
+    val cPassword by loginViewModel.confirmedPassword.observeAsState("")
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -54,18 +54,18 @@ fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
                     leadingIcon = Icons.Filled.Email,
                     isNumber = false,
                     modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { authViewModel.onEmailChange(it) },
+                    onValueChange = { loginViewModel.onEmailChange(it) },
                     currentText = email
                 )
                 PasswordTextField(
                     currentText = password,
                     modifier = Modifier.fillMaxWidth(),
-                    onPasswordChange = { authViewModel.onPasswordChange(it) })
+                    onPasswordChange = { loginViewModel.onPasswordChange(it) })
                 PasswordTextField(
                     labelText = "Confirm Password",
                     currentText = cPassword,
                     modifier = Modifier.fillMaxWidth(),
-                    onPasswordChange = { authViewModel.onCPasswordChange(it) })
+                    onPasswordChange = { loginViewModel.onCPasswordChange(it) })
             }
             Column(
                 modifier = Modifier
@@ -73,7 +73,7 @@ fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
                     .padding(top = 20.dp)
             ) {
                 Button(
-                    onClick = { registerUser(authViewModel, navController) },
+                    onClick = { registerUser(loginViewModel, navController) },
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier.size(height = 50.dp, width = 200.dp)
                 ) {
@@ -97,7 +97,7 @@ fun RegisterScreen(navController: NavController, authViewModel: AuthViewModel) {
     }
 }
 
-private fun registerUser(authViewModel: AuthViewModel, navController: NavController) {
-    authViewModel.signup()
+private fun registerUser(loginViewModel: LoginViewModel, navController: NavController) {
+    loginViewModel.signup()
     navController.navigate("details_screen")
 }
