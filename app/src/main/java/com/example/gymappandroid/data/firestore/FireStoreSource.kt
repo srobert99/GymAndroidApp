@@ -15,7 +15,7 @@ class FireStoreSource {
     suspend fun createUserProfile(user: User): String {
         return try {
             dataBaseReference.document(user.uid).set(user).await()
-            "Succes"
+            "Success"
         } catch (e: FirebaseFirestoreException) {
             e.message.toString()
         }
@@ -32,7 +32,7 @@ class FireStoreSource {
     suspend fun updateUserProfile(user: User): String {
         return try {
             dataBaseReference.document(user.uid).set(user).await()
-            "Succes"
+            "Success"
         } catch (e: FirebaseFirestoreException) {
             e.message.toString()
         }

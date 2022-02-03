@@ -20,13 +20,12 @@ class FirebaseSource {
         }
     }
 
-    suspend fun register(email: String, password: String): Boolean {
+    suspend fun register(email: String, password: String): String {
         return try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            true
+            "Success"
         } catch (e: FirebaseException) {
-            Log.d("firebase register", e.message.toString())
-            false
+            e.message.toString()
         }
     }
 

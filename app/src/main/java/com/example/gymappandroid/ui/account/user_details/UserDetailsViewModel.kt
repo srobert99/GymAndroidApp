@@ -8,8 +8,10 @@ import com.example.gymappandroid.data.repositories.UserDataRepository
 
 class UserDetailsViewModel(
     private val userDataRepository: UserDataRepository,
-    private val uid: String
 ) : ViewModel() {
+
+    private val _firestoreStatus = MutableLiveData("")
+    val firestoreStatus: LiveData<String> = _firestoreStatus
 
     private val _isMale = MutableLiveData(false)
     val isMale: LiveData<Boolean> = _isMale
@@ -35,10 +37,21 @@ class UserDetailsViewModel(
         _isLoading.postValue(!_isLoading.value!!)
     }
 
-    suspend fun createUserProfile() {
+    suspend fun saveUserProfile() {
         load()
-        userDataRepository.createUserProfile(currentUser)
+        _firestoreStatus.value = userDataRepository.createUserProfile(currentUser)
         load()
+    }
+
+    fun createUserProfile(uid:String?){
+        currentUser = User(
+            uid!!,
+            name.value!!,
+            surname.value!!,
+            isMale.value!!,
+            phoneNumber.value!!,
+            birthdate.value!!,
+        )
     }
 
     fun onNameChange(newName: String) {

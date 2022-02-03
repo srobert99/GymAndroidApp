@@ -1,5 +1,6 @@
 package com.example.gymappandroid.ui.account.user_details
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,22 +24,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
-import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.commons.DatePickerField
 import com.example.gymappandroid.ui.commons.RoundedToggleButton
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel) {
+fun DetailsContent(
+    navController: NavController,
+    detailsViewModel: UserDetailsViewModel,
+    uid: String?
+) {
     GymAppAndroidTheme {
         Scaffold {
-            val isMale by loginViewModel.isMale.observeAsState(true)
-            val phoneNumber by loginViewModel.phoneNumber.observeAsState("")
-            val birthDate by loginViewModel.birthDate.observeAsState("")
-            val name by loginViewModel.name.observeAsState("")
-            val lastname by loginViewModel.lastname.observeAsState("")
+            val firestoreResponse by detailsViewModel.firestoreStatus.observeAsState("")
+            val isMale by detailsViewModel.isMale.observeAsState(true)
+            val phoneNumber by detailsViewModel.phoneNumber.observeAsState("")
+            val name by detailsViewModel.name.observeAsState("")
+            val surname by detailsViewModel.surname.observeAsState("")
             var image by remember { mutableStateOf(R.drawable.detailspatgemale) }
+
+            val context = LocalContext.current
+            val coroutineScope = rememberCoroutineScope()
+
+            val saveUserData: () -> Unit = {
+                coroutineScope.launch {
+                    detailsViewModel.createUserProfile(uid)
+                    detailsViewModel.saveUserProfile()
+                    if (firestoreResponse == "Success") {
+                        navController.navigate("main_page")
+                    } else {
+                        Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
 
             image =
                 if (isMale) R.drawable.detailspatgemale else R.drawable.detailspagefemale
@@ -75,7 +97,7 @@ fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel)
                             state = isMale,
                             text = "Male",
                             onClick = {
-                                loginViewModel.onGenderSelection(true)
+                                detailsViewModel.onGenderSelection(true)
                             },
                             modifier = Modifier
                                 .padding(end = 8.dp)
@@ -85,7 +107,7 @@ fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel)
                             state = !isMale,
                             text = "Female",
                             onClick = {
-                                loginViewModel.onGenderSelection(false)
+                                detailsViewModel.onGenderSelection(false)
                             },
                             modifier = Modifier
                                 .padding(start = 8.dp)
@@ -95,19 +117,19 @@ fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel)
                     UserInfoBox(
                         labelText = "Name",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = { loginViewModel.onNameChange(it) },
+                        onValueChange = { detailsViewModel.onNameChange(it) },
                         currentText = name,
                     )
                     UserInfoBox(
                         labelText = "Surname",
                         leadingIcon = Icons.Filled.Person,
-                        onValueChange = { loginViewModel.onLastNameChange(it) },
-                        currentText = lastname,
+                        onValueChange = { detailsViewModel.onSurnameChange(it) },
+                        currentText = surname,
                     )
                     UserInfoBox(
                         labelText = "Phone number",
                         leadingIcon = Icons.Filled.Phone,
-                        onValueChange = { loginViewModel.onPhoneNumberChange(it) },
+                        onValueChange = { detailsViewModel.onPhoneNumberChange(it) },
                         currentText = phoneNumber,
                         isNumber = true
                     )
@@ -118,7 +140,7 @@ fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel)
                             .padding(vertical = 10.dp)
                     )
                     Button(
-                        onClick = { saveUserData(loginViewModel, navController) },
+                        onClick = { saveUserData() },
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
@@ -131,10 +153,5 @@ fun DetailsContent(navController: NavController, loginViewModel: LoginViewModel)
             }
         }
     }
-}
-
-private fun saveUserData(loginViewModel: LoginViewModel, navController: NavController) {
-    loginViewModel.saveUserData()
-    //navController.navigate("main_screen")
 }
 

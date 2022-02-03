@@ -18,6 +18,8 @@ import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
+import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
+import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -33,6 +35,8 @@ class MainActivity : ComponentActivity() {
         }
 
         val authViewModel = getViewModel<LoginViewModel>()
+        val registerViewModel = getViewModel<RegisterViewModel>()
+        val detailsViewModel = getViewModel<UserDetailsViewModel>()
         val isLogged = (authViewModel.firebaseUser != null)
 
         setContent {

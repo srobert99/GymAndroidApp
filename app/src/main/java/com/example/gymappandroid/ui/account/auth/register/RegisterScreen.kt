@@ -1,5 +1,6 @@
 package com.example.gymappandroid.ui.account.auth.register
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -10,9 +11,11 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -20,15 +23,32 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
+import kotlinx.coroutines.launch
 
 @Composable
-fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel) {
-    val email by loginViewModel.email.observeAsState("")
-    val password by loginViewModel.password.observeAsState("")
-    val cPassword by loginViewModel.confirmedPassword.observeAsState("")
+fun RegisterScreen(navController: NavController, registerViewModel: RegisterViewModel) {
+    val email by registerViewModel.email.observeAsState("")
+    val password by registerViewModel.password.observeAsState("")
+    val cPassword by registerViewModel.confirmPassword.observeAsState("")
+    val firebaseResponse by registerViewModel.firebaseStatus.observeAsState("")
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    var uid: String?
+
+    val registerUser: () -> Unit = {
+        coroutineScope.launch {
+            registerViewModel.register()
+            if (firebaseResponse == "Success") {
+                uid = registerViewModel.getFirebaseUID()
+                navController.navigate("details_screen/$uid")
+            } else {
+                Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -54,18 +74,18 @@ fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel)
                     leadingIcon = Icons.Filled.Email,
                     isNumber = false,
                     modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { loginViewModel.onEmailChange(it) },
+                    onValueChange = { registerViewModel.onEmailChange(it) },
                     currentText = email
                 )
                 PasswordTextField(
                     currentText = password,
                     modifier = Modifier.fillMaxWidth(),
-                    onPasswordChange = { loginViewModel.onPasswordChange(it) })
+                    onPasswordChange = { registerViewModel.onPasswordChange(it) })
                 PasswordTextField(
                     labelText = "Confirm Password",
                     currentText = cPassword,
                     modifier = Modifier.fillMaxWidth(),
-                    onPasswordChange = { loginViewModel.onCPasswordChange(it) })
+                    onPasswordChange = { registerViewModel.onConfirmPasswordChange(it) })
             }
             Column(
                 modifier = Modifier
@@ -73,7 +93,7 @@ fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel)
                     .padding(top = 20.dp)
             ) {
                 Button(
-                    onClick = { registerUser(loginViewModel, navController) },
+                    onClick = { registerUser() },
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier.size(height = 50.dp, width = 200.dp)
                 ) {
@@ -95,9 +115,4 @@ fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel)
             }
         }
     }
-}
-
-private fun registerUser(loginViewModel: LoginViewModel, navController: NavController) {
-    loginViewModel.signup()
-    navController.navigate("details_screen")
 }
