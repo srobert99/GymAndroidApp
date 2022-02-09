@@ -3,6 +3,7 @@ package com.example.gymappandroid.di
 import com.example.gymappandroid.data.firebase.FirebaseSource
 import com.example.gymappandroid.data.firestore.FireStoreSource
 import com.example.gymappandroid.data.repositories.UserAuthRepository
+import com.example.gymappandroid.data.repositories.UserDataRepository
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
@@ -11,10 +12,9 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { FirebaseSource() }
-    single { UserAuthRepository(get()) }
     single { FireStoreSource() }
-    single { RegisterViewModel(get()) }
-    single { UserDetailsViewModel(get()) }
+    single { UserAuthRepository(get()) }
+    single { UserDataRepository(get()) }
 }
 
 val authViewModelModule = module {

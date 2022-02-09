@@ -8,7 +8,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
 class FireStoreSource {
-
     private var firesStoreDataBase = Firebase.firestore
     private var dataBaseReference = firesStoreDataBase.collection("user")
 

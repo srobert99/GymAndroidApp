@@ -41,7 +41,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GymAppAndroidTheme {
-                GymAppNavGraph(loginViewModel = authViewModel, isLogged = isLogged)
+                GymAppNavGraph(
+                    loginViewModel = authViewModel,
+                    registerViewModel = registerViewModel,
+                    detailsViewModel = detailsViewModel,
+                    isLogged = isLogged
+                )
             }
         }
     }
