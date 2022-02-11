@@ -28,29 +28,22 @@ class UserDetailsViewModel(
     private val _birthdate = MutableLiveData("")
     val birthdate: LiveData<String> = _birthdate
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
-
     private var currentUser = User()
 
-    private fun load() {
-        _isLoading.postValue(!_isLoading.value!!)
-    }
 
     suspend fun saveUserProfile() {
-        load()
         _firestoreStatus.value = userDataRepository.createUserProfile(currentUser)
-        load()
     }
 
-    fun createUserProfile(uid:String?){
+    fun createUserProfile(uid: String?, email: String?) {
         currentUser = User(
-            uid!!,
+            uid ?: "",
             name.value!!,
             surname.value!!,
             isMale.value!!,
             phoneNumber.value!!,
             birthdate.value!!,
+            email = email!!
         )
     }
 
@@ -62,16 +55,16 @@ class UserDetailsViewModel(
         _surname.value = newSurname
     }
 
-    fun onBirthDateChange(newBirthDate: String) {
-        _birthdate.value = newBirthDate
-    }
-
     fun onPhoneNumberChange(newPhoneNumber: String) {
         _phoneNumber.value = newPhoneNumber
     }
 
     fun onGenderSelection(isMale: Boolean) {
         _isMale.value = isMale
+    }
+
+    fun onBirthDateSelect(birthdate: String) {
+        _birthdate.value = birthdate
     }
 
 

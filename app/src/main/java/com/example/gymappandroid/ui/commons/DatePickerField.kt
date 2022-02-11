@@ -21,7 +21,11 @@ import androidx.compose.ui.unit.dp
 import java.util.*
 
 @Composable
-fun DatePickerField(context: Context, modifier: Modifier = Modifier.fillMaxWidth()) {
+fun DatePickerField(
+    context: Context,
+    modifier: Modifier = Modifier,
+    onDateChange: (String) -> Unit
+) {
     val mYear: Int
     val mMonth: Int
     val mDay: Int
@@ -42,7 +46,7 @@ fun DatePickerField(context: Context, modifier: Modifier = Modifier.fillMaxWidth
     ) {
         OutlinedTextField(
             value = date.value,
-            onValueChange = {},
+            onValueChange = { onDateChange },
             leadingIcon = { Icon(imageVector = Icons.Filled.DateRange, contentDescription = null) },
             readOnly = true,
             modifier = Modifier.fillMaxWidth()
@@ -54,9 +58,7 @@ fun DatePickerField(context: Context, modifier: Modifier = Modifier.fillMaxWidth
                 .alpha(0f)
         )
     }
-
 }
-
 
 private fun formatDate(year: Int, month: Int, dayOfMonth: Int): String = "$dayOfMonth/$month/$year"
 

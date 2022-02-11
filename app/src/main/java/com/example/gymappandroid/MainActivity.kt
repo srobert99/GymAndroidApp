@@ -1,5 +1,6 @@
 package com.example.gymappandroid
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,6 +25,7 @@ import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.startKoin
+
 
 class MainActivity : ComponentActivity() {
 
@@ -54,13 +56,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainPage(loginViewModel: LoginViewModel, navController: NavController) {
-    Surface() {
+    Surface {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Hello Roberto")
+            Text("Hello boss")
             Button(
                 onClick = { logout(loginViewModel, navController) },
                 modifier = Modifier.padding(100.dp)

@@ -24,10 +24,6 @@ class LoginViewModel(
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    init {
-        getFirebaseUser()
-    }
-
     suspend fun login() {
         load()
         _firebaseStatus.value =
@@ -51,7 +47,7 @@ class LoginViewModel(
         _password.value = newPassword
     }
 
-    private fun getFirebaseUser() {
-        firebaseUser = authRepository.currentUser()
+    fun getUID(): String? {
+        return authRepository.currentUser()?.uid
     }
 }

@@ -28,8 +28,9 @@ fun GymAppNavGraph(
     NavHost(navController = navController, startDestination = firstPage) {
         composable("login_screen") { LoginScreen(navController, loginViewModel) }
         composable("register_screen") { RegisterScreen(navController, registerViewModel) }
-        composable("details_screen/{uid}") {
-            DetailsContent(navController, detailsViewModel, it.arguments?.getString("uid"))
+        composable("details_screen/{email}") {
+            val email = it.arguments?.getString("email")?:"null"
+            DetailsContent(navController, detailsViewModel, email)
         }
         composable("main_screen") { MainPage(loginViewModel, navController) }
     }

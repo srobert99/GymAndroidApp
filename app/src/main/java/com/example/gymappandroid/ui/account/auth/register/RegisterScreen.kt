@@ -4,14 +4,13 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
+import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
@@ -34,18 +34,21 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
     val cPassword by registerViewModel.confirmPassword.observeAsState("")
     val firebaseResponse by registerViewModel.firebaseStatus.observeAsState("")
     val coroutineScope = rememberCoroutineScope()
+    var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    var uid: String?
+    val dataStore = DataStore(context)
 
     val registerUser: () -> Unit = {
         coroutineScope.launch {
+            isLoading = true
             registerViewModel.register()
             if (firebaseResponse == "Success") {
-                uid = registerViewModel.getFirebaseUID()
-                navController.navigate("details_screen/$uid")
+                dataStore.saveUserSession(registerViewModel.getFirebaseUID() ?: "")
+                navController.navigate("details_screen/$email")
             } else {
                 Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
             }
+            isLoading = false
         }
 
     }
@@ -92,12 +95,21 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
                     .weight(1f)
                     .padding(top = 20.dp)
             ) {
-                Button(
-                    onClick = { registerUser() },
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.size(height = 50.dp, width = 200.dp)
-                ) {
-                    Text("Register")
+                if (!isLoading) {
+                    Button(
+                        onClick = { registerUser() },
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier.size(height = 50.dp, width = 200.dp)
+                    ) {
+                        Text("Register")
+                    }
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(CenterHorizontally)
+                            .padding(top = 30.dp)
+                            .size(50.dp)
+                    )
                 }
                 Text(
                     buildAnnotatedString {

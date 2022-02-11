@@ -4,10 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
@@ -28,13 +25,14 @@ import com.example.gymappandroid.ui.commons.DatePickerField
 import com.example.gymappandroid.ui.commons.RoundedToggleButton
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
+import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
 fun DetailsContent(
     navController: NavController,
     detailsViewModel: UserDetailsViewModel,
-    uid: String?
+    userEmail: String
 ) {
     GymAppAndroidTheme {
         Scaffold {
@@ -44,19 +42,23 @@ fun DetailsContent(
             val name by detailsViewModel.name.observeAsState("")
             val surname by detailsViewModel.surname.observeAsState("")
             var image by remember { mutableStateOf(R.drawable.detailspatgemale) }
-
+            var isLoading by remember { mutableStateOf(false) }
             val context = LocalContext.current
             val coroutineScope = rememberCoroutineScope()
+            val dataStore = DataStore(context)
+            val userSession = dataStore.getUserSession.collectAsState(initial = "")
 
             val saveUserData: () -> Unit = {
                 coroutineScope.launch {
-                    detailsViewModel.createUserProfile(uid)
+                    isLoading = true
+                    detailsViewModel.createUserProfile(userSession.value, userEmail)
                     detailsViewModel.saveUserProfile()
                     if (firestoreResponse == "Success") {
-                        navController.navigate("main_page")
+                        navController.navigate("main_screen")
                     } else {
                         Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
                     }
+                    isLoading = false
                 }
 
             }
@@ -137,17 +139,27 @@ fun DetailsContent(
                         context = LocalContext.current,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 10.dp)
+                            .padding(vertical = 10.dp),
+                        onDateChange = { detailsViewModel.onBirthDateSelect(it) }
                     )
-                    Button(
-                        onClick = { saveUserData() },
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(top = 30.dp)
-                            .size(height = 50.dp, width = 200.dp),
-                    ) {
-                        Text("DONE")
+                    if (!isLoading) {
+                        Button(
+                            onClick = { saveUserData() },
+                            shape = RoundedCornerShape(20.dp),
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(top = 30.dp)
+                                .size(height = 50.dp, width = 200.dp),
+                        ) {
+                            Text("DONE")
+                        }
+                    } else {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(top = 30.dp)
+                                .size(50.dp)
+                        )
                     }
                 }
             }

@@ -9,9 +9,6 @@ class RegisterViewModel(
     private val userAuthRepository: UserAuthRepository
 ) : ViewModel() {
 
-    private val _uid = MutableLiveData("")
-    val uid: LiveData<String> = _uid
-
     private val _email = MutableLiveData("")
     val email: LiveData<String> = _email
 
@@ -24,18 +21,12 @@ class RegisterViewModel(
     private val _firebaseStatus = MutableLiveData("")
     val firebaseStatus: LiveData<String> = _firebaseStatus
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
-
-
     suspend fun register() {
-        load()
         if (verifyCredentials()) {
             val email = email.value.toString()
             val password = password.value.toString()
-           _firebaseStatus.value = userAuthRepository.register(email, password)
+            _firebaseStatus.value = userAuthRepository.register(email, password)
         }
-        load()
     }
 
     fun onEmailChange(newEmail: String) {
@@ -58,11 +49,7 @@ class RegisterViewModel(
         return true
     }
 
-    fun getFirebaseUID():String? {
+    fun getFirebaseUID(): String? {
         return userAuthRepository.currentUser()?.uid
-    }
-
-    private fun load() {
-        _isLoading.postValue(!_isLoading.value!!)
     }
 }

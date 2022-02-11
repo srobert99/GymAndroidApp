@@ -8,10 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,25 +29,30 @@ import androidx.navigation.NavController
 import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
+import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
-    val isLoading by loginViewModel.isLoading.observeAsState(false)
     val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("")
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val dataStore = DataStore(context)
+    var loading by remember { mutableStateOf(false) }
 
     val loginUser: () -> Unit = {
         coroutineScope.launch {
+            loading = true
             loginViewModel.login()
             if (firebaseResponse == "Success") {
+                dataStore.saveUserSession(loginViewModel.getUID() ?: "")
                 navController.navigate("main_screen")
             } else {
                 Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
             }
+            loading = false
         }
     }
 
@@ -93,7 +96,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                     PasswordTextField(
                         currentText = password,
                         onPasswordChange = { loginViewModel.onPasswordChange(it) })
-                    if (!isLoading) {
+                    if (!loading) {
                         Button(
                             onClick = { loginUser() },
                             shape = RoundedCornerShape(20.dp),
