@@ -1,6 +1,7 @@
 package com.example.gymappandroid.ui.account.auth.register
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -15,13 +16,12 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.utils.DataStore
@@ -93,7 +93,8 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 20.dp)
+                    .padding(top = 20.dp),
+                horizontalAlignment = CenterHorizontally
             ) {
                 if (!isLoading) {
                     Button(
@@ -101,7 +102,21 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier.size(height = 50.dp, width = 200.dp)
                     ) {
-                        Text("Register")
+                        Text(
+                            "Register",
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.dark_blue)
+                        )
+                    }
+                    Row() {
+                        Text("Already have an account?")
+                        Text(
+                            "Log in",
+                            modifier = Modifier
+                                .padding(start = 5.dp)
+                                .clickable { navController.navigate("login_screen") },
+                            color = colorResource(id = R.color.teal_200)
+                        )
                     }
                 } else {
                     CircularProgressIndicator(
@@ -111,19 +126,6 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
                             .size(50.dp)
                     )
                 }
-                Text(
-                    buildAnnotatedString {
-                        append("Already have an account?")
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Magenta,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append("Log in")
-                        }
-                    }
-                )
             }
         }
     }

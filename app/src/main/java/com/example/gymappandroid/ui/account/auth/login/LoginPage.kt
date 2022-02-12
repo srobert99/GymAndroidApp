@@ -18,15 +18,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.utils.DataStore
@@ -129,22 +127,18 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                             modifier = Modifier.padding(bottom = 20.dp),
                             textDecoration = TextDecoration.Underline
                         )
-                        Text(
-                            buildAnnotatedString {
-                                append("Don't have an account? ")
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontWeight = FontWeight.Bold,
-                                        color = colorResource(id = R.color.teal_200)
-                                    ),
-                                ) {
-                                    append(" Sign up")
-                                }
-                            }, modifier = Modifier
-                                .padding(top = 10.dp)
-                                .clickable { navController.navigate("register_screen") },
-                            color = Color.Gray
-                        )
+                        Row() {
+                            Text("Don't have an account? ")
+                            Text(
+                                "Sign up",
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.clickable {
+                                    navController.navigate(
+                                        Screen.Register.route
+                                    )
+                                }, color = colorResource(id = R.color.teal_200)
+                            )
+                        }
                     }
                 }
             }

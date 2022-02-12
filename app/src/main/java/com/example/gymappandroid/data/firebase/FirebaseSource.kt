@@ -1,6 +1,5 @@
 package com.example.gymappandroid.data.firebase
 
-import android.util.Log
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
