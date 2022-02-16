@@ -5,7 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
@@ -18,6 +18,7 @@ fun UserInfoBox(
     isNumber: Boolean = false,
     onValueChange: (String) -> Unit,
     currentText: String,
+    hasError: Boolean = false
 ) {
     OutlinedTextField(
         value = currentText,
@@ -32,6 +33,7 @@ fun UserInfoBox(
             )
         },
         singleLine = true,
+        isError = hasError,
         keyboardOptions = if (isNumber) KeyboardOptions(keyboardType = KeyboardType.Number)
         else KeyboardOptions(
             keyboardType = KeyboardType.Text

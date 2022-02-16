@@ -38,6 +38,11 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
     val context = LocalContext.current
     val dataStore = DataStore(context)
 
+    val emailErrorMessage by registerViewModel.emailError.observeAsState(initial = "")
+    val passwordErrorMessage by registerViewModel.passwordError.observeAsState(initial = "")
+    val confirmPasswordErrorMessage by registerViewModel.cPasswordError.observeAsState(initial = "")
+
+
     val registerUser: () -> Unit = {
         coroutineScope.launch {
             isLoading = true
@@ -72,23 +77,40 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
                     .padding(20.dp),
                 Arrangement.SpaceEvenly
             ) {
-                UserInfoBox(
-                    labelText = "Email",
-                    leadingIcon = Icons.Filled.Email,
-                    isNumber = false,
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { registerViewModel.onEmailChange(it) },
-                    currentText = email
-                )
-                PasswordTextField(
-                    currentText = password,
-                    modifier = Modifier.fillMaxWidth(),
-                    onPasswordChange = { registerViewModel.onPasswordChange(it) })
-                PasswordTextField(
-                    labelText = "Confirm Password",
-                    currentText = cPassword,
-                    modifier = Modifier.fillMaxWidth(),
-                    onPasswordChange = { registerViewModel.onConfirmPasswordChange(it) })
+                Column {
+                    UserInfoBox(
+                        labelText = "Email",
+                        leadingIcon = Icons.Filled.Email,
+                        isNumber = false,
+                        modifier = Modifier.fillMaxWidth(),
+                        onValueChange = { registerViewModel.onEmailChange(it) },
+                        currentText = email,
+                        hasError = emailErrorMessage != ""
+                    )
+                    Text(emailErrorMessage, color = colorResource(id = R.color.red))
+                }
+                Column {
+                    PasswordTextField(
+                        currentText = password,
+                        modifier = Modifier.fillMaxWidth(),
+                        onPasswordChange = { registerViewModel.onPasswordChange(it) },
+                        hasError = passwordErrorMessage != ""
+                    )
+                    Text(passwordErrorMessage, color = colorResource(id = R.color.red))
+                }
+                Column {
+                    PasswordTextField(
+                        labelText = "Confirm Password",
+                        currentText = cPassword,
+                        modifier = Modifier.fillMaxWidth(),
+                        onPasswordChange = { registerViewModel.onConfirmPasswordChange(it) },
+                        hasError = confirmPasswordErrorMessage != ""
+                    )
+                    Text(
+                        text = confirmPasswordErrorMessage,
+                        color = colorResource(id = R.color.red)
+                    )
+                }
             }
             Column(
                 modifier = Modifier

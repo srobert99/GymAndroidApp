@@ -21,22 +21,13 @@ class LoginViewModel(
     private val _password = MutableLiveData("")
     val password: LiveData<String> = _password
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
-
     suspend fun login() {
-        load()
         _firebaseStatus.value =
             (authRepository.login(this.email.value.toString(), this.password.value.toString()))
-        load()
     }
 
     fun logout() {
         authRepository.logout()
-    }
-
-    private fun load() {
-        _isLoading.postValue(!_isLoading.value!!)
     }
 
     fun onEmailChange(newEmail: String) {
