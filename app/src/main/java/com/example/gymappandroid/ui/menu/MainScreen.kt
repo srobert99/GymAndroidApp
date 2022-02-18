@@ -1,20 +1,23 @@
 package com.example.gymappandroid.ui.menu
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.gymappandroid.R
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen() {
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -38,7 +41,7 @@ fun MainScreen() {
                     color = colorResource(id = R.color.dark_blue)
                 )
                 Card(
-                    backgroundColor = colorResource(id = R.color.black),
+                    backgroundColor = colorResource(id = R.color.teal_200),
                     shape = RoundedCornerShape(25.dp),
                     modifier = Modifier
                         .weight(1f)
@@ -48,7 +51,18 @@ fun MainScreen() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Hello world")
+                        Image(
+                            painter = painterResource(R.drawable.shopping_cart),
+                            contentDescription = "shopping cart icon",
+                            Modifier
+                                .size(dimensionResource(id = R.dimen.logo_size))
+                                .padding(end = 10.dp)
+                        )
+                        Text(
+                            "SHOP",
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.dark_blue)
+                        )
                     }
                 }
                 Divider(
@@ -58,7 +72,7 @@ fun MainScreen() {
                     color = colorResource(id = R.color.dark_blue)
                 )
                 Card(
-                    backgroundColor = colorResource(id = R.color.black),
+                    backgroundColor = colorResource(id = R.color.teal_200),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(25.dp)
                 ) {
@@ -67,7 +81,17 @@ fun MainScreen() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Hello world")
+                        Image(
+                            painter = painterResource(R.drawable.person_vector),
+                            contentDescription = "person vector image",
+                            Modifier
+                                .size(dimensionResource(id = R.dimen.logo_size))
+                        )
+                        Text(
+                            "PROFILE",
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(id = R.color.dark_blue)
+                        )
                     }
                 }
                 Divider(
