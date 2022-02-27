@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DetailsContent(
-    navController: NavController,
+    navController: NavController?,
     detailsViewModel: UserDetailsViewModel,
     userEmail: String
 ) {
@@ -54,7 +54,7 @@ fun DetailsContent(
                     detailsViewModel.createUserProfile(userSession.value, userEmail)
                     detailsViewModel.saveUserProfile()
                     if (firestoreResponse == "Success") {
-                        navController.navigate("main_screen")
+                        navController?.navigate("main_screen")
                     } else {
                         Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
                     }

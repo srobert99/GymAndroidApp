@@ -21,9 +21,16 @@ class LoginViewModel(
     private val _password = MutableLiveData("")
     val password: LiveData<String> = _password
 
+    private var canLogin: Boolean = false
+
     suspend fun login() {
-        _firebaseStatus.value =
-            (authRepository.login(this.email.value.toString(), this.password.value.toString()))
+        validateCredentials()
+        if (canLogin) {
+            _firebaseStatus.value =
+                (authRepository.login(this.email.value.toString(), this.password.value.toString()))
+        } else {
+            _firebaseStatus.value = "Username/password can't be empty"
+        }
     }
 
     fun logout() {
@@ -40,5 +47,11 @@ class LoginViewModel(
 
     fun getUID(): String? {
         return authRepository.currentUser()?.uid
+    }
+
+    private fun validateCredentials() {
+        if (email.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
+            canLogin = true
+        }
     }
 }

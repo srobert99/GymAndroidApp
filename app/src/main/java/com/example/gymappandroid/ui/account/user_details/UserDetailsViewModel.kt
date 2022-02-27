@@ -29,11 +29,9 @@ class UserDetailsViewModel(
     val birthdate: LiveData<String> = _birthdate
 
     private var currentUser = User()
-    private var canSaveData: Boolean = false
 
     suspend fun saveUserProfile() {
-        verifyCredentials()
-        if (canSaveData) {
+        if (verifyCredentials()) {
             _firestoreStatus.value = userDataRepository.createUserProfile(currentUser)
         } else {
             _firestoreStatus.value = "Check fields again"
@@ -72,11 +70,7 @@ class UserDetailsViewModel(
         _birthdate.value = birthdate
     }
 
-    private fun verifyCredentials() {
-        if (_name.value != "" && _surname.value != "" && _phoneNumber.value != "" && _birthdate.value != "") {
-            canSaveData = true
-        }
+    private fun verifyCredentials(): Boolean {
+        return (name.value!!.isNotEmpty() && surname.value!!.isNotEmpty() && phoneNumber.value!!.isNotEmpty())
     }
-
-
 }

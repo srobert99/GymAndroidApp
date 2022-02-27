@@ -30,12 +30,11 @@ class RegisterViewModel(
 
     private val _cPasswordErrorMessage = MutableLiveData("")
     val cPasswordError: LiveData<String> = _cPasswordErrorMessage
-
-    private var canRegister: Boolean = false
+    private var hasErrors = mutableListOf(true, true, true)
 
     suspend fun register() {
         verifyCredentials()
-        if (canRegister) {
+        if (verifyCredentials()) {
             val email = email.value.toString()
             val password = password.value.toString()
             _firebaseStatus.value = userAuthRepository.register(email, password)
@@ -65,25 +64,27 @@ class RegisterViewModel(
 
     private fun verifyEmail(input: String) {
         _emailErrorMessage.value = ""
+        hasErrors[0] = false
         val emailParts = input.split("@")
         if (emailParts.size != 2) {
             _emailErrorMessage.value = "Email to short"
-            canRegister = false
+            hasErrors[0] = true
         } else {
             val arePartsEmpty = emailParts[0].isEmpty() || emailParts[1].isEmpty()
             val hasDomainPoint = emailParts[1].contains(".")
             val hasDomainPartsEmpty = emailParts[1].split(".").any { it.isEmpty() }
             if (arePartsEmpty || !hasDomainPoint || hasDomainPartsEmpty) {
                 _emailErrorMessage.value = "Invalid Email"
-                canRegister = false
+                hasErrors[0] = true
             }
         }
     }
 
     private fun verifyPassword(input: String) {
+        hasErrors[1] = false
         _passwordErrorMessage.value = ""
         if (input.length < 8) {
-            canRegister = false
+            hasErrors[1] = true
             _passwordErrorMessage.value = "Password to short"
         } else {
             var hasLowercase = false
@@ -97,21 +98,21 @@ class RegisterViewModel(
                 if ("`~!@#$%^&*()_+-={}|[]\\;:'\"<>?,./".contains(it)) hasSpecialChar = true
             }
             if (!hasLowercase) {
-                canRegister = false
+                hasErrors[1] = true
                 _passwordErrorMessage.value =
                     "Password needs to contain at least one lower case letter"
             }
             if (!hasUppercase) {
-                canRegister = false
+                hasErrors[1] = true
                 _passwordErrorMessage.value =
                     "Password needs to contain at least one upper case letter"
             }
             if (!hasDigit) {
-                canRegister = false
+                hasErrors[1] = true
                 _passwordErrorMessage.value = "Password needs to contain at least one digit"
             }
             if (!hasSpecialChar) {
-                canRegister = false
+                hasErrors[1] = true
                 _passwordErrorMessage.value =
                     "Password needs to contain at least one special character"
             }
@@ -119,15 +120,14 @@ class RegisterViewModel(
     }
 
     private fun verifyConfirmPassword(input: String) {
-        _cPasswordErrorMessage.value = ""
         if (password.value != input) {
             _cPasswordErrorMessage.value = "Passwords doesn't match"
+            hasErrors[2] = true
+        } else {
+            _cPasswordErrorMessage.value = ""
+            hasErrors[2] = false
         }
     }
 
-    private fun verifyCredentials() {
-        if (_cPasswordErrorMessage.value == "" && _passwordErrorMessage.value == "" && _emailErrorMessage.value == "" && password.value != "" && email.value != "" && confirmPassword.value != "") {
-            canRegister = true
-        }
-    }
+    private fun verifyCredentials(): Boolean = !hasErrors.contains(true)
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ fun DatePickerField(
     mMonth = now.get(Calendar.MONTH)
     mDay = now.get(Calendar.DAY_OF_MONTH)
     now.time = Date()
-    val date = remember { mutableStateOf("Select birthdate") }
+    val date = remember { mutableStateOf("Select birthdate(optional)") }
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
@@ -46,9 +47,10 @@ fun DatePickerField(
     ) {
         OutlinedTextField(
             value = date.value,
-            onValueChange = { onDateChange },
+            onValueChange = { onDateChange(date.value) },
             leadingIcon = { Icon(imageVector = Icons.Filled.DateRange, contentDescription = null) },
             readOnly = true,
+            label = { Text("Birthdate") },
             modifier = Modifier.fillMaxWidth()
         )
         Divider(

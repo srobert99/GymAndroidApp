@@ -11,6 +11,7 @@ import com.example.gymappandroid.ui.account.auth.register.RegisterScreen
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.user_details.DetailsContent
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
+import com.example.gymappandroid.ui.menu.MainScreen
 
 @Composable
 fun GymAppNavGraph(
@@ -33,6 +34,6 @@ fun GymAppNavGraph(
             val email = it.arguments?.getString("email") ?: "null"
             DetailsContent(navController, detailsViewModel, email)
         }
-        composable(Screen.Main.route) { MainPage(loginViewModel, navController) }
+        composable(Screen.Main.route) { MainScreen() }
     }
 }

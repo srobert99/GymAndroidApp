@@ -1,7 +1,6 @@
 package com.example.gymappandroid.ui.menu
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -105,7 +104,8 @@ fun MainScreen() {
             Divider(
                 Modifier
                     .weight(0.1f)
-                    .background(colorResource(id = R.color.dark_blue))
+                    .fillMaxSize(),
+                color = colorResource(id = R.color.dark_blue)
             )
         }
     }

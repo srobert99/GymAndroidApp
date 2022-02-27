@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
+import com.example.gymappandroid.navigation.GymAppNavGraph
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
-import com.example.gymappandroid.ui.menu.MainScreen
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -43,13 +43,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GymAppAndroidTheme {
-//                GymAppNavGraph(
-//                    loginViewModel = authViewModel,
-//                    registerViewModel = registerViewModel,
-//                    detailsViewModel = detailsViewModel,
-//                    isLogged = isLogged
-//                )
-                MainScreen()
+                GymAppNavGraph(
+                    loginViewModel = authViewModel,
+                    registerViewModel = registerViewModel,
+                    detailsViewModel = detailsViewModel,
+                    isLogged = isLogged
+                )
             }
         }
     }
