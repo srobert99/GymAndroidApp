@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.gymappandroid.MainPage
 import com.example.gymappandroid.ui.account.auth.login.LoginScreen
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterScreen
@@ -12,12 +11,14 @@ import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.user_details.DetailsContent
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainScreen
+import com.example.gymappandroid.ui.menu.MainScreenViewModel
 
 @Composable
 fun GymAppNavGraph(
     loginViewModel: LoginViewModel,
     registerViewModel: RegisterViewModel,
     detailsViewModel: UserDetailsViewModel,
+    mainScreenViewModel: MainScreenViewModel,
     isLogged: Boolean
 ) {
     val navController = rememberNavController()
@@ -34,6 +35,6 @@ fun GymAppNavGraph(
             val email = it.arguments?.getString("email") ?: "null"
             DetailsContent(navController, detailsViewModel, email)
         }
-        composable(Screen.Main.route) { MainScreen() }
+        composable(Screen.Main.route) { MainScreen(mainScreenViewModel) }
     }
 }
