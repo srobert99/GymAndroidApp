@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.*
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
-import com.example.gymappandroid.ui.commons.DatePickerField
+import com.example.gymappandroid.ui.commons.DateTextField
 import com.example.gymappandroid.ui.commons.RoundedToggleButton
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
@@ -40,6 +41,7 @@ fun DetailsContent(
             val isMale by detailsViewModel.isMale.observeAsState(true)
             val phoneNumber by detailsViewModel.phoneNumber.observeAsState("")
             val name by detailsViewModel.name.observeAsState("")
+            val birthdate by detailsViewModel.birthdate.observeAsState("")
             val surname by detailsViewModel.surname.observeAsState("")
             var image by remember { mutableStateOf(R.drawable.detailspatgemale) }
             var isLoading by remember { mutableStateOf(false) }
@@ -135,12 +137,14 @@ fun DetailsContent(
                         currentText = phoneNumber,
                         isNumber = true
                     )
-                    DatePickerField(
-                        context = LocalContext.current,
+                    DateTextField(
+                        labelText = "Select birthdate",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 10.dp),
-                        onDateChange = { detailsViewModel.onBirthDateSelect(it) }
+                        onValueChange = { detailsViewModel.onBirthDateSelect(it) },
+                        currentText = birthdate,
+                        leadingIcon = Icons.Filled.DateRange
                     )
                     if (!isLoading) {
                         Button(
