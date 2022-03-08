@@ -1,7 +1,8 @@
-package com.example.gymappandroid.ui.menu
+package com.example.gymappandroid.ui.menu.main_menu
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -15,6 +16,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -50,7 +52,15 @@ fun MainScreen(mainScreenViewModel: MainScreenViewModel) {
 
     Column(Modifier.fillMaxSize()) {
         Surface(
-            color = colorResource(id = R.color.top_bar_color), modifier = Modifier
+            modifier = Modifier
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            colorResource(id = R.color.black),
+                            colorResource(id = R.color.top_bar_color)
+                        )
+                    )
+                )
                 .weight(0.05f)
                 .fillMaxSize()
         ) {

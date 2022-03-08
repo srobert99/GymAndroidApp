@@ -3,25 +3,13 @@ package com.example.gymappandroid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.gymappandroid.di.appModule
 import com.example.gymappandroid.di.authViewModelModule
 import com.example.gymappandroid.navigation.GymAppNavGraph
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
-import com.example.gymappandroid.ui.menu.MainScreenViewModel
+import com.example.gymappandroid.ui.menu.main_menu.MainScreenViewModel
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -55,28 +43,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun MainPage(loginViewModel: LoginViewModel, navController: NavController) {
-    Surface {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Hello boss")
-            Button(
-                onClick = { logout(loginViewModel, navController) },
-                modifier = Modifier.padding(100.dp)
-            ) {
-                Text("Logout")
-            }
-        }
-    }
-}
-
-private fun logout(loginViewModel: LoginViewModel, navController: NavController) {
-    loginViewModel.logout()
-    navController.navigate("login_screen")
 }

@@ -23,6 +23,10 @@ class LoginViewModel(
 
     private var canLogin: Boolean = false
 
+    init {
+        firebaseUser = authRepository.currentUser()
+    }
+
     suspend fun login() {
         validateCredentials()
         if (canLogin) {

@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.menu
+package com.example.gymappandroid.ui.menu.main_menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

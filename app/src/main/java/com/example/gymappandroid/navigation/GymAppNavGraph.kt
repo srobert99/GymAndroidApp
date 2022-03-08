@@ -10,8 +10,8 @@ import com.example.gymappandroid.ui.account.auth.register.RegisterScreen
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.user_details.DetailsContent
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
-import com.example.gymappandroid.ui.menu.MainScreen
-import com.example.gymappandroid.ui.menu.MainScreenViewModel
+import com.example.gymappandroid.ui.menu.main_menu.MainScreen
+import com.example.gymappandroid.ui.menu.main_menu.MainScreenViewModel
 
 @Composable
 fun GymAppNavGraph(
