@@ -120,18 +120,21 @@ fun DetailsContent(
                     }
                     UserInfoBox(
                         labelText = "Name",
+                        readOnly = false,
                         leadingIcon = Icons.Filled.Person,
                         onValueChange = { detailsViewModel.onNameChange(it) },
                         currentText = name,
                     )
                     UserInfoBox(
                         labelText = "Surname",
+                        readOnly = false,
                         leadingIcon = Icons.Filled.Person,
                         onValueChange = { detailsViewModel.onSurnameChange(it) },
                         currentText = surname,
                     )
                     UserInfoBox(
                         labelText = "Phone number",
+                        readOnly = false,
                         leadingIcon = Icons.Filled.Phone,
                         onValueChange = { detailsViewModel.onPhoneNumberChange(it) },
                         currentText = phoneNumber,
@@ -139,9 +142,7 @@ fun DetailsContent(
                     )
                     DateTextField(
                         labelText = "Select birthdate",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 10.dp),
+                        readOnly = false,
                         onValueChange = { detailsViewModel.onBirthDateSelect(it) },
                         currentText = birthdate,
                         leadingIcon = Icons.Filled.DateRange

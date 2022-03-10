@@ -12,6 +12,7 @@ import com.example.gymappandroid.ui.account.user_details.DetailsContent
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.main_menu.MainScreen
 import com.example.gymappandroid.ui.menu.main_menu.MainScreenViewModel
+import com.example.gymappandroid.ui.menu.profile.ProfileScreen
 
 @Composable
 fun GymAppNavGraph(
@@ -36,5 +37,8 @@ fun GymAppNavGraph(
             DetailsContent(navController, detailsViewModel, email)
         }
         composable(Screen.Main.route) { MainScreen(mainScreenViewModel) }
+        composable(Screen.Test.route) {
+            ProfileScreen(userDetailsViewModel = detailsViewModel       )
+        }
     }
 }

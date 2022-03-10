@@ -28,18 +28,20 @@ class UserDetailsViewModel(
     private val _birthdate = MutableLiveData("")
     val birthdate: LiveData<String> = _birthdate
 
-    private var currentUser = User()
+    private val _currentUser = MutableLiveData(User())
+    val currentUser: LiveData<User> = _currentUser
+
 
     suspend fun saveUserProfile() {
         if (verifyCredentials()) {
-            _firestoreStatus.value = userDataRepository.createUserProfile(currentUser)
+            _firestoreStatus.value = userDataRepository.createUserProfile(currentUser.value!!)
         } else {
             _firestoreStatus.value = "Check fields again"
         }
     }
 
     fun createUserProfile(uid: String?, email: String?) {
-        currentUser = User(
+        _currentUser.value = User(
             uid ?: "",
             name.value!!,
             surname.value!!,
@@ -68,6 +70,10 @@ class UserDetailsViewModel(
 
     fun onBirthDateSelect(birthdate: String) {
         _birthdate.value = birthdate
+    }
+
+    suspend fun getUserProfile(userID: String) {
+        _currentUser.postValue(userDataRepository.getUserProfile(userID))
     }
 
     private fun verifyCredentials(): Boolean {

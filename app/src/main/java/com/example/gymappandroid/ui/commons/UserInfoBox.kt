@@ -12,8 +12,8 @@ import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun UserInfoBox(
-    modifier: Modifier = Modifier.fillMaxWidth(),
     labelText: String,
+    readOnly: Boolean = true,
     leadingIcon: ImageVector,
     isNumber: Boolean = false,
     onValueChange: (String) -> Unit,
@@ -32,12 +32,14 @@ fun UserInfoBox(
                 contentDescription = null
             )
         },
+        readOnly = readOnly,
+        enabled = !readOnly,
         singleLine = true,
         isError = hasError,
         keyboardOptions = if (isNumber) KeyboardOptions(keyboardType = KeyboardType.Number)
         else KeyboardOptions(
             keyboardType = KeyboardType.Text
         ),
-        modifier = modifier
+        modifier = Modifier.fillMaxWidth(),
     )
 }

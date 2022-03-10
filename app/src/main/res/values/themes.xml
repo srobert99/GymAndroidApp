@@ -3,7 +3,7 @@
     <style name="Theme.GymAppAndroid" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/top_bar_color</item>
+        <item name="colorPrimaryVariant">@color/dark_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -22,10 +22,5 @@
     <style name="Theme.GymAppAndroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.GymAppAndroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-    <style name="Theme.MainMenu" parent="Theme.GymAppAndroid">
-        <item name="colorPrimaryVariant">@color/top_bar_color</item>
-    </style>
 
 </resources>

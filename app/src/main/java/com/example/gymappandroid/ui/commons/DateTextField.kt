@@ -16,15 +16,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun DateTextField(
-    modifier: Modifier = Modifier,
     labelText: String,
     leadingIcon: ImageVector,
+    readOnly: Boolean = false,
     isNumber: Boolean = false,
     onValueChange: (String) -> Unit,
     currentText: String,
 ) {
     OutlinedTextField(
         value = currentText,
+        enabled = !readOnly,
         onValueChange = {
             if (it.length <= 8) onValueChange(it)
         },
@@ -40,7 +41,8 @@ fun DateTextField(
         else KeyboardOptions(
             keyboardType = KeyboardType.Text
         ),
-        modifier = modifier.fillMaxWidth(),
+        readOnly = readOnly,
+        modifier = Modifier.fillMaxWidth(),
         visualTransformation = DateTransformation()
     )
 }

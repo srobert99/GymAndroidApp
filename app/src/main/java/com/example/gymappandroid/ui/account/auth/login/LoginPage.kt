@@ -46,7 +46,8 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
             loginViewModel.login()
             if (firebaseResponse == "Success") {
                 dataStore.saveUserSession(loginViewModel.getUID() ?: "")
-                navController.navigate("main_screen")
+                loginViewModel.getUID()
+                navController.navigate(Screen.Test.route)
             } else {
                 Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
             }
@@ -87,6 +88,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                         labelText = "Email",
                         leadingIcon = Icons.Filled.Email,
                         isNumber = false,
+                        readOnly = false,
                         onValueChange = { loginViewModel.onEmailChange(it) },
                         currentText = email
                     )
@@ -127,7 +129,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                             modifier = Modifier.padding(bottom = 20.dp),
                             textDecoration = TextDecoration.Underline
                         )
-                        Row() {
+                        Row {
                             Text("Don't have an account? ")
                             Text(
                                 "Sign up",

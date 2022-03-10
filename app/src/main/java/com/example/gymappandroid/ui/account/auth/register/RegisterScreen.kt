@@ -82,7 +82,6 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
                         labelText = "Email",
                         leadingIcon = Icons.Filled.Email,
                         isNumber = false,
-                        modifier = Modifier.fillMaxWidth(),
                         onValueChange = { registerViewModel.onEmailChange(it) },
                         currentText = email,
                         hasError = emailErrorMessage != ""
