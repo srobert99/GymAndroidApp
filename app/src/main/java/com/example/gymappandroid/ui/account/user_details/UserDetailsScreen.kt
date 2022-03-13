@@ -53,8 +53,7 @@ fun DetailsContent(
             val saveUserData: () -> Unit = {
                 coroutineScope.launch {
                     isLoading = true
-                    detailsViewModel.createUserProfile(userSession.value, userEmail)
-                    detailsViewModel.saveUserProfile()
+                    detailsViewModel.saveUserProfile(userSession.value, userEmail)
                     if (firestoreResponse == "Success") {
                         navController?.navigate("main_screen")
                     } else {

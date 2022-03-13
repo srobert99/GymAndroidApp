@@ -15,12 +15,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.gymappandroid.R
-import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
 
 @Composable
 fun TopMenuBar(detailsViewModel: UserDetailsViewModel) {
-    val user by detailsViewModel.currentUser.observeAsState(initial = User())
+    val name by detailsViewModel.name.observeAsState("")
+    val surname by detailsViewModel.surname.observeAsState("")
+    val balance by detailsViewModel.coins.observeAsState("")
+
     Surface(
         modifier = Modifier
             .background(
@@ -42,7 +44,7 @@ fun TopMenuBar(detailsViewModel: UserDetailsViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    user.name + " " + user.surname,
+                    "$name $surname",
                     color = colorResource(id = R.color.white),
                 )
             }
@@ -53,7 +55,7 @@ fun TopMenuBar(detailsViewModel: UserDetailsViewModel) {
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(user.balance.toString(), color = colorResource(id = R.color.white))
+                Text(balance, color = colorResource(id = R.color.white))
                 Image(
                     painter = painterResource(R.drawable.shopping_cart),
                     contentDescription = "shopping cart icon",

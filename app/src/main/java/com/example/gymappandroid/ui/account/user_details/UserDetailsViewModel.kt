@@ -22,26 +22,21 @@ class UserDetailsViewModel(
     private val _surname = MutableLiveData("")
     val surname: LiveData<String> = _surname
 
+    private val _email = MutableLiveData("")
+    val email: LiveData<String> = _email
+
+    private val _coins = MutableLiveData("")
+    val coins: LiveData<String> = _coins
+
     private val _phoneNumber = MutableLiveData("")
     val phoneNumber: LiveData<String> = _phoneNumber
 
     private val _birthdate = MutableLiveData("")
     val birthdate: LiveData<String> = _birthdate
 
-    private val _currentUser = MutableLiveData(User())
-    val currentUser: LiveData<User> = _currentUser
 
-
-    suspend fun saveUserProfile() {
-        if (verifyCredentials()) {
-            _firestoreStatus.value = userDataRepository.createUserProfile(currentUser.value!!)
-        } else {
-            _firestoreStatus.value = "Check fields again"
-        }
-    }
-
-    fun createUserProfile(uid: String?, email: String?) {
-        _currentUser.value = User(
+    suspend fun saveUserProfile(uid: String?, email: String? = this.email.value) {
+        val currentUser = User(
             uid ?: "",
             name.value!!,
             surname.value!!,
@@ -50,6 +45,11 @@ class UserDetailsViewModel(
             birthdate.value!!,
             email = email!!
         )
+        if (verifyCredentials()) {
+            _firestoreStatus.value = userDataRepository.createUserProfile(currentUser)
+        } else {
+            _firestoreStatus.value = "Check fields again"
+        }
     }
 
     fun onNameChange(newName: String) {
@@ -73,7 +73,16 @@ class UserDetailsViewModel(
     }
 
     suspend fun getUserProfile(userID: String) {
-        _currentUser.postValue(userDataRepository.getUserProfile(userID))
+        val currentUser = (userDataRepository.getUserProfile(userID))
+
+        currentUser?.let {
+            _name.value = it.name
+            _surname.value = it.surname
+            _phoneNumber.value = it.phoneNumber
+            _isMale.value = it.isMale
+            _email.value = it.email
+            _coins.value = it.balance.toString()
+        }
     }
 
     private fun verifyCredentials(): Boolean {

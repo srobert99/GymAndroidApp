@@ -1,12 +1,12 @@
 package com.example.gymappandroid.data.models
 
 data class User(
-    val uid: String = "",
-    val name: String = "",
-    val surname: String = "",
-    val isMale: Boolean = true,
-    val phoneNumber: String = "",
-    val birthDate: String = " ",
-    val balance: Int = 0,
-    val email: String = ""
+    var uid: String = "",
+    var name: String = "",
+    var surname: String = "",
+    var isMale: Boolean = true,
+    var phoneNumber: String = "",
+    var birthDate: String = " ",
+    var balance: Int = 0,
+    var email: String = ""
 )

@@ -2,9 +2,7 @@ package com.example.gymappandroid.ui.commons
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -22,8 +20,10 @@ fun DateTextField(
     isNumber: Boolean = false,
     onValueChange: (String) -> Unit,
     currentText: String,
+    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
 ) {
     OutlinedTextField(
+        colors = colors,
         value = currentText,
         enabled = !readOnly,
         onValueChange = {
