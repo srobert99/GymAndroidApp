@@ -47,7 +47,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
             if (firebaseResponse == "Success") {
                 dataStore.saveUserSession(loginViewModel.getUID() ?: "")
                 loginViewModel.getUID()
-                navController.navigate(Screen.Test.route)
+                navController.navigate(Screen.Main.route)
             } else {
                 Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
             }

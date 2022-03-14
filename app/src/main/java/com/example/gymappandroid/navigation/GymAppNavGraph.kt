@@ -36,9 +36,9 @@ fun GymAppNavGraph(
             val email = it.arguments?.getString("email") ?: "null"
             DetailsContent(navController, detailsViewModel, email)
         }
-        composable(Screen.Main.route) { MainScreen(mainScreenViewModel) }
-        composable(Screen.Test.route) {
-            ProfileScreen(userDetailsViewModel = detailsViewModel       )
+        composable(Screen.Main.route) { MainScreen(mainScreenViewModel, navController) }
+        composable(Screen.Profile.route) {
+            ProfileScreen(userDetailsViewModel = detailsViewModel)
         }
     }
 }

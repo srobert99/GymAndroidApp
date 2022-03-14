@@ -48,7 +48,7 @@ fun ProfileScreen(userDetailsViewModel: UserDetailsViewModel) {
                 userDetailsViewModel.getUserProfile(userSession.value!!)
                 initLoading = false
             }
-            if (firestoreResponse != "") {
+            if (firestoreResponse != "" && firestoreResponse != "Success") {
                 Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
             }
         }
@@ -61,8 +61,9 @@ fun ProfileScreen(userDetailsViewModel: UserDetailsViewModel) {
                 userDetailsViewModel.saveUserProfile(userSession.value)
                 saveLoading = false
             }
-            if (firestoreResponse != "") {
+            if (firestoreResponse != "Success" && firestoreResponse != "") {
                 Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
+                userDetailsViewModel.clearFireStoreResponse()
             }
         }
         readOnly = !readOnly
@@ -160,7 +161,11 @@ fun ProfileScreen(userDetailsViewModel: UserDetailsViewModel) {
 
                         )
                     }
-                    Column(Modifier.weight(0.3f), verticalArrangement = Arrangement.SpaceEvenly) {
+                    Column(
+                        Modifier.weight(0.3f),
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                        Alignment.CenterHorizontally
+                    ) {
                         if (saveLoading) {
                             CircularProgressIndicator(modifier = Modifier.size(25.dp))
                         } else {

@@ -58,6 +58,7 @@ fun DetailsContent(
                         navController?.navigate("main_screen")
                     } else {
                         Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
+                        detailsViewModel.clearFireStoreResponse()
                     }
                     isLoading = false
                 }

@@ -3,6 +3,7 @@ package com.example.gymappandroid.ui.menu.main_menu
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -23,13 +24,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.User
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(mainScreenViewModel: MainScreenViewModel) {
+fun MainScreen(mainScreenViewModel: MainScreenViewModel, navController: NavController) {
     val context = LocalContext.current
     val dataStore = DataStore(context)
     val coroutineScope = rememberCoroutineScope()
@@ -42,7 +45,7 @@ fun MainScreen(mainScreenViewModel: MainScreenViewModel) {
             coroutineScope.launch {
                 mainScreenViewModel.getUserData(userSession.value)
             }
-            if (firestoreResponse != "") {
+            if (firestoreResponse != "Success" && firestoreResponse != "") {
                 Toast.makeText(context, firestoreResponse, Toast.LENGTH_SHORT).show()
             }
         }
@@ -156,7 +159,11 @@ fun MainScreen(mainScreenViewModel: MainScreenViewModel) {
                         shape = RoundedCornerShape(25.dp)
                     ) {
                         Column(
-                            Modifier.fillMaxSize(),
+                            Modifier
+                                .fillMaxSize()
+                                .clickable {
+                                    navController.navigate(Screen.Profile.route)
+                                },
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {

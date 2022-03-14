@@ -81,11 +81,16 @@ class UserDetailsViewModel(
             _phoneNumber.value = it.phoneNumber
             _isMale.value = it.isMale
             _email.value = it.email
+            _birthdate.value = it.birthDate
             _coins.value = it.balance.toString()
         }
     }
 
     private fun verifyCredentials(): Boolean {
         return (name.value!!.isNotEmpty() && surname.value!!.isNotEmpty() && phoneNumber.value!!.isNotEmpty())
+    }
+
+    fun clearFireStoreResponse() {
+        _firestoreStatus.value = ""
     }
 }
