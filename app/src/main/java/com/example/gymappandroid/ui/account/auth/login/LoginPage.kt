@@ -31,7 +31,10 @@ import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
+fun LoginScreen(
+    navController: NavController,
+    loginViewModel: LoginViewModel
+) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
     val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("")

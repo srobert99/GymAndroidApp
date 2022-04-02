@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.account.user_details
+package com.example.gymappandroid.ui.account.auth.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

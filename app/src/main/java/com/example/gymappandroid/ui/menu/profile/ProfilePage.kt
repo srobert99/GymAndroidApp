@@ -20,15 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.gymappandroid.R
-import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
+import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.commons.DateTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(userDetailsViewModel: UserDetailsViewModel) {
+fun ProfileScreen(userDetailsViewModel: UserDetailsViewModel, navController: NavController) {
     val context = LocalContext.current
     val dataStore = DataStore(context)
     val coroutineScope = rememberCoroutineScope()

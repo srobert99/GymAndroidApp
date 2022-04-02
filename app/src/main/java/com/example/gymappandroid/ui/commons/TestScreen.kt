@@ -19,7 +19,7 @@
 //import androidx.compose.ui.unit.dp
 //import com.example.gymappandroid.R
 //import com.example.gymappandroid.data.models.User
-//import com.example.gymappandroid.ui.account.user_details.UserDetailsViewModel
+//import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 //import com.example.gymappandroid.ui.menu.TopMenuBar
 //import com.example.gymappandroid.utils.DataStore
 //import kotlinx.coroutines.launch

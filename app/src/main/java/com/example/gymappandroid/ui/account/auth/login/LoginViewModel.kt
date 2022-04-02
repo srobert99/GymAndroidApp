@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gymappandroid.data.repositories.UserAuthRepository
-import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel(
     private val authRepository: UserAuthRepository
 ) : ViewModel() {
 
-    var firebaseUser: FirebaseUser? = null
+    val isLogged = MutableLiveData(false)
 
     private val _firebaseStatus = MutableLiveData("")
     val firebaseStatus: LiveData<String> = _firebaseStatus
@@ -24,7 +23,7 @@ class LoginViewModel(
     private var canLogin: Boolean = false
 
     init {
-        firebaseUser = authRepository.currentUser()
+        getUserStatus()
     }
 
     suspend fun login() {
@@ -53,9 +52,14 @@ class LoginViewModel(
         return authRepository.currentUser()?.uid
     }
 
+    fun getUserStatus() {
+        isLogged.value = authRepository.currentUser() != null
+    }
+
     private fun validateCredentials() {
         if (email.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
             canLogin = true
         }
     }
+
 }
