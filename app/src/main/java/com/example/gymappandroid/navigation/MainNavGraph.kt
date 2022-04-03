@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
+import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 
 @Composable
 fun SetupNavGraph(
@@ -13,7 +14,8 @@ fun SetupNavGraph(
     isUserLoggedIn: Boolean,
     registerViewModel: RegisterViewModel,
     loginViewModel: LoginViewModel,
-    detailsViewModel: UserDetailsViewModel
+    detailsViewModel: UserDetailsViewModel,
+    shopViewModel: ShopViewModel
 ) {
     val startDestination = if (isUserLoggedIn) {
         HOME_GRAPH_ROUTE
@@ -26,5 +28,6 @@ fun SetupNavGraph(
     ) {
         authNavGraph(navController, loginViewModel, registerViewModel, detailsViewModel)
         homeNavGraph(navController, detailsViewModel)
+        shopNavGraph(navController, shopViewModel, detailsViewModel)
     }
 }

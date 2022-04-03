@@ -8,6 +8,8 @@ import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.main_menu.MainScreenViewModel
+import com.example.gymappandroid.ui.menu.shop.ShopScreen
+import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

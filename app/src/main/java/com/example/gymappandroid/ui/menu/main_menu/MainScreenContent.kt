@@ -71,6 +71,9 @@ fun MainScreenContent(
                     Modifier
                         .weight(0.8f)
                         .fillMaxSize()
+                        .clickable {
+                            navController.navigate(Screen.Shop.route)
+                        }
                 ) {
                     Divider(
                         Modifier

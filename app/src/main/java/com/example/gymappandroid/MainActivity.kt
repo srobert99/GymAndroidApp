@@ -11,6 +11,7 @@ import com.example.gymappandroid.navigation.SetupNavGraph
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
+import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
         val registerViewModel = getViewModel<RegisterViewModel>()
         val detailsViewModel = getViewModel<UserDetailsViewModel>()
         val isLogged = loginViewModel.isLogged.value ?: false
+        val shopVM = ShopViewModel()
 
         setContent {
             GymAppAndroidTheme {
@@ -41,7 +43,8 @@ class MainActivity : ComponentActivity() {
                     isUserLoggedIn = isLogged,
                     registerViewModel = registerViewModel,
                     loginViewModel = loginViewModel,
-                    detailsViewModel = detailsViewModel
+                    detailsViewModel = detailsViewModel,
+                    shopViewModel = shopVM
                 )
             }
         }
