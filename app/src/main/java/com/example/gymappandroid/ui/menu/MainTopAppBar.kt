@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
@@ -16,12 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 
 @Composable
 fun MainTopAppBar(
     detailsViewModel: UserDetailsViewModel,
+    isOnMainScreen: Boolean,
+    navController: NavController
 ) {
     val name by detailsViewModel.name.observeAsState("")
     val surname by detailsViewModel.surname.observeAsState("")
@@ -30,6 +34,14 @@ fun MainTopAppBar(
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                if(!isOnMainScreen){
+                    IconButton(onClick = {navController.popBackStack()}) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back Button"
+                        )
+                    }
+                }
                 IconButton(onClick = { /*TODO*/ }) {
                     Image(
                         painter = painterResource(id = R.drawable.logo),

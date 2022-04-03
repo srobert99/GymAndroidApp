@@ -29,7 +29,7 @@ import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(userDetailsViewModel: UserDetailsViewModel, navController: NavController) {
+fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
     val context = LocalContext.current
     val dataStore = DataStore(context)
     val coroutineScope = rememberCoroutineScope()

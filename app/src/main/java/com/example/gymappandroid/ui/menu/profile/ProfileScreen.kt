@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.menu.main_menu
+package com.example.gymappandroid.ui.menu.profile
 
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Scaffold
@@ -10,7 +10,7 @@ import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainTopAppBar
 
 @Composable
-fun MainScreen(
+fun ProfileScreen(
     detailsViewModel: UserDetailsViewModel,
     navController: NavController
 ) {
@@ -22,13 +22,12 @@ fun MainScreen(
             MainTopAppBar(
                 detailsViewModel = detailsViewModel,
                 navController = navController,
-                isOnMainScreen = true
+                isOnMainScreen = false
             )
         },
         content = {
-            MainScreenContent(
-                userDetailsScreenViewModel = detailsViewModel,
-                navController = navController
+            ProfileScreenContent(
+                userDetailsViewModel = detailsViewModel,
             )
         }
     )

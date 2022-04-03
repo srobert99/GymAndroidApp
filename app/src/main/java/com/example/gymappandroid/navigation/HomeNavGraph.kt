@@ -28,7 +28,7 @@ fun NavGraphBuilder.homeNavGraph(
             route = Screen.Profile.route
         ) {
             ProfileScreen(
-                userDetailsViewModel = userDetailsViewModel,
+                detailsViewModel = userDetailsViewModel,
                 navController = navController
             )
         }
