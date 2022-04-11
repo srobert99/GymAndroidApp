@@ -42,7 +42,7 @@ fun NavGraphBuilder.authNavGraph(
 ) {
     navigation(
         startDestination = Screen.Login.route,
-        route = HOME_GRAPH_ROUTE
+        route = AUTH_GRAPH_ROUTE
     ) {
         composable(
             route = Screen.Login.route
