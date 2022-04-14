@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.commons.DateTextField
@@ -181,7 +180,7 @@ fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
                             }
                         }
                         Button(
-                            onClick = { },
+                            onClick = {},
                             shape = RoundedCornerShape(20.dp),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)

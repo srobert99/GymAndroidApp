@@ -34,19 +34,20 @@ fun MainTopAppBar(
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                if(!isOnMainScreen){
-                    IconButton(onClick = {navController.popBackStack()}) {
+                if (!isOnMainScreen) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back Button"
                         )
                     }
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Profile Image"
-                    )
+                } else {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Image(
+                            painter = painterResource(id = R.drawable.logo),
+                            contentDescription = "Profile Image"
+                        )
+                    }
                 }
                 Text(text = "$name $surname", modifier = Modifier.padding(10.dp))
             }

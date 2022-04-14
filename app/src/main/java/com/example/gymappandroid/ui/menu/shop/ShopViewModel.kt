@@ -1,14 +1,18 @@
 package com.example.gymappandroid.ui.menu.shop
 
-import com.example.gymappandroid.data.models.Product
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.gymappandroid.data.models.ProductCategory
+import com.example.gymappandroid.data.repositories.ProductsDataRepository
+import kotlinx.coroutines.launch
 
-class ShopViewModel {
+class ShopViewModel(productsDataRepository: ProductsDataRepository) : ViewModel() {
 
-    val shopItems = mutableListOf<Product>()
+    var shopCategories = listOf<ProductCategory>()
 
     init {
-        for (i in 0..20) {
-            shopItems.add(i, Product("", "", "", "", 30.00, 300))
+        viewModelScope.launch {
+            shopCategories = productsDataRepository.getProductCategories()
         }
     }
 }

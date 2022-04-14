@@ -1,4 +1,4 @@
-package com.example.gymappandroid.data.firestore
+package com.example.gymappandroid.data.firestore.user_data_source
 
 import com.example.gymappandroid.data.models.User
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -7,7 +7,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class FireStoreSource {
+class FireStoreUserDataSource {
     private var firesStoreDataBase = Firebase.firestore
     private var dataBaseReference = firesStoreDataBase.collection("user")
 

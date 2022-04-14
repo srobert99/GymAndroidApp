@@ -25,6 +25,11 @@ fun ShopScreen(
                 navController = navController
             )
         },
-        content = {ShopScreenContent(shopViewModel = shopViewModel, navController = navController )}
+        content = {
+            ShopScreenContent(
+                shopViewModel = shopViewModel,
+                navController = navController
+            )
+        }
     )
 }

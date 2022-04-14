@@ -32,8 +32,8 @@ class MainActivity : ComponentActivity() {
         val loginViewModel = getViewModel<LoginViewModel>()
         val registerViewModel = getViewModel<RegisterViewModel>()
         val detailsViewModel = getViewModel<UserDetailsViewModel>()
+        val shopViewModel = getViewModel<ShopViewModel>()
         val isLogged = loginViewModel.isLogged.value ?: false
-        val shopVM = ShopViewModel()
 
         setContent {
             GymAppAndroidTheme {
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     registerViewModel = registerViewModel,
                     loginViewModel = loginViewModel,
                     detailsViewModel = detailsViewModel,
-                    shopViewModel = shopVM
+                    shopViewModel = shopViewModel
                 )
             }
         }

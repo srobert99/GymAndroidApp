@@ -17,7 +17,7 @@ fun DateTextField(
     labelText: String,
     leadingIcon: ImageVector,
     readOnly: Boolean = false,
-    isNumber: Boolean = false,
+    isNumber: Boolean = true,
     onValueChange: (String) -> Unit,
     currentText: String,
     colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
@@ -47,7 +47,7 @@ fun DateTextField(
     )
 }
 
-class DateTransformation() : VisualTransformation {
+class DateTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         return dateFilter(text)
     }
