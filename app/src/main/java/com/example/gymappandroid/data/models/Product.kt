@@ -1,19 +1,11 @@
 package com.example.gymappandroid.data.models
 
 data class Product(
-    val productType: ProductType = ProductType.SNEAKER,
     val id: String = "",
-    val name: String = "",
+    val productType: String,
+    val model: String = "",
     val description: String = "",
     val image: String = "",
     val price: Double = 0.00,
-    val stock: Int = 0
+    val stock: HashMap<String, Int> = hashMapOf()
 )
-
-
-enum class ProductType {
-    SNEAKER,
-    PROTEIN,
-    SHAKER,
-    UNKNOWN
-}

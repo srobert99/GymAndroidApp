@@ -14,16 +14,19 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShopScreenContent(shopViewModel: ShopViewModel, navController: NavController) {
+fun ProductsListContent(
+    shopViewModel: ShopViewModel,
+    navController: NavController,
+) {
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(16.dp),
             cells = GridCells.Adaptive(150.dp)
         ) {
             items(
-                items = shopViewModel.shopCategories,
+                items = shopViewModel.products,
                 itemContent = {
-                    CategoryItem(it, navController)
+                    ProductItemUi(product = it)
                 }
             )
         }

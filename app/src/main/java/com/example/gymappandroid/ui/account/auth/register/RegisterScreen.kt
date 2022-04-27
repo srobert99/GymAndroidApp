@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.ui.commons.PasswordTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.utils.DataStore
@@ -136,7 +137,7 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
                             "Log in",
                             modifier = Modifier
                                 .padding(start = 5.dp)
-                                .clickable { navController.navigate("login_screen") },
+                                .clickable { navController.navigate(Screen.Login.route) },
                             color = colorResource(id = R.color.teal_200)
                         )
                     }
