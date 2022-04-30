@@ -11,29 +11,6 @@ import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
 import com.example.gymappandroid.ui.account.auth.register.RegisterScreen
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 
-//@Composable
-//fun AuthNavGraph(
-//    loginViewModel: LoginViewModel,
-//    registerViewModel: RegisterViewModel,
-//    detailsViewModel: UserDetailsViewModel,
-//) {
-//    val authNavController = rememberNavController()
-//
-//    NavHost(navController = authNavController, startDestination = Screen.Login.route) {
-//        composable(Screen.Login.route) {
-//            LoginScreen(
-//                authNavController,
-//                loginViewModel
-//            )
-//        }
-//        composable(Screen.Register.route) { RegisterScreen(authNavController, registerViewModel) }
-//        composable(Screen.Details.route) {
-//            val email = it.arguments?.getString("email") ?: "null"
-//            DetailsContent(authNavController, detailsViewModel, email)
-//        }
-//    }
-//}
-
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
     loginViewModel: LoginViewModel,

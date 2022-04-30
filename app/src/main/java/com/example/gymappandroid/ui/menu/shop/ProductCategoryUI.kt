@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.gymappandroid.data.models.ProductCategory
+import com.example.gymappandroid.navigation.Screen
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -28,7 +29,7 @@ fun CategoryItem(productCategory: ProductCategory, navController: NavController)
         modifier = Modifier
             .padding(10.dp)
             .size(150.dp)
-            .clickable { navController.navigate("products_list") },
+            .clickable { navController.navigate(Screen.Products.route + "/${productCategory.name}") },
         elevation = 2.dp,
         backgroundColor = Color.White,
         shape = RoundedCornerShape(corner = CornerSize(12.dp))
@@ -41,7 +42,7 @@ fun CategoryItem(productCategory: ProductCategory, navController: NavController)
             Image(
                 painter = rememberImagePainter(productCategory.image),
                 contentScale = ContentScale.FillBounds,
-                contentDescription = "shop category 1",
+                contentDescription = "shop category",
                 modifier = Modifier.weight(0.5f)
             )
             Text(

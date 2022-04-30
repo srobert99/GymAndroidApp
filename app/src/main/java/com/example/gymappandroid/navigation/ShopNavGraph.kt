@@ -24,13 +24,14 @@ fun NavGraphBuilder.shopNavGraph(
             ShopScreen(shopViewModel, navController, detailsViewModel)
         }
         composable(
-            route = "products_list"
+            route = Screen.Products.route + "/{product_category}"
         ) {
+            val itemCategory = it.arguments?.getString("product_category") ?: "shoes"
             ProductsScreen(
                 shopViewModel = shopViewModel,
                 navController = navController,
                 detailsViewModel = detailsViewModel,
-                "shoes"
+                itemCategory = itemCategory
             )
         }
     }
