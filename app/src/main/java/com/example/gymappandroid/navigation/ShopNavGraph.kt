@@ -36,9 +36,9 @@ fun NavGraphBuilder.shopNavGraph(
             )
         }
         composable(
-            route = Screen.ProductDetails.route + "/{product_id}"
+            route = Screen.ProductDetails.route + "/{product_id}",
         ) {
-            val productId = it.arguments?.getString("product_id") ?: "0"
+            val productId = it.arguments?.getString("product_id") ?: "a"
             ProductDetailsScreen(
                 shopViewModel = shopViewModel,
                 productId = productId,

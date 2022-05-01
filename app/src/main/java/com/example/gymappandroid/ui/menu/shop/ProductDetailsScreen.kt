@@ -7,7 +7,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
-import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainTopAppBar
 
@@ -21,7 +20,7 @@ fun ProductDetailsScreen(
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     LaunchedEffect(Unit) {
-        val product = Product(productType = "muie")
+        shopViewModel.getProductDetails(productId)
     }
 
     Scaffold(

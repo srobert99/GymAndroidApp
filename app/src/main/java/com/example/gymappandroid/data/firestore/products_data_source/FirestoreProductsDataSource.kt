@@ -4,7 +4,7 @@ import com.example.gymappandroid.data.models.Product
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
@@ -19,4 +19,7 @@ class FirestoreProductsDataSource {
 
     suspend fun getProductsFromCategory(category: String): List<DocumentSnapshot> =
         products.whereEqualTo("product_category", category).get().await().documents
+
+    suspend fun getProduct(productId: String): Product? =
+        products.document(productId).get().await().toObject<Product>()
 }

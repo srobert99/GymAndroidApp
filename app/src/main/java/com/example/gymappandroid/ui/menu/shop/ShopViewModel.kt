@@ -1,5 +1,7 @@
 package com.example.gymappandroid.ui.menu.shop
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.Product
@@ -13,6 +15,12 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     var products = listOf<Product>()
 
+    private var _isOnLoadingSate = MutableLiveData(false)
+    val isOnLoadingState: LiveData<Boolean> = _isOnLoadingSate
+
+    private var _selectedProduct = MutableLiveData(Product())
+    val selectedProduct: LiveData<Product> = _selectedProduct
+
     init {
         viewModelScope.launch {
             shopCategories = productsDataRepository.getProductCategories()
@@ -21,5 +29,15 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     suspend fun getProductsFromCategory(category: String) {
         products = productsDataRepository.getProductsFromCategory(category)
+    }
+
+    suspend fun getProductDetails(productId: String) {
+        load()
+        _selectedProduct.value = productsDataRepository.getProduct(productId)
+        load()
+    }
+
+    private fun load() {
+        _isOnLoadingSate.value = !(_isOnLoadingSate.value!!)
     }
 }

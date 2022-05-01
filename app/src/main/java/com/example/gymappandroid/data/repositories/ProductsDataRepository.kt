@@ -12,6 +12,9 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             convertDocToProductCategory(it)
         }
 
+    suspend fun getProduct(productId: String): Product? =
+        firestoreProductsDataSource.getProduct(productId)
+
     suspend fun getProductsFromCategory(category: String): List<Product> =
         firestoreProductsDataSource.getProductsFromCategory(category).map {
             convertDocToProduct(it)
