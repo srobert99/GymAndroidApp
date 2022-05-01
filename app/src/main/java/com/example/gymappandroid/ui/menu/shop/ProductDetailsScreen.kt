@@ -7,23 +7,25 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
+import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainTopAppBar
 
 @Composable
-fun ProductsScreen(
+fun ProductDetailsScreen(
     shopViewModel: ShopViewModel,
-    navController: NavController,
+    productId: String,
     detailsViewModel: UserDetailsViewModel,
-    itemCategory: String
+    navController: NavController
 ) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     LaunchedEffect(Unit) {
-        shopViewModel.getProductsFromCategory(itemCategory)
+        val product = Product(productType = "muie")
     }
 
-    Scaffold(scaffoldState = scaffoldState,
+    Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             MainTopAppBar(
                 detailsViewModel = detailsViewModel,
@@ -32,10 +34,7 @@ fun ProductsScreen(
             )
         },
         content = {
-            ProductsListContent(
-                shopViewModel = shopViewModel,
-                navController = navController
-            )
+            ProductDetailsContent(shopViewModel = shopViewModel)
         }
     )
 }

@@ -26,7 +26,7 @@ fun ProductsListContent(
             items(
                 items = shopViewModel.products,
                 itemContent = {
-                    ProductItemUi(product = it)
+                    ProductItemUi(product = it, navController)
                 }
             )
         }

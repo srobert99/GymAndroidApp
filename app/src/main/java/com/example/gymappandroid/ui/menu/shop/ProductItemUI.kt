@@ -1,6 +1,7 @@
 package com.example.gymappandroid.ui.menu.shop
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,17 +16,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.gymappandroid.data.models.Product
+import com.example.gymappandroid.navigation.Screen
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProductItemUi(product: Product) {
+fun ProductItemUi(product: Product, navController: NavController) {
     Card(
         modifier = Modifier
             .padding(10.dp)
-            .size(150.dp),
+            .size(150.dp)
+            .clickable { navController.navigate(Screen.ProductDetails.route + "/${product.id}") },
         elevation = 2.dp,
         backgroundColor = Color.White,
         shape = RoundedCornerShape(corner = CornerSize(12.dp))
