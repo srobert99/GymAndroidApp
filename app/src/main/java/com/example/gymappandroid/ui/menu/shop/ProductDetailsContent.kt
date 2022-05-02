@@ -26,6 +26,7 @@ fun ProductDetailsContent(shopViewModel: ShopViewModel) {
 
     val currentProduct by shopViewModel.selectedProduct.observeAsState(initial = Product())
     val isInLoadingState by shopViewModel.isOnLoadingState.observeAsState(initial = true)
+    val x = listOf("M", "L", "S", "XS", "XL")
 
     GymAppAndroidTheme {
         androidx.compose.material.Surface(modifier = Modifier.fillMaxSize()) {
@@ -40,9 +41,9 @@ fun ProductDetailsContent(shopViewModel: ShopViewModel) {
                     Image(
                         painter = rememberImagePainter(currentProduct.image),
                         contentScale = ContentScale.FillBounds,
-                        contentDescription = "shop category 1",
+                        contentDescription = "product 1",
                         modifier = Modifier
-                            .weight(0.35f)
+                            .weight(0.3f)
                             .fillMaxSize()
                     )
                     Text(
@@ -51,23 +52,23 @@ fun ProductDetailsContent(shopViewModel: ShopViewModel) {
                             .weight(0.1f)
                             .padding(top = 20.dp)
                             .fillMaxSize(),
-                        fontSize = 40.sp,
+                        fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
                     Column(modifier = Modifier.weight(0.3f)) {
+                        Text("Available Sizes:")
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .wrapContentSize()
                         ) {
-                            Button(onClick = { /*TODO*/ }, modifier = Modifier.weight(0.9f)) {
-                                Text("Here should be the sizes", fontSize = 25.sp)
-                            }
+                            SizeOptionList(listOfSizes = x)
                         }
                         Text(
                             currentProduct.price.toString() + " EURO",
                             textAlign = TextAlign.End,
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             modifier = Modifier
                                 .weight(0.1f)
                                 .fillMaxWidth()
@@ -83,14 +84,14 @@ fun ProductDetailsContent(shopViewModel: ShopViewModel) {
                     Button(
                         onClick = { /*TODO*/ },
                         modifier = Modifier
-                            .weight(0.1f)
+                            .weight(0.05f)
                             .fillMaxWidth()
                             .wrapContentSize()
                             .align(CenterHorizontally)
                     ) {
                         Text(
                             "Add to shopping cart",
-                            fontSize = 20.sp,
+                            fontSize = 10.sp,
                             modifier = Modifier.padding(5.dp)
                         )
                     }
