@@ -2,8 +2,6 @@ package com.example.gymappandroid.ui.menu.shop
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,8 +22,7 @@ fun SizeOptionUI(size: String) {
             .clickable { }
             .size(75.dp)
             .padding(10.dp),
-        shape = RoundedCornerShape(corner = CornerSize(10.dp)),
-        backgroundColor = colorResource(id = R.color.teal_200)
+        backgroundColor = colorResource(id = R.color.black)
     ) {
         Column(
             Modifier.fillMaxSize(),

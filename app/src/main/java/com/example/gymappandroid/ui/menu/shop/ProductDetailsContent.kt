@@ -1,102 +1,183 @@
 package com.example.gymappandroid.ui.menu.shop
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
-import com.example.gymappandroid.data.models.Product
-import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
+import com.example.gymappandroid.R
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
-fun ProductDetailsContent(shopViewModel: ShopViewModel) {
-
-    val currentProduct by shopViewModel.selectedProduct.observeAsState(initial = Product())
-    val isInLoadingState by shopViewModel.isOnLoadingState.observeAsState(initial = true)
-    val x = listOf("M", "L", "S", "XS", "XL")
-
-    GymAppAndroidTheme {
-        androidx.compose.material.Surface(modifier = Modifier.fillMaxSize()) {
-            if (isInLoadingState) {
-                CircularProgressIndicator(modifier = Modifier.size(50.dp))
-            } else {
-                Column(
+fun ProductDetailsContent() {
+    val sizesList = listOf("M", "S", "XL", "XS")
+    Column(
+        modifier = Modifier
+            .wrapContentSize()
+            .background(Color.White)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentScale = ContentScale.FillBounds,
+            contentDescription = "shop category 1",
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(225.dp)
+        )
+        Box(
+            modifier = Modifier
+                .background(Color.Black)
+                .fillMaxWidth()
+                .height(60.dp)
+        ) {
+            Text(
+                text = "ADIDAS XML",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace,
+                color = Color.White,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(vertical = 10.dp)
+                    .background(Color.Black),
+            )
+        }
+        Column(
+            modifier = Modifier
+                .wrapContentSize()
+                .background(Color.White)
+                .padding(horizontal = 20.dp)
+                .padding(top = 30.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Black)
+                    .wrapContentSize()
+            ) {
+                Text(
+                    text = "DESCRIPTION",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Monospace,
+                    color = Color.White,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(10.dp),
+                        .padding(5.dp),
+                )
+            }
+            Text(
+                text = stringResource(id = R.string.dummy_text),
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .padding(bottom = 30.dp),
+                fontFamily = FontFamily.Monospace,
+                fontSize = 15.sp
+            )
+            Text(
+                text = "REVIEWS",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace,
+                color = Color.White,
+                modifier = Modifier
+                    .background(Color.Black)
+                    .padding(5.dp)
+            )
+            Text(
+                "No reviews yet",
+                modifier = Modifier
+                    .padding(top = 5.dp, bottom = 30.dp)
+                    .align(CenterHorizontally),
+                color = Color.Gray,
+                fontSize = 12.sp
+            )
+            Box(
+                modifier = Modifier
+                    .background(Color.Black)
+                    .wrapContentSize()
+            ) {
+                Text(
+                    text = "AVAILABLE SIZES",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Monospace,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(5.dp),
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(top = 5.dp, bottom = 30.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                LazyRow(
+                    contentPadding = PaddingValues(end = 20.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 20.dp)
                 ) {
-                    Image(
-                        painter = rememberImagePainter(currentProduct.image),
-                        contentScale = ContentScale.FillBounds,
-                        contentDescription = "product 1",
-                        modifier = Modifier
-                            .weight(0.3f)
-                            .fillMaxSize()
-                    )
-                    Text(
-                        currentProduct.model,
-                        modifier = Modifier
-                            .weight(0.1f)
-                            .padding(top = 20.dp)
-                            .fillMaxSize(),
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                    Column(modifier = Modifier.weight(0.3f)) {
-                        Text("Available Sizes:")
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentSize()
-                        ) {
-                            SizeOptionList(listOfSizes = x)
-                        }
-                        Text(
-                            currentProduct.price.toString() + " EURO",
-                            textAlign = TextAlign.End,
-                            fontSize = 15.sp,
-                            modifier = Modifier
-                                .weight(0.1f)
-                                .fillMaxWidth()
-                        )
-                        Text(
-                            currentProduct.description,
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .weight(0.3f)
-                                .fillMaxSize()
-                        )
-                    }
-                    Button(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .weight(0.05f)
-                            .fillMaxWidth()
-                            .wrapContentSize()
-                            .align(CenterHorizontally)
-                    ) {
-                        Text(
-                            "Add to shopping cart",
-                            fontSize = 10.sp,
-                            modifier = Modifier.padding(5.dp)
-                        )
+                    items(sizesList) {
+                        SizeOptionUI(it)
                     }
                 }
+                Text(
+                    "240\nEUR",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.Monospace
+                )
             }
+
+            Card(
+                modifier = Modifier
+                    .clickable { }
+                    .align(CenterHorizontally)
+                    .padding(bottom = 10.dp)
+                    .wrapContentSize(),
+                backgroundColor = Color.Black,
+                contentColor = Color.White
+            ) {
+                Row(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(5.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "ADD TO CART ",
+                        fontSize = 15.sp,
+                        color = Color.White,
+                        fontFamily = FontFamily.Monospace,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.ShoppingCart,
+                        contentDescription = "shopping cart",
+                        Modifier
+                            .size(25.dp)
+                    )
+                }
+
+            }
+
         }
     }
 }

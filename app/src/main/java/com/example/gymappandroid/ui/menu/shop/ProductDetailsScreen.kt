@@ -33,7 +33,7 @@ fun ProductDetailsScreen(
             )
         },
         content = {
-            ProductDetailsContent(shopViewModel = shopViewModel)
+            ProductDetailsContent()
         }
     )
 }

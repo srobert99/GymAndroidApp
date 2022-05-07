@@ -6,4 +6,5 @@
     <string name="login_page_title">LOGIN</string>
     <string name="title_activity_helpers">Helpers</string>
     <string name="title_activity_user_info_box">UserInfoBox</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus gravida magna lorem, ac posuere augue dapibus et. Proin porttitor faucibus eros ac fermentum. Etiam venenatis placerat mauris, id egestas nunc auctor in. Fusce laoreet dignissim ex at lacinia. Suspendisse accumsan massa quis enim vestibulum, a imperdiet libero ultricies. Sed ultrices.</string>
 </resources>
