@@ -9,37 +9,68 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
+import com.example.gymappandroid.ui.commons.DotsIndicator
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 
+@OptIn(ExperimentalCoilApi::class, ExperimentalPagerApi::class)
 @Composable
 fun ProductDetailsContent() {
     val sizesList = listOf("M", "S", "XL", "XS")
+    val pagerState = rememberPagerState()
+    var request by remember { mutableStateOf("https://images.dog.ceo/breeds/terrier-norfolk/n02094114_1860.jpg") }
+
     Column(
         modifier = Modifier
             .wrapContentSize()
             .background(Color.White)
             .verticalScroll(rememberScrollState())
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentScale = ContentScale.FillBounds,
-            contentDescription = "shop category 1",
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(225.dp)
-        )
+        HorizontalPager(count = 3, state = pagerState) { page ->
+            Box(modifier = Modifier.wrapContentSize()) {
+                Image(
+                    painter = rememberImagePainter(request),
+                    contentDescription = "shop category 1",
+                    modifier = Modifier
+                        .height(250.dp)
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.Crop,
+                )
+                request = when (page) {
+                    1 -> "https://images.dog.ceo/breeds/shihtzu/n02086240_1690.jpg"
+                    2 -> "https://images.dog.ceo/breeds/kuvasz/n02104029_31.jpg"
+                    else -> "https://images.dog.ceo/breeds/terrier-norfolk/n02094114_1860.jpg"
+                }
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(BottomCenter)
+                ) {
+                    DotsIndicator(
+                        totalDots = 3,
+                        selectedIndex = page,
+                        selectedColor = Color.White,
+                        unSelectedColor = Color.Gray
+                    )
+                }
+            }
+        }
         Box(
             modifier = Modifier
                 .background(Color.Black)
@@ -181,3 +212,4 @@ fun ProductDetailsContent() {
         }
     }
 }
+
