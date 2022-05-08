@@ -17,7 +17,6 @@ fun DotsIndicator(
     selectedColor: Color,
     unSelectedColor: Color,
 ) {
-
     LazyRow(
         modifier = Modifier
             .wrapContentWidth()

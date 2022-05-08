@@ -1,9 +1,12 @@
 package com.example.gymappandroid.ui.menu.shop
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -15,14 +18,12 @@ import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.commons.DotsIndicator
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -34,7 +35,8 @@ import com.google.accompanist.pager.rememberPagerState
 fun ProductDetailsContent() {
     val sizesList = listOf("M", "S", "XL", "XS")
     val pagerState = rememberPagerState()
-    var request by remember { mutableStateOf("https://images.dog.ceo/breeds/terrier-norfolk/n02094114_1860.jpg") }
+    var colore by remember { mutableStateOf(Color.Blue) }
+    val kount = 2
 
     Column(
         modifier = Modifier
@@ -42,32 +44,32 @@ fun ProductDetailsContent() {
             .background(Color.White)
             .verticalScroll(rememberScrollState())
     ) {
-        HorizontalPager(count = 3, state = pagerState) { page ->
+        HorizontalPager(count = kount, state = pagerState) { page ->
             Box(modifier = Modifier.wrapContentSize()) {
-                Image(
-                    painter = rememberImagePainter(request),
-                    contentDescription = "shop category 1",
+                Column(
                     modifier = Modifier
                         .height(250.dp)
+                        .background(colore)
                         .fillMaxWidth(),
-                    contentScale = ContentScale.Crop,
-                )
-                request = when (page) {
-                    1 -> "https://images.dog.ceo/breeds/shihtzu/n02086240_1690.jpg"
-                    2 -> "https://images.dog.ceo/breeds/kuvasz/n02104029_31.jpg"
-                    else -> "https://images.dog.ceo/breeds/terrier-norfolk/n02094114_1860.jpg"
+                ) {}
+                colore = when (page) {
+                    0 -> Color.Blue
+                    else ->
+                        Color.Magenta
                 }
                 Box(
                     modifier = Modifier
                         .wrapContentSize()
                         .align(BottomCenter)
                 ) {
-                    DotsIndicator(
-                        totalDots = 3,
-                        selectedIndex = page,
-                        selectedColor = Color.White,
-                        unSelectedColor = Color.Gray
-                    )
+                    if (kount > 1) {
+                        DotsIndicator(
+                            totalDots = 3,
+                            selectedIndex = page,
+                            selectedColor = Color.White,
+                            unSelectedColor = Color.Gray
+                        )
+                    }
                 }
             }
         }
