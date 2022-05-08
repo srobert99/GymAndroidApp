@@ -12,8 +12,8 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             convertDocToProductCategory(it)
         }
 
-    suspend fun getProduct(productId: String): Product? =
-        firestoreProductsDataSource.getProduct(productId)
+    suspend fun getProductDetails(productId: String): Product =
+        convertDocToProduct(firestoreProductsDataSource.getProduct(productId))
 
     suspend fun getProductsFromCategory(category: String): List<Product> =
         firestoreProductsDataSource.getProductsFromCategory(category).map {
@@ -29,17 +29,24 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
 
     @Suppress("UNCHECKED_CAST")
     private fun convertDocToProduct(productDocSS: DocumentSnapshot): Product {
-        val x = productDocSS["stock"] as HashMap<String, Int>
 
         return Product(
             id = productDocSS.id,
             productType = productDocSS["product_category"].toString(),
             model = productDocSS["model"].toString(),
             description = productDocSS["description"].toString(),
-            image = productDocSS["image"].toString(),
+            image = getImages(productDocSS["image"] as ArrayList<String>),
             price = productDocSS["price"] as Double,
             stock = productDocSS["stock"] as HashMap<String, Int>
         )
+    }
+
+    private fun getImages(images: ArrayList<String>): List<String> {
+        val listOfImages = mutableListOf<String>()
+        for (image in images) {
+            listOfImages.add(image)
+        }
+        return listOfImages
     }
 }
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.navigation.Screen
 
@@ -40,7 +41,9 @@ fun ProductItemUi(product: Product, navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = rememberImagePainter(product.image),
+                painter = rememberImagePainter(
+                    data = product.image.first(),
+                    builder = { placeholder(R.drawable.logo) }),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = "shop category 1",
                 modifier = Modifier.weight(0.5f)

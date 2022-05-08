@@ -1,11 +1,19 @@
 package com.example.gymappandroid.ui.menu.shop
 
-import androidx.compose.material.DrawerValue
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberDrawerState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainTopAppBar
@@ -18,6 +26,7 @@ fun ProductDetailsScreen(
     navController: NavController
 ) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val loadingState by shopViewModel.isOnLoadingState.observeAsState(true)
 
     LaunchedEffect(Unit) {
         shopViewModel.getProductDetails(productId)
@@ -33,7 +42,22 @@ fun ProductDetailsScreen(
             )
         },
         content = {
-            ProductDetailsContent()
+            if (loadingState) {
+                Box(
+                    Modifier
+                        .background(Color.White)
+                        .fillMaxSize()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.Center),
+                        color = Color.Black
+                    )
+                }
+            } else {
+                ProductDetailsContent(shopViewModel)
+            }
         }
     )
 }

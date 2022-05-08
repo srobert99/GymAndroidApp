@@ -7,7 +7,7 @@ data class Product(
     val productType: String = "",
     val model: String = "",
     val description: String = "",
-    val image: String = "",
+    val image: List<String> = listOf(),
     val price: Double = 0.00,
     val stock: HashMap<String, Int> = hashMapOf()
 ) : Serializable

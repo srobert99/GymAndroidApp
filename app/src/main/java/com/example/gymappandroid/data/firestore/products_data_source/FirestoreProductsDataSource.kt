@@ -20,6 +20,6 @@ class FirestoreProductsDataSource {
     suspend fun getProductsFromCategory(category: String): List<DocumentSnapshot> =
         products.whereEqualTo("product_category", category).get().await().documents
 
-    suspend fun getProduct(productId: String): Product? =
-        products.document(productId).get().await().toObject<Product>()
+    suspend fun getProduct(productId: String): DocumentSnapshot =
+        products.document(productId).get().await()
 }

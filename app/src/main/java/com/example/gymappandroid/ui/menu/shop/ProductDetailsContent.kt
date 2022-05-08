@@ -1,29 +1,28 @@
 package com.example.gymappandroid.ui.menu.shop
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
 import com.example.gymappandroid.ui.commons.DotsIndicator
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -32,11 +31,13 @@ import com.google.accompanist.pager.rememberPagerState
 
 @OptIn(ExperimentalCoilApi::class, ExperimentalPagerApi::class)
 @Composable
-fun ProductDetailsContent() {
+fun ProductDetailsContent(shopViewModel: ShopViewModel) {
     val sizesList = listOf("M", "S", "XL", "XS")
     val pagerState = rememberPagerState()
-    var colore by remember { mutableStateOf(Color.Blue) }
-    val kount = 2
+    val selectedProduct = shopViewModel.selectedProduct
+    val imageCount = selectedProduct.image.size
+    var currentImage = selectedProduct.image.first()
+
 
     Column(
         modifier = Modifier
@@ -44,25 +45,24 @@ fun ProductDetailsContent() {
             .background(Color.White)
             .verticalScroll(rememberScrollState())
     ) {
-        HorizontalPager(count = kount, state = pagerState) { page ->
+        HorizontalPager(count = imageCount, state = pagerState) { page ->
             Box(modifier = Modifier.wrapContentSize()) {
-                Column(
+                Image(
+                    painter = rememberImagePainter(
+                        data = currentImage,
+                        builder = { placeholder(R.drawable.logo) }),
+                    contentDescription = "product image",
                     modifier = Modifier
                         .height(250.dp)
-                        .background(colore)
                         .fillMaxWidth(),
-                ) {}
-                colore = when (page) {
-                    0 -> Color.Blue
-                    else ->
-                        Color.Magenta
-                }
+                    contentScale = ContentScale.Crop
+                )
                 Box(
                     modifier = Modifier
                         .wrapContentSize()
                         .align(BottomCenter)
                 ) {
-                    if (kount > 1) {
+                    if (imageCount > 1) {
                         DotsIndicator(
                             totalDots = 3,
                             selectedIndex = page,
@@ -71,6 +71,11 @@ fun ProductDetailsContent() {
                         )
                     }
                 }
+            }
+            currentImage = when (page) {
+                1 -> selectedProduct.image[1]
+                2 -> selectedProduct.image[2]
+                else -> selectedProduct.image[0]
             }
         }
         Box(
@@ -191,7 +196,8 @@ fun ProductDetailsContent() {
                 Row(
                     modifier = Modifier
                         .wrapContentSize()
-                        .padding(5.dp),
+                        .padding(5.dp)
+                        .clickable { shopViewModel._isOnLoadingSate.value = true },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(

@@ -15,11 +15,10 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     var products = listOf<Product>()
 
-    private var _isOnLoadingSate = MutableLiveData(false)
-    val isOnLoadingState: LiveData<Boolean> = _isOnLoadingSate
+    var selectedProduct = Product()
 
-    private var _selectedProduct = MutableLiveData(Product())
-    val selectedProduct: LiveData<Product> = _selectedProduct
+     var _isOnLoadingSate = MutableLiveData(true)
+    val isOnLoadingState: LiveData<Boolean> = _isOnLoadingSate
 
     init {
         viewModelScope.launch {
@@ -32,8 +31,7 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
     }
 
     suspend fun getProductDetails(productId: String) {
-        load()
-        _selectedProduct.value = productsDataRepository.getProduct(productId)
+        selectedProduct = productsDataRepository.getProductDetails(productId)
         load()
     }
 
