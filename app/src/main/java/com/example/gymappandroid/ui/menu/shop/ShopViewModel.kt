@@ -1,12 +1,13 @@
 package com.example.gymappandroid.ui.menu.shop
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.data.models.ProductCategory
 import com.example.gymappandroid.data.repositories.ProductsDataRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewModel() {
@@ -15,10 +16,9 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     var products = listOf<Product>()
 
-    var selectedProduct = Product()
+    private var _selectedProduct = MutableStateFlow(Product())
+    var selectedProduct: StateFlow<Product> = _selectedProduct
 
-     var _isOnLoadingSate = MutableLiveData(true)
-    val isOnLoadingState: LiveData<Boolean> = _isOnLoadingSate
 
     init {
         viewModelScope.launch {
@@ -31,11 +31,9 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
     }
 
     suspend fun getProductDetails(productId: String) {
-        selectedProduct = productsDataRepository.getProductDetails(productId)
-        load()
+        viewModelScope.launch(Dispatchers.IO) {
+            _selectedProduct.value = productsDataRepository.getProductDetails(productId)
+        }
     }
 
-    private fun load() {
-        _isOnLoadingSate.value = !(_isOnLoadingSate.value!!)
-    }
 }

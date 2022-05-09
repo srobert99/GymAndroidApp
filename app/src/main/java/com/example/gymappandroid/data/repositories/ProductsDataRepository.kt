@@ -37,7 +37,7 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             description = productDocSS["description"].toString(),
             image = getImages(productDocSS["image"] as ArrayList<String>),
             price = productDocSS["price"] as Double,
-            stock = productDocSS["stock"] as HashMap<String, Int>
+            availableSizes = (productDocSS["stock"] as HashMap<String, Int>).addAvailableSizesToList()
         )
     }
 
@@ -47,6 +47,16 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             listOfImages.add(image)
         }
         return listOfImages
+    }
+
+    private fun HashMap<String, Int>.addAvailableSizesToList(): List<String> {
+        val availableSizesList = mutableListOf<String>()
+        this.map {
+            if (it.value > 0) {
+                availableSizesList.add(it.key)
+            }
+        }
+        return availableSizesList
     }
 }
 
