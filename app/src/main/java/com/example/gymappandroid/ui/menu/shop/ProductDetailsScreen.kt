@@ -22,6 +22,7 @@ fun ProductDetailsScreen(
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     LaunchedEffect(key1 = productId) {
+        shopViewModel.resetSelectedSize()
         shopViewModel.getProductDetails(productId)
     }
 

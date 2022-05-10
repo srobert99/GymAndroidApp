@@ -9,5 +9,5 @@ data class Product(
     val description: String = "",
     val image: List<String> = listOf(),
     val price: Double = 0.00,
-    val availableSizes: List<String> = listOf()
+    val availableSize: List<SizeOption> = listOf()
 ) : Serializable

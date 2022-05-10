@@ -180,8 +180,8 @@ fun ProductDetailsContent(shopViewModel: ShopViewModel) {
                             .weight(1f)
                             .padding(end = 20.dp)
                     ) {
-                        items(selectedProduct.availableSizes) {
-                            SizeOptionUI(it)
+                        items(selectedProduct.availableSize) {
+                            SizeOptionUI(it, shopViewModel)
                         }
                     }
                     Text(

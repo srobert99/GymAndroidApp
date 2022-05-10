@@ -3,6 +3,7 @@ package com.example.gymappandroid.data.repositories
 import com.example.gymappandroid.data.firestore.products_data_source.FirestoreProductsDataSource
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.data.models.ProductCategory
+import com.example.gymappandroid.data.models.SizeOption
 import com.google.firebase.firestore.DocumentSnapshot
 
 class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsDataSource) {
@@ -37,7 +38,7 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             description = productDocSS["description"].toString(),
             image = getImages(productDocSS["image"] as ArrayList<String>),
             price = productDocSS["price"] as Double,
-            availableSizes = (productDocSS["stock"] as HashMap<String, Int>).addAvailableSizesToList()
+            availableSize = (productDocSS["stock"] as HashMap<String, Int>).addAvailableSizesToList()
         )
     }
 
@@ -49,11 +50,11 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         return listOfImages
     }
 
-    private fun HashMap<String, Int>.addAvailableSizesToList(): List<String> {
-        val availableSizesList = mutableListOf<String>()
+    private fun HashMap<String, Int>.addAvailableSizesToList(): List<SizeOption> {
+        val availableSizesList = mutableListOf<SizeOption>()
         this.map {
             if (it.value > 0) {
-                availableSizesList.add(it.key)
+                availableSizesList.add(SizeOption(it.key))
             }
         }
         return availableSizesList

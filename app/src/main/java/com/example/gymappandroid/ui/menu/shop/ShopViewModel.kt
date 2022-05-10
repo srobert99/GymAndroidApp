@@ -19,6 +19,9 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
     private var _selectedProduct = MutableStateFlow(Product())
     var selectedProduct: StateFlow<Product> = _selectedProduct
 
+    private var _selectedSizeName = MutableStateFlow("")
+    var selectedSize: StateFlow<String> = _selectedSizeName
+
 
     init {
         viewModelScope.launch {
@@ -34,6 +37,14 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
         viewModelScope.launch(Dispatchers.IO) {
             _selectedProduct.value = productsDataRepository.getProductDetails(productId)
         }
+    }
+
+    fun selectSize(sizeName: String) {
+        _selectedSizeName.value = sizeName
+    }
+
+    fun resetSelectedSize() {
+        _selectedSizeName.value = ""
     }
 
 }
