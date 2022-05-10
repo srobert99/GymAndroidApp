@@ -1,10 +1,7 @@
 package com.example.gymappandroid.data.firestore.products_data_source
 
-import com.example.gymappandroid.data.models.Product
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
