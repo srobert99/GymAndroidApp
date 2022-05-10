@@ -14,7 +14,7 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShopScreenContent(shopViewModel: ShopViewModel, navController: NavController) {
+fun CategoryScreenContent(shopViewModel: ShopViewModel, navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
             contentPadding = PaddingValues(16.dp),

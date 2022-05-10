@@ -10,7 +10,7 @@ import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainTopAppBar
 
 @Composable
-fun ShopScreen(
+fun CategoryScreen(
     shopViewModel: ShopViewModel,
     navController: NavController,
     detailsViewModel: UserDetailsViewModel
@@ -26,7 +26,7 @@ fun ShopScreen(
             )
         },
         content = {
-            ShopScreenContent(
+            CategoryScreenContent(
                 shopViewModel = shopViewModel,
                 navController = navController
             )

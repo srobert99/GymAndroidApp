@@ -12,7 +12,6 @@ class FirestoreProductsDataSource {
     private var fireStoreDataBase = Firebase.firestore
     private var productsTypesDBReference = fireStoreDataBase.collection("products_categories")
     private val products = fireStoreDataBase.collection("products")
-    private var productsSnapshot = mutableListOf<QueryDocumentSnapshot>()
 
     suspend fun getProductsType(): List<DocumentSnapshot> =
         productsTypesDBReference.get().await().documents

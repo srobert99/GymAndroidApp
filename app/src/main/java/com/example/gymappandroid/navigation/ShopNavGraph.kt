@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.shop.ProductDetailsScreen
 import com.example.gymappandroid.ui.menu.shop.ProductsScreen
-import com.example.gymappandroid.ui.menu.shop.ShopScreen
+import com.example.gymappandroid.ui.menu.shop.CategoryScreen
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 
 fun NavGraphBuilder.shopNavGraph(
@@ -22,7 +22,7 @@ fun NavGraphBuilder.shopNavGraph(
         composable(
             route = Screen.Shop.route,
         ) {
-            ShopScreen(shopViewModel, navController, detailsViewModel)
+            CategoryScreen(shopViewModel, navController, detailsViewModel)
         }
         composable(
             route = Screen.Products.route + "/{product_category}"
