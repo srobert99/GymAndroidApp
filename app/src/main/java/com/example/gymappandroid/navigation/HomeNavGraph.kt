@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.main_menu.MainScreen
 import com.example.gymappandroid.ui.menu.profile.ProfileScreen
+import com.example.gymappandroid.ui.menu.shop.cart_screen.ShoppingCartScreen
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
@@ -28,6 +29,14 @@ fun NavGraphBuilder.homeNavGraph(
             route = Screen.Profile.route
         ) {
             ProfileScreen(
+                detailsViewModel = userDetailsViewModel,
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.ShoppingCart.route
+        ) {
+            ShoppingCartScreen(
                 detailsViewModel = userDetailsViewModel,
                 navController = navController
             )

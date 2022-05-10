@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
@@ -59,6 +60,7 @@ fun CartItemUI(product: Product) {
                     "SIZE: ${product.availableSize.first().sizeName}",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     "${product.price} EUR",

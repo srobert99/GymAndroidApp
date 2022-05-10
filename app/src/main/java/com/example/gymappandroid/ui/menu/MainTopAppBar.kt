@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gymappandroid.R
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 
 @Composable
@@ -42,7 +43,7 @@ fun MainTopAppBar(
                         )
                     }
                 } else {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { navController.navigate(Screen.Profile.route) }) {
                         Image(
                             painter = painterResource(id = R.drawable.logo),
                             contentDescription = "Profile Image"
@@ -60,7 +61,7 @@ fun MainTopAppBar(
                     contentDescription = "Coins"
                 )
                 Text(balance)
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate(Screen.ShoppingCart.route) }) {
                     Icon(
                         imageVector = Icons.Filled.ShoppingCart,
                         contentDescription = "Shopping cart"
