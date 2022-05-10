@@ -205,7 +205,7 @@ fun ProductDetailsContent(shopViewModel: ShopViewModel) {
                         modifier = Modifier
                             .wrapContentSize()
                             .padding(5.dp)
-                            .clickable { },
+                            .clickable { shopViewModel.addItemToShoppingCart() },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(

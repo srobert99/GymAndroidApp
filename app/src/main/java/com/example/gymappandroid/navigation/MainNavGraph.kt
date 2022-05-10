@@ -27,7 +27,7 @@ fun SetupNavGraph(
         startDestination = startDestination
     ) {
         authNavGraph(navController, loginViewModel, registerViewModel, detailsViewModel)
-        homeNavGraph(navController, detailsViewModel)
+        homeNavGraph(navController, detailsViewModel, shopViewModel)
         shopNavGraph(navController, shopViewModel, detailsViewModel)
     }
 }

@@ -17,11 +17,16 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.gymappandroid.data.models.Product
+import com.example.gymappandroid.data.models.ShoppingCartItem
 
 
 @OptIn(ExperimentalCoilApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun CartItemUI(product: Product) {
+fun CartItemUI(shoppingCartItem: ShoppingCartItem) {
+
+    val shoeProduct = shoppingCartItem.product as Product
+    val size = shoppingCartItem.size
+
     Card(
         modifier = Modifier
             .wrapContentSize()
@@ -36,7 +41,7 @@ fun CartItemUI(product: Product) {
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = rememberImagePainter(data = product.image.first()),
+                painter = rememberImagePainter(data = shoeProduct.image.first()),
                 contentDescription = "product image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -50,20 +55,20 @@ fun CartItemUI(product: Product) {
                     .fillMaxSize(),
             ) {
                 Text(
-                    product.model,
+                    shoeProduct.model,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 16.sp,
                     modifier = Modifier
                         .padding(end = 20.dp)
                 )
                 Text(
-                    "SIZE: ${product.availableSize.first().sizeName}",
+                    "SIZE: $size",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "${product.price} EUR",
+                    "${shoeProduct.price} EUR",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 10.sp,
                     modifier = Modifier

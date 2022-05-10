@@ -7,11 +7,13 @@ import androidx.navigation.navigation
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.main_menu.MainScreen
 import com.example.gymappandroid.ui.menu.profile.ProfileScreen
+import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.ui.menu.shop.cart_screen.ShoppingCartScreen
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavController,
-    userDetailsViewModel: UserDetailsViewModel
+    userDetailsViewModel: UserDetailsViewModel,
+    shopViewModel:ShopViewModel
 ) {
     navigation(
         startDestination = Screen.Main.route,
@@ -38,7 +40,8 @@ fun NavGraphBuilder.homeNavGraph(
         ) {
             ShoppingCartScreen(
                 detailsViewModel = userDetailsViewModel,
-                navController = navController
+                navController = navController,
+                shopViewModel = shopViewModel
             )
         }
     }

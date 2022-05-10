@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.data.models.ProductCategory
+import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.example.gymappandroid.data.repositories.ProductsDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,9 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
     private var _selectedProduct = MutableStateFlow(Product())
     var selectedProduct: StateFlow<Product> = _selectedProduct
 
+    private var _shoppingCartItems = MutableStateFlow(mutableListOf<ShoppingCartItem>())
+    var shoppingCartItems: StateFlow<List<ShoppingCartItem>> = _shoppingCartItems
+
     private var _selectedSizeName = MutableStateFlow("")
     var selectedSize: StateFlow<String> = _selectedSizeName
 
@@ -31,6 +35,10 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     suspend fun getProductsFromCategory(category: String) {
         products = productsDataRepository.getProductsFromCategory(category)
+    }
+
+    fun addItemToShoppingCart() {
+        _shoppingCartItems.value.add(ShoppingCartItem(selectedProduct.value, selectedSize.value))
     }
 
     suspend fun getProductDetails(productId: String) {

@@ -8,9 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.MainTopAppBar
+import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 
 @Composable
-fun ShoppingCartScreen(detailsViewModel: UserDetailsViewModel, navController: NavController) {
+fun ShoppingCartScreen(
+    detailsViewModel: UserDetailsViewModel,
+    navController: NavController,
+    shopViewModel: ShopViewModel
+) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
     Scaffold(
@@ -22,6 +27,6 @@ fun ShoppingCartScreen(detailsViewModel: UserDetailsViewModel, navController: Na
                 navController = navController
             )
         },
-        content = { ShoppingCartScreenContent() }
+        content = { ShoppingCartScreenContent(shopViewModel) }
     )
 }
