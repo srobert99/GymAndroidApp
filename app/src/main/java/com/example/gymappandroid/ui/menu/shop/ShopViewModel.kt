@@ -17,14 +17,18 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     var products = listOf<Product>()
 
-    private var _selectedProduct = MutableStateFlow(Product())
-    var selectedProduct: StateFlow<Product> = _selectedProduct
+    private var _shoppingCartProducts = MutableStateFlow(listOf(ShoppingCartItem()))
+    val shoppingCartProducts: StateFlow<List<ShoppingCartItem>> = _shoppingCartProducts
 
-    private var _shoppingCartItems = MutableStateFlow(mutableListOf<ShoppingCartItem>())
-    var shoppingCartItems: StateFlow<List<ShoppingCartItem>> = _shoppingCartItems
+    private var _isErrorOnPurchase = MutableStateFlow(false)
+    val isErrorOnPurchase = _isErrorOnPurchase
 
-    private var _selectedSizeName = MutableStateFlow("")
-    var selectedSize: StateFlow<String> = _selectedSizeName
+    private var _currentSelectedProduct = MutableStateFlow(Product())
+    val currentSelectedProduct: StateFlow<Product> = _currentSelectedProduct
+
+    private var _currentSelectedProductSpecification = MutableStateFlow("")
+    var currentSelectedProductSpecification: StateFlow<String> =
+        _currentSelectedProductSpecification
 
 
     init {
@@ -37,22 +41,48 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
         products = productsDataRepository.getProductsFromCategory(category)
     }
 
-    fun addItemToShoppingCart() {
-        _shoppingCartItems.value.add(ShoppingCartItem(selectedProduct.value, selectedSize.value))
-    }
-
-    suspend fun getProductDetails(productId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _selectedProduct.value = productsDataRepository.getProductDetails(productId)
+    fun addItemToShoppingCart(userId: String) {
+        viewModelScope.launch {
+            productsDataRepository.addItemToShoppingList(
+                ShoppingCartItem(
+                    currentSelectedProduct.value.id,
+                    userId = userId,
+                    currentSelectedProduct.value.model,
+                    currentSelectedProduct.value.image.first(),
+                    currentSelectedProduct.value.price,
+                    currentSelectedProductSpecification.value
+                )
+            )
         }
     }
 
-    fun selectSize(sizeName: String) {
-        _selectedSizeName.value = sizeName
+    fun getProductDetails(productId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _currentSelectedProduct.value =
+                productsDataRepository.getProductDetails(productId)
+        }
     }
 
-    fun resetSelectedSize() {
-        _selectedSizeName.value = ""
+    fun getShoppingCartItems(userId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _shoppingCartProducts.value = productsDataRepository.getShoppingListItems(userId)
+        }
+    }
+
+    fun verifyProductDetails() {
+        if (currentSelectedProductSpecification.value.isEmpty()) {
+            isErrorOnPurchase.value = true
+        }
+    }
+
+
+    fun selectSize(sizeName: String) {
+        _currentSelectedProductSpecification.value = sizeName
+    }
+
+    fun resetSelectedProduct() {
+        _currentSelectedProduct.value = Product()
+        _currentSelectedProductSpecification.value = ""
     }
 
 }

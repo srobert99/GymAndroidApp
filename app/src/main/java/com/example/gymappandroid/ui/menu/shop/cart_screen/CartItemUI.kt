@@ -16,17 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.example.gymappandroid.data.models.Product
+import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.ShoppingCartItem
 
 
 @OptIn(ExperimentalCoilApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CartItemUI(shoppingCartItem: ShoppingCartItem) {
-
-    val shoeProduct = shoppingCartItem.product as Product
-    val size = shoppingCartItem.size
-
     Card(
         modifier = Modifier
             .wrapContentSize()
@@ -41,7 +37,9 @@ fun CartItemUI(shoppingCartItem: ShoppingCartItem) {
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = rememberImagePainter(data = shoeProduct.image.first()),
+                painter = rememberImagePainter(data = shoppingCartItem.imageSource, builder = {
+                    placeholder(R.drawable.logo)
+                }),
                 contentDescription = "product image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -55,20 +53,20 @@ fun CartItemUI(shoppingCartItem: ShoppingCartItem) {
                     .fillMaxSize(),
             ) {
                 Text(
-                    shoeProduct.model,
+                    shoppingCartItem.model,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 16.sp,
                     modifier = Modifier
                         .padding(end = 20.dp)
                 )
                 Text(
-                    "SIZE: $size",
+                    "SIZE: ${shoppingCartItem.specification}",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "${shoeProduct.price} EUR",
+                    "${shoppingCartItem.price} EUR",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 10.sp,
                     modifier = Modifier

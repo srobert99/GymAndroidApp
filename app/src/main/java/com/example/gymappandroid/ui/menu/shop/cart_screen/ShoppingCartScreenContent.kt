@@ -16,19 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 
 @Composable
-fun ShoppingCartScreenContent(shopViewModel: ShopViewModel) {
-
-    val shoppingCartItems by shopViewModel.shoppingCartItems.collectAsState()
-
+fun ShoppingCartScreenContent(shoppingCartProducts: List<ShoppingCartItem>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.LightGray)
     ) {
-        if (shoppingCartItems.isEmpty()) {
+        if (shoppingCartProducts.isEmpty()) {
             Text(
                 "No items added yet",
                 color = Color.Gray,
@@ -36,7 +34,7 @@ fun ShoppingCartScreenContent(shopViewModel: ShopViewModel) {
             )
         }
         LazyColumn(contentPadding = PaddingValues(10.dp)) {
-            items(shoppingCartItems) {
+            items(shoppingCartProducts) {
                 CartItemUI(shoppingCartItem = it)
             }
         }

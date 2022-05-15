@@ -7,9 +7,15 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
+import com.example.gymappandroid.ui.commons.LoadingScreen
 import com.example.gymappandroid.ui.menu.MainTopAppBar
+import com.example.gymappandroid.utils.DataStore
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -20,9 +26,12 @@ fun ProductDetailsScreen(
     navController: NavController
 ) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val dataStoreInstance = DataStore(LocalContext.current)
+    val userId by dataStoreInstance.getUserSession.collectAsState(initial = "null")
+    val currentSelectedProduct by shopViewModel.currentSelectedProduct.collectAsState()
 
     LaunchedEffect(key1 = productId) {
-        shopViewModel.resetSelectedSize()
+        shopViewModel.resetSelectedProduct()
         shopViewModel.getProductDetails(productId)
     }
 
@@ -36,7 +45,11 @@ fun ProductDetailsScreen(
             )
         },
         content = {
-            ProductDetailsContent(shopViewModel = shopViewModel)
+            if (currentSelectedProduct != Product()) {
+                ProductDetailsContent(userId!!, shopViewModel, currentSelectedProduct)
+            } else {
+                LoadingScreen()
+            }
         }
     )
 }

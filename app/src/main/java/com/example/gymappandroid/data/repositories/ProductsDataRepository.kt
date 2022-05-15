@@ -3,6 +3,7 @@ package com.example.gymappandroid.data.repositories
 import com.example.gymappandroid.data.firestore.products_data_source.FirestoreProductsDataSource
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.data.models.ProductCategory
+import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.example.gymappandroid.data.models.SizeOption
 import com.google.firebase.firestore.DocumentSnapshot
 
@@ -21,6 +22,30 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             convertDocToProduct(it)
         }
 
+    suspend fun addItemToShoppingList(shoppingCartItem: ShoppingCartItem) {
+        firestoreProductsDataSource.saveItemInShoppingCart(shoppingCartItem)
+    }
+
+    suspend fun getShoppingListItems(userId: String): List<ShoppingCartItem> {
+        val shoppingCartItems = mutableListOf<ShoppingCartItem>()
+        firestoreProductsDataSource.getShoppingCartItems(userId).map {
+            shoppingCartItems.add(it.convertToShoppingCartItem())
+        }
+
+        return shoppingCartItems.toList()
+    }
+
+    private fun DocumentSnapshot.convertToShoppingCartItem(): ShoppingCartItem {
+        return ShoppingCartItem(
+            itemId = this["itemId"] as String,
+            userId = this["userId"] as String,
+            model = this["model"] as String,
+            imageSource = this["imageSource"] as String,
+            price = this["price"] as Double,
+            specification = this["specification"] as String
+        )
+    }
+
     private fun convertDocToProductCategory(productCategoryDocSS: DocumentSnapshot): ProductCategory =
         ProductCategory(
             productCategoryDocSS.id,
@@ -30,7 +55,6 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
 
     @Suppress("UNCHECKED_CAST")
     private fun convertDocToProduct(productDocSS: DocumentSnapshot): Product {
-
         return Product(
             id = productDocSS.id,
             productType = productDocSS["product_category"].toString(),

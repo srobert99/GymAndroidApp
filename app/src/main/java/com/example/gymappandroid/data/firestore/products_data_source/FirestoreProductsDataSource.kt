@@ -1,5 +1,6 @@
 package com.example.gymappandroid.data.firestore.products_data_source
 
+import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -9,6 +10,7 @@ class FirestoreProductsDataSource {
     private var fireStoreDataBase = Firebase.firestore
     private var productsTypesDBReference = fireStoreDataBase.collection("products_categories")
     private val products = fireStoreDataBase.collection("products")
+    private val shoppingCartDBReference = fireStoreDataBase.collection("shopping_cart")
 
     suspend fun getProductsType(): List<DocumentSnapshot> =
         productsTypesDBReference.get().await().documents
@@ -18,4 +20,11 @@ class FirestoreProductsDataSource {
 
     suspend fun getProduct(productId: String): DocumentSnapshot =
         products.document(productId).get().await()
+
+    suspend fun saveItemInShoppingCart(shoppingCartItem: ShoppingCartItem) {
+        shoppingCartDBReference.add(shoppingCartItem).await()
+    }
+
+    suspend fun getShoppingCartItems(userId: String): List<DocumentSnapshot> =
+        shoppingCartDBReference.whereEqualTo("userId", userId).get().await().documents
 }
