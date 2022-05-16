@@ -20,9 +20,6 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
     private var _shoppingCartProducts = MutableStateFlow(listOf(ShoppingCartItem()))
     val shoppingCartProducts: StateFlow<List<ShoppingCartItem>> = _shoppingCartProducts
 
-    private var _isErrorOnPurchase = MutableStateFlow(false)
-    val isErrorOnPurchase = _isErrorOnPurchase
-
     private var _currentSelectedProduct = MutableStateFlow(Product())
     val currentSelectedProduct: StateFlow<Product> = _currentSelectedProduct
 
@@ -68,13 +65,6 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
             _shoppingCartProducts.value = productsDataRepository.getShoppingListItems(userId)
         }
     }
-
-    fun verifyProductDetails() {
-        if (currentSelectedProductSpecification.value.isEmpty()) {
-            isErrorOnPurchase.value = true
-        }
-    }
-
 
     fun selectSize(sizeName: String) {
         _currentSelectedProductSpecification.value = sizeName

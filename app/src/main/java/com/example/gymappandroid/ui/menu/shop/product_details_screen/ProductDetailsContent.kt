@@ -44,11 +44,7 @@ fun ProductDetailsContent(
     val imageCount = selectedProduct.image.size
     var currentImage = selectedProduct.image.first()
     val currentSelectedSpecification by shopViewModel.currentSelectedProductSpecification.collectAsState()
-    val showOnPurchaseErrorMessage by shopViewModel.isErrorOnPurchase.collectAsState()
-
-    if (showOnPurchaseErrorMessage) {
-        Toast.makeText(LocalContext.current, "Please select a size", Toast.LENGTH_SHORT).show()
-    }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -216,9 +212,16 @@ fun ProductDetailsContent(
                         .wrapContentSize()
                         .padding(5.dp)
                         .clickable {
-                            shopViewModel.verifyProductDetails()
                             if (currentSelectedSpecification.isNotEmpty()) {
                                 shopViewModel.addItemToShoppingCart(userId)
+                            } else {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Please select a size",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
                             }
                         },
                     verticalAlignment = Alignment.CenterVertically
