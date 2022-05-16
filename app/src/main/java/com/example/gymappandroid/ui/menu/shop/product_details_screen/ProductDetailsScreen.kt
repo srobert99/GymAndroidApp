@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.menu.shop
+package com.example.gymappandroid.ui.menu.shop.product_details_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.material.DrawerValue
@@ -15,6 +15,8 @@ import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.commons.LoadingScreen
 import com.example.gymappandroid.ui.menu.MainTopAppBar
+import com.example.gymappandroid.ui.menu.shop.ProductDetailsContent
+import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.utils.DataStore
 
 @SuppressLint("CoroutineCreationDuringComposition")

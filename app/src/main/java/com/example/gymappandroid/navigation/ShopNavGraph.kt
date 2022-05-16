@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
-import com.example.gymappandroid.ui.menu.shop.ProductDetailsScreen
+import com.example.gymappandroid.ui.menu.shop.product_details_screen.ProductDetailsScreen
 import com.example.gymappandroid.ui.menu.shop.ProductsScreen
 import com.example.gymappandroid.ui.menu.shop.CategoryScreen
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
