@@ -17,7 +17,7 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     var products = listOf<Product>()
 
-    private var _shoppingCartProducts = MutableStateFlow(listOf(ShoppingCartItem()))
+    private var _shoppingCartProducts = MutableStateFlow(mutableListOf(ShoppingCartItem()))
     val shoppingCartProducts: StateFlow<List<ShoppingCartItem>> = _shoppingCartProducts
 
     private var _currentSelectedProduct = MutableStateFlow(Product())
@@ -42,6 +42,7 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
         viewModelScope.launch {
             productsDataRepository.addItemToShoppingList(
                 ShoppingCartItem(
+                    "",
                     currentSelectedProduct.value.id,
                     userId = userId,
                     currentSelectedProduct.value.model,
@@ -68,6 +69,9 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
 
     fun selectSize(sizeName: String) {
         _currentSelectedProductSpecification.value = sizeName
+    }
+
+    fun removeItemFromShoppingCart(shoppingCartItemId:String) {
     }
 
     fun resetSelectedProduct() {

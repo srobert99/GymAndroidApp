@@ -45,7 +45,7 @@ fun ShoppingCartScreen(
             if (userId.value == "null") {
                 LoadingScreen()
             } else {
-                ShoppingCartScreenContent(shoppingCartProducts = shoppingListItems)
+                ShoppingCartScreenContent(shoppingCartProducts = shoppingListItems, shopViewModel)
             }
         }
     )

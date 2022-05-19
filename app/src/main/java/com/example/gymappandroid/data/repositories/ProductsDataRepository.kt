@@ -26,17 +26,18 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         firestoreProductsDataSource.saveItemInShoppingCart(shoppingCartItem)
     }
 
-    suspend fun getShoppingListItems(userId: String): List<ShoppingCartItem> {
+    suspend fun getShoppingListItems(userId: String): MutableList<ShoppingCartItem> {
         val shoppingCartItems = mutableListOf<ShoppingCartItem>()
         firestoreProductsDataSource.getShoppingCartItems(userId).map {
             shoppingCartItems.add(it.convertToShoppingCartItem())
         }
 
-        return shoppingCartItems.toList()
+        return shoppingCartItems.toMutableList()
     }
 
     private fun DocumentSnapshot.convertToShoppingCartItem(): ShoppingCartItem {
         return ShoppingCartItem(
+            shoppingCartItemId = this.id,
             itemId = this["itemId"] as String,
             userId = this["userId"] as String,
             model = this["model"] as String,
