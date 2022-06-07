@@ -2,7 +2,6 @@ package com.example.gymappandroid.ui.menu.shop.cart_screen
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gymappandroid.data.models.ShoppingCartItem
-import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShoppingCartScreenContent(
     shoppingCartProducts: List<ShoppingCartItem>,
-    shopViewModel: ShopViewModel
+    removeItemFromShoppingList: (shoppingItemId: String) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -44,13 +42,14 @@ fun ShoppingCartScreenContent(
         LazyColumn(contentPadding = PaddingValues(20.dp)) {
             items(
                 shoppingCartProducts,
-                { shoppingCartProducts -> shoppingCartProducts.shoppingCartItemId }
+                { shoppingListItem -> shoppingListItem.shoppingCartItemId }
             ) { item ->
                 val dismissState = rememberDismissState()
 
                 if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
-                    shopViewModel.removeItemFromShoppingCart(item.shoppingCartItemId)
+                    removeItemFromShoppingList(item.shoppingCartItemId)
                 }
+
                 SwipeToDismiss(state = dismissState,
                     directions = setOf(
                         DismissDirection.StartToEnd
@@ -62,7 +61,6 @@ fun ShoppingCartScreenContent(
                         val scale by animateFloatAsState(
                             if (dismissState.targetValue == DismissValue.Default) 2f else 3f
                         )
-
                         Box(
                             Modifier
                                 .fillMaxSize()
@@ -82,7 +80,6 @@ fun ShoppingCartScreenContent(
                 )
             }
         }
-
         Text(
             "To remove items from the cart swipe item to the left side",
             color = Color.Gray,
@@ -90,11 +87,6 @@ fun ShoppingCartScreenContent(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 10.dp)
-                .clickable {
-                    shopViewModel.removeItemFromShoppingCart(
-                        shoppingCartProducts.first().shoppingCartItemId
-                    )
-                }
         )
     }
 }

@@ -40,13 +40,14 @@ fun ShoppingCartScreen(
                 isOnMainScreen = false,
                 navController = navController
             )
-        },
-        content = {
-            if (userId.value == "null") {
-                LoadingScreen()
-            } else {
-                ShoppingCartScreenContent(shoppingCartProducts = shoppingListItems, shopViewModel)
-            }
         }
-    )
+    ) {
+        if (userId.value == "null") {
+            LoadingScreen()
+        } else {
+            ShoppingCartScreenContent(
+                shoppingCartProducts = shoppingListItems
+            ) { shopViewModel.removeItemFromShoppingCart(it, userId = userId.value!!) }
+        }
+    }
 }

@@ -26,6 +26,9 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         firestoreProductsDataSource.saveItemInShoppingCart(shoppingCartItem)
     }
 
+    fun removeShoppingCartItem(shoppingCartItemId: String) =
+        firestoreProductsDataSource.removeShoppingCartItem(shoppingCartItemId)
+
     suspend fun getShoppingListItems(userId: String): MutableList<ShoppingCartItem> {
         val shoppingCartItems = mutableListOf<ShoppingCartItem>()
         firestoreProductsDataSource.getShoppingCartItems(userId).map {

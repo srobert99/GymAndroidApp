@@ -71,7 +71,10 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
         _currentSelectedProductSpecification.value = sizeName
     }
 
-    fun removeItemFromShoppingCart(shoppingCartItemId:String) {
+    fun removeItemFromShoppingCart(shoppingCartItemId: String, userId: String) {
+        productsDataRepository.removeShoppingCartItem(shoppingCartItemId)
+        //refresh shopping list
+        getShoppingCartItems(userId)
     }
 
     fun resetSelectedProduct() {

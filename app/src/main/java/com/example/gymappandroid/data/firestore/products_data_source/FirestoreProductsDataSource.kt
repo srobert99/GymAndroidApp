@@ -27,4 +27,8 @@ class FirestoreProductsDataSource {
 
     suspend fun getShoppingCartItems(userId: String): List<DocumentSnapshot> =
         shoppingCartDBReference.whereEqualTo("userId", userId).get().await().documents
+
+    fun removeShoppingCartItem(shoppingCartItemId: String) {
+        shoppingCartDBReference.document(shoppingCartItemId).delete()
+    }
 }
