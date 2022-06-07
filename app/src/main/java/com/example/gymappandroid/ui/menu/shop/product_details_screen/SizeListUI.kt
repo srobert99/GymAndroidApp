@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.menu.shop
+package com.example.gymappandroid.ui.menu.shop.product_details_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.example.gymappandroid.R
 
 @Composable
 fun SizeOptionUI(
@@ -22,7 +24,7 @@ fun SizeOptionUI(
     Card(
         modifier = modifier,
         backgroundColor = if (specification == currentSelectedSpecification)
-            Color.Black else Color.Gray
+            colorResource(id = R.color.teal_200) else Color.Gray
     ) {
         Column(
             Modifier.fillMaxSize(),

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.ui.commons.DotsIndicator
+import com.example.gymappandroid.ui.menu.shop.product_details_screen.SizeOptionUI
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -49,7 +51,6 @@ fun ProductDetailsContent(
     Column(
         modifier = Modifier
             .wrapContentSize()
-            .background(Color.White)
             .verticalScroll(rememberScrollState())
     ) {
         HorizontalPager(count = imageCount, state = pagerState) { page ->
@@ -87,7 +88,7 @@ fun ProductDetailsContent(
         }
         Box(
             modifier = Modifier
-                .background(Color.Black)
+                .background(colorResource(id = R.color.teal_200))
                 .fillMaxWidth()
                 .height(60.dp)
         ) {
@@ -100,19 +101,18 @@ fun ProductDetailsContent(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(vertical = 10.dp)
-                    .background(Color.Black),
             )
         }
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .background(Color.White)
+                .background(colorResource(id = R.color.dark_blue))
                 .padding(horizontal = 20.dp)
                 .padding(top = 30.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .background(Color.Black)
+                    .background(colorResource(id = R.color.teal_200))
                     .wrapContentSize()
             ) {
                 Text(
@@ -131,6 +131,7 @@ fun ProductDetailsContent(
                     .padding(top = 5.dp)
                     .padding(bottom = 30.dp),
                 fontFamily = FontFamily.Monospace,
+                color = Color.White,
                 fontSize = 15.sp
             )
             Text(
@@ -140,7 +141,7 @@ fun ProductDetailsContent(
                 fontFamily = FontFamily.Monospace,
                 color = Color.White,
                 modifier = Modifier
-                    .background(Color.Black)
+                    .background(colorResource(id = R.color.teal_200))
                     .padding(5.dp)
             )
             Text(
@@ -153,7 +154,7 @@ fun ProductDetailsContent(
             )
             Box(
                 modifier = Modifier
-                    .background(Color.Black)
+                    .background(colorResource(id = R.color.teal_200))
                     .wrapContentSize()
             ) {
                 Text(
@@ -194,7 +195,8 @@ fun ProductDetailsContent(
                     "${selectedProduct.price} \n EUR",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.Monospace
+                    fontFamily = FontFamily.Monospace,
+                    color = Color.White
                 )
             }
 
@@ -204,13 +206,14 @@ fun ProductDetailsContent(
                     .align(CenterHorizontally)
                     .padding(bottom = 10.dp)
                     .wrapContentSize(),
-                backgroundColor = Color.Black,
+                backgroundColor = colorResource(id = R.color.teal_200),
                 contentColor = Color.White
             ) {
                 Row(
                     modifier = Modifier
                         .wrapContentSize()
                         .padding(5.dp)
+                        .background(colorResource(id = R.color.teal_200))
                         .clickable {
                             if (currentSelectedSpecification.isNotEmpty()) {
                                 shopViewModel.addItemToShoppingCart(userId)
