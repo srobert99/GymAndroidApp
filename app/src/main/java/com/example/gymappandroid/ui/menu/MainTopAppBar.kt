@@ -56,10 +56,12 @@ fun MainTopAppBar(
         backgroundColor = colorResource(id = R.color.dark_blue),
         actions = {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = "Coins"
-                )
+                IconButton(onClick = { navController.navigate(Screen.BuyCoins.route) }) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "Coins"
+                    )
+                }
                 Text(balance)
                 IconButton(onClick = { navController.navigate(Screen.ShoppingCart.route) }) {
                     Icon(

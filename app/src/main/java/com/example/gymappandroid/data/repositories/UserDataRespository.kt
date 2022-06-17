@@ -9,4 +9,7 @@ class UserDataRepository(private val fireStoreUserDataSource: FireStoreUserDataS
     suspend fun editUserProfile(user: User) = fireStoreUserDataSource.updateUserProfile(user)
 
     suspend fun getUserProfile(uid: String) = fireStoreUserDataSource.getUserProfile(uid)
+
+    suspend fun buyCoins(uid: String, amount: Int) =
+        fireStoreUserDataSource.addCoins(uid, amount)
 }

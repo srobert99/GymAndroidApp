@@ -45,4 +45,9 @@ class FireStoreUserDataSource {
             e.message.toString()
         }
     }
+
+    suspend fun addCoins(uid: String, amount: Int) {
+        dataBaseReference.document(uid).update("balance", amount).await()
+
+    }
 }

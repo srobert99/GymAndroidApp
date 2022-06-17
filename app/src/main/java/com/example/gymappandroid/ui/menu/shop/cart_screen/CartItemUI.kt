@@ -72,7 +72,7 @@ fun CartItemUI(shoppingCartItem: ShoppingCartItem) {
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        "${shoppingCartItem.price} EUR",
+                        "${shoppingCartItem.price + 0.01} STARS",
                         fontFamily = FontFamily.Monospace,
                         fontSize = 10.sp,
                         modifier = Modifier

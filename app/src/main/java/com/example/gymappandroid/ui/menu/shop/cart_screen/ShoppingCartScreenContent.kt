@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -26,6 +27,7 @@ import com.example.gymappandroid.data.models.ShoppingCartItem
 fun ShoppingCartScreenContent(
     shoppingCartProducts: List<ShoppingCartItem>,
     removeItemFromShoppingList: (shoppingItemId: String) -> Unit,
+
 ) {
     Box(
         modifier = Modifier
@@ -88,5 +90,14 @@ fun ShoppingCartScreenContent(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 10.dp)
         )
+        Button(
+            onClick = {},
+            shape = RoundedCornerShape(50.dp),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 10.dp, bottom = 10.dp)
+        ) {
+            Text("Next")
+        }
     }
 }

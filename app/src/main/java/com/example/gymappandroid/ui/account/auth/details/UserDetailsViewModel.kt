@@ -3,8 +3,11 @@ package com.example.gymappandroid.ui.account.auth.details
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserDataRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 
 class UserDetailsViewModel(
     private val userDataRepository: UserDataRepository,
@@ -12,6 +15,9 @@ class UserDetailsViewModel(
 
     private val _firestoreStatus = MutableLiveData("")
     val firestoreStatus: LiveData<String> = _firestoreStatus
+
+    private val _isError = MutableSharedFlow<Boolean>(1)
+
 
     private val _isMale = MutableLiveData(false)
     val isMale: LiveData<Boolean> = _isMale
@@ -70,6 +76,12 @@ class UserDetailsViewModel(
 
     fun onBirthDateSelect(birthdate: String) {
         _birthdate.value = birthdate
+    }
+
+    fun buyCoins(x:String, y:Int) {
+        viewModelScope.launch {
+            userDataRepository.buyCoins(x, y)
+        }
     }
 
     suspend fun getUserProfile(userID: String) {

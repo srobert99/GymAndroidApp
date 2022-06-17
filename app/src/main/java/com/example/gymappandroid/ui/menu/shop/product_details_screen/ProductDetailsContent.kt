@@ -48,200 +48,212 @@ fun ProductDetailsContent(
     val currentSelectedSpecification by shopViewModel.currentSelectedProductSpecification.collectAsState()
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .wrapContentSize()
-            .verticalScroll(rememberScrollState())
+    androidx.compose.material.Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = colorResource(id = R.color.dark_blue)
     ) {
-        HorizontalPager(count = imageCount, state = pagerState) { page ->
-            Box(modifier = Modifier.wrapContentSize()) {
-                Image(
-                    painter = rememberImagePainter(
-                        data = currentImage,
-                        builder = { placeholder(R.drawable.logo) }),
-                    contentDescription = "product image",
-                    modifier = Modifier
-                        .height(250.dp)
-                        .fillMaxWidth(),
-                    contentScale = ContentScale.Crop
-                )
-                Box(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .align(BottomCenter)
-                ) {
-                    if (imageCount > 1) {
-                        DotsIndicator(
-                            totalDots = 3,
-                            selectedIndex = page,
-                            selectedColor = Color.White,
-                            unSelectedColor = Color.Gray
-                        )
-                    }
-                }
-            }
-            currentImage = when (page) {
-                1 -> selectedProduct.image[1]
-                2 -> selectedProduct.image[2]
-                else -> selectedProduct.image[0]
-            }
-        }
-        Box(
-            modifier = Modifier
-                .background(colorResource(id = R.color.teal_200))
-                .fillMaxWidth()
-                .height(60.dp)
-        ) {
-            Text(
-                text = selectedProduct.model,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Monospace,
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(vertical = 10.dp)
-            )
-        }
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .background(colorResource(id = R.color.dark_blue))
-                .padding(horizontal = 20.dp)
-                .padding(top = 30.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            Box(
-                modifier = Modifier
-                    .background(colorResource(id = R.color.teal_200))
-                    .wrapContentSize()
-            ) {
-                Text(
-                    text = "DESCRIPTION",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Monospace,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(5.dp),
-                )
-            }
-            Text(
-                text = selectedProduct.description,
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .padding(bottom = 30.dp),
-                fontFamily = FontFamily.Monospace,
-                color = Color.White,
-                fontSize = 15.sp
-            )
-            Text(
-                text = "REVIEWS",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Monospace,
-                color = Color.White,
-                modifier = Modifier
-                    .background(colorResource(id = R.color.teal_200))
-                    .padding(5.dp)
-            )
-            Text(
-                "No reviews yet",
-                modifier = Modifier
-                    .padding(top = 5.dp, bottom = 30.dp)
-                    .align(CenterHorizontally),
-                color = Color.Gray,
-                fontSize = 12.sp
-            )
-            Box(
-                modifier = Modifier
-                    .background(colorResource(id = R.color.teal_200))
-                    .wrapContentSize()
-            ) {
-                Text(
-                    text = "AVAILABLE SIZES",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Monospace,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(5.dp),
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 5.dp, bottom = 30.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                LazyRow(
-                    contentPadding = PaddingValues(end = 20.dp),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 20.dp)
-                ) {
-                    items(selectedProduct.availableSize) {
-                        SizeOptionUI(
-                            it.sizeName,
-                            currentSelectedSpecification,
-                            modifier = Modifier
-                                .clickable { shopViewModel.selectSize(it.sizeName) }
-                                .size(75.dp)
-                                .padding(10.dp),
-                        )
+            HorizontalPager(count = imageCount, state = pagerState) { page ->
+                Box(modifier = Modifier.wrapContentSize()) {
+                    Image(
+                        painter = rememberImagePainter(
+                            data = currentImage,
+                            builder = { placeholder(R.drawable.logo) }),
+                        contentDescription = "product image",
+                        modifier = Modifier
+                            .height(250.dp)
+                            .fillMaxWidth(),
+                        contentScale = ContentScale.Crop
+                    )
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .align(BottomCenter)
+                    ) {
+                        if (imageCount > 1) {
+                            DotsIndicator(
+                                totalDots = 3,
+                                selectedIndex = page,
+                                selectedColor = Color.White,
+                                unSelectedColor = Color.Gray
+                            )
+                        }
                     }
                 }
+                currentImage = when (page) {
+                    1 -> selectedProduct.image[1]
+                    2 -> selectedProduct.image[2]
+                    else -> selectedProduct.image[0]
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .background(colorResource(id = R.color.teal_200))
+                    .fillMaxWidth()
+                    .height(60.dp)
+            ) {
                 Text(
-                    "${selectedProduct.price} \n EUR",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.ExtraBold,
+                    text = selectedProduct.model,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.Monospace,
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(vertical = 10.dp)
                 )
             }
-
-            Card(
+            Column(
                 modifier = Modifier
-                    .clickable { }
-                    .align(CenterHorizontally)
-                    .padding(bottom = 10.dp)
-                    .wrapContentSize(),
-                backgroundColor = colorResource(id = R.color.teal_200),
-                contentColor = Color.White
+                    .wrapContentSize()
+                    .background(colorResource(id = R.color.dark_blue))
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 30.dp)
             ) {
-                Row(
+                Box(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .padding(5.dp)
                         .background(colorResource(id = R.color.teal_200))
-                        .clickable {
-                            if (currentSelectedSpecification.isNotEmpty()) {
-                                shopViewModel.addItemToShoppingCart(userId)
-                            } else {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Please select a size",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                            }
-                        },
-                    verticalAlignment = Alignment.CenterVertically
+                        .wrapContentSize()
                 ) {
                     Text(
-                        "ADD TO CART ",
-                        fontSize = 15.sp,
-                        color = Color.White,
+                        text = "DESCRIPTION",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
-                        fontWeight = FontWeight.Bold
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(5.dp),
                     )
-                    Icon(
-                        imageVector = Icons.Filled.ShoppingCart,
-                        contentDescription = "shopping cart",
-                        Modifier
-                            .size(25.dp)
+                }
+                Text(
+                    text = selectedProduct.description,
+                    modifier = Modifier
+                        .padding(top = 5.dp)
+                        .padding(bottom = 30.dp),
+                    fontFamily = FontFamily.Monospace,
+                    color = Color.White,
+                    fontSize = 15.sp
+                )
+                Text(
+                    text = "REVIEWS",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Monospace,
+                    color = Color.White,
+                    modifier = Modifier
+                        .background(colorResource(id = R.color.teal_200))
+                        .padding(5.dp)
+                )
+                Text(
+                    "No reviews yet",
+                    modifier = Modifier
+                        .padding(top = 5.dp, bottom = 30.dp)
+                        .align(CenterHorizontally),
+                    color = Color.Gray,
+                    fontSize = 12.sp
+                )
+                Box(
+                    modifier = Modifier
+                        .background(colorResource(id = R.color.teal_200))
+                        .wrapContentSize()
+                ) {
+                    Text(
+                        text = "AVAILABLE SIZES",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Monospace,
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(5.dp, top = 10.dp),
                     )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(top = 5.dp, bottom = 30.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    LazyRow(
+                        contentPadding = PaddingValues(end = 20.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 20.dp)
+                    ) {
+                        items(selectedProduct.availableSize) {
+                            SizeOptionUI(
+                                it.sizeName,
+                                currentSelectedSpecification,
+                                modifier = Modifier
+                                    .clickable { shopViewModel.selectSize(it.sizeName) }
+                                    .size(75.dp)
+                                    .padding(10.dp),
+                            )
+                        }
+                    }
+                    Text(
+                        "${200} STARS",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontFamily = FontFamily.Monospace,
+                        color = Color.White,
+                    )
+                }
+
+                Card(
+                    modifier = Modifier
+                        .clickable { }
+                        .align(CenterHorizontally)
+                        .padding(bottom = 10.dp)
+                        .wrapContentSize(),
+                    backgroundColor = colorResource(id = R.color.teal_200),
+                    contentColor = Color.White
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(5.dp)
+                            .background(colorResource(id = R.color.teal_200))
+                            .clickable {
+                                if (currentSelectedSpecification.isNotEmpty()) {
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Product added to the shopping list",
+                                            Toast.LENGTH_LONG
+                                        )
+                                        .show()
+                                    shopViewModel.addItemToShoppingCart(userId)
+                                } else {
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Please select a size",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                }
+                            },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            "ADD TO CART ",
+                            fontSize = 15.sp,
+                            color = Color.White,
+                            fontFamily = FontFamily.Monospace,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.ShoppingCart,
+                            contentDescription = "shopping cart",
+                            Modifier
+                                .size(25.dp)
+                        )
+                    }
                 }
             }
         }

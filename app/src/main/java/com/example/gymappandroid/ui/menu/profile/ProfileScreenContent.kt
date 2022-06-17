@@ -93,7 +93,7 @@ fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
                     ) {
                         //Profile picture
                         Image(
-                            painter = painterResource(R.drawable.detailspatgemale),
+                            painter = painterResource(R.drawable.logo),
                             contentDescription = "Contact profile picture",
                             modifier = Modifier
                                 .size(150.dp)
@@ -178,15 +178,6 @@ fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
                             ) {
                                 if (readOnly) Text("EDIT PROFILE") else Text("SAVE")
                             }
-                        }
-                        Button(
-                            onClick = {},
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .wrapContentSize()
-                        ) {
-                            Text("CHANGE PASSWORD")
                         }
                     }
 
