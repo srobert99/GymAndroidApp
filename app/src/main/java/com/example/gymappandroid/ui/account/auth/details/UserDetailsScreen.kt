@@ -45,8 +45,8 @@ fun DetailsContent(
             val surname by detailsViewModel.surname.observeAsState("")
             var image by remember { mutableStateOf(R.drawable.detailspatgemale) }
             var isLoading by remember { mutableStateOf(false) }
-            val context = LocalContext.current
             val coroutineScope = rememberCoroutineScope()
+            val context = LocalContext.current
             val dataStore = DataStore(context)
             val userSession = dataStore.getUserSession.collectAsState(initial = "")
 

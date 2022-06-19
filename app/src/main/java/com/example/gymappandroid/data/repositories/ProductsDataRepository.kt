@@ -1,10 +1,7 @@
 package com.example.gymappandroid.data.repositories
 
 import com.example.gymappandroid.data.firestore.products_data_source.FirestoreProductsDataSource
-import com.example.gymappandroid.data.models.Product
-import com.example.gymappandroid.data.models.ProductCategory
-import com.example.gymappandroid.data.models.ShoppingCartItem
-import com.example.gymappandroid.data.models.SizeOption
+import com.example.gymappandroid.data.models.*
 import com.google.firebase.firestore.DocumentSnapshot
 
 class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsDataSource) {
@@ -26,6 +23,11 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         firestoreProductsDataSource.saveItemInShoppingCart(shoppingCartItem)
     }
 
+    suspend fun createOrder(products: List<ShoppingCartItem>, userId: String) {
+        val order = Order(products, userId)
+        firestoreProductsDataSource.addOrder(order)
+    }
+
     fun removeShoppingCartItem(shoppingCartItemId: String) =
         firestoreProductsDataSource.removeShoppingCartItem(shoppingCartItemId)
 
@@ -45,7 +47,7 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             userId = this["userId"] as String,
             model = this["model"] as String,
             imageSource = this["imageSource"] as String,
-            price = this["price"] as Double,
+            price = this["price"] as Long,
             specification = this["specification"] as String
         )
     }
@@ -65,7 +67,7 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             model = productDocSS["model"].toString(),
             description = productDocSS["description"].toString(),
             image = getImages(productDocSS["image"] as ArrayList<String>),
-            price = productDocSS["price"] as Double,
+            price = productDocSS["price"] as Long,
             availableSize = (productDocSS["stock"] as HashMap<String, Int>).addAvailableSizesToList()
         )
     }

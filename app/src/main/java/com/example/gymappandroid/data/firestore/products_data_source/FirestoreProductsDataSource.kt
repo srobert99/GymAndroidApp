@@ -1,5 +1,6 @@
 package com.example.gymappandroid.data.firestore.products_data_source
 
+import com.example.gymappandroid.data.models.Order
 import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -10,6 +11,7 @@ class FirestoreProductsDataSource {
     private var fireStoreDataBase = Firebase.firestore
     private var productsTypesDBReference = fireStoreDataBase.collection("products_categories")
     private val products = fireStoreDataBase.collection("products")
+    private val ordersReference = fireStoreDataBase.collection("orders")
     private val shoppingCartDBReference = fireStoreDataBase.collection("shopping_cart")
 
     suspend fun getProductsType(): List<DocumentSnapshot> =
@@ -30,5 +32,9 @@ class FirestoreProductsDataSource {
 
     fun removeShoppingCartItem(shoppingCartItemId: String) {
         shoppingCartDBReference.document(shoppingCartItemId).delete()
+    }
+
+    suspend fun addOrder(order: Order) {
+        ordersReference.add(order).await()
     }
 }

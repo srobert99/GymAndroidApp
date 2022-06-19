@@ -5,10 +5,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
-import com.example.gymappandroid.ui.menu.shop.product_details_screen.ProductDetailsScreen
-import com.example.gymappandroid.ui.menu.shop.ProductsScreen
 import com.example.gymappandroid.ui.menu.shop.CategoryScreen
+import com.example.gymappandroid.ui.menu.shop.ProductsScreen
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
+import com.example.gymappandroid.ui.menu.shop.checkout.CheckoutScreen
+import com.example.gymappandroid.ui.menu.shop.product_details_screen.ProductDetailsScreen
 
 fun NavGraphBuilder.shopNavGraph(
     navController: NavController,
@@ -48,8 +49,13 @@ fun NavGraphBuilder.shopNavGraph(
         }
         composable(
             route = Screen.Checkout.route
-        ){
-            Check
+        ) {
+            CheckoutScreen(
+                shopViewModel = shopViewModel,
+                navController = navController,
+                detailsViewModel = detailsViewModel
+            )
+
         }
     }
 }

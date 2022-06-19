@@ -61,6 +61,12 @@ class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewMo
         }
     }
 
+    fun buyProducts(userId: String) {
+        viewModelScope.launch {
+            productsDataRepository.createOrder(shoppingCartProducts.value, userId)
+        }
+    }
+
     fun getShoppingCartItems(userId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _shoppingCartProducts.value = productsDataRepository.getShoppingListItems(userId)

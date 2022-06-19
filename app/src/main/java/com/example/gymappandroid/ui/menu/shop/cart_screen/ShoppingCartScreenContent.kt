@@ -20,11 +20,14 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.gymappandroid.data.models.ShoppingCartItem
+import com.example.gymappandroid.navigation.Screen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShoppingCartScreenContent(
+    navController: NavController,
     shoppingCartProducts: List<ShoppingCartItem>,
     removeItemFromShoppingList: (shoppingItemId: String) -> Unit,
 
@@ -92,7 +95,7 @@ fun ShoppingCartScreenContent(
         )
         if (shoppingCartProducts.isNotEmpty())
             Button(
-                onClick = {},
+                onClick = { navController.navigate(Screen.Checkout.route) },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)

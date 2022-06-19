@@ -46,7 +46,8 @@ fun ShoppingCartScreen(
             LoadingScreen()
         } else {
             ShoppingCartScreenContent(
-                shoppingCartProducts = shoppingListItems
+                shoppingCartProducts = shoppingListItems,
+                navController = navController
             ) { shopViewModel.removeItemFromShoppingCart(it, userId = userId.value!!) }
         }
     }
