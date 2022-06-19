@@ -46,5 +46,10 @@ fun NavGraphBuilder.shopNavGraph(
                 navController = navController
             )
         }
+        composable(
+            route = Screen.Checkout.route
+        ){
+            Check
+        }
     }
 }

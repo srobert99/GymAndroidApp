@@ -6,10 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.gymappandroid.di.appModule
-import com.example.gymappandroid.di.authViewModelModule
+import com.example.gymappandroid.di.viewModelModule
 import com.example.gymappandroid.navigation.SetupNavGraph
+import com.example.gymappandroid.ui.account.auth.details.DetailsContent
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.account.auth.login.LoginViewModel
+import com.example.gymappandroid.ui.account.auth.register.RegisterScreen
 import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.ui.theme.GymAppAndroidTheme
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         startKoin {
             androidContext(this@MainActivity)
-            modules(listOf(appModule, authViewModelModule))
+            modules(listOf(appModule, viewModelModule))
         }
 
         val loginViewModel = getViewModel<LoginViewModel>()
@@ -38,6 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GymAppAndroidTheme {
                 navController = rememberNavController()
+
                 SetupNavGraph(
                     navController = navController,
                     isUserLoggedIn = isLogged,

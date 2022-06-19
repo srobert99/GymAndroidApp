@@ -126,12 +126,6 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = CenterHorizontally
                     ) {
-                        Text(
-                            "Forgot Password?",
-                            fontSize = 12.sp,
-                            modifier = Modifier.padding(bottom = 20.dp),
-                            textDecoration = TextDecoration.Underline
-                        )
                         Row {
                             Text("Don't have an account? ")
                             Text(

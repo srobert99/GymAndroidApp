@@ -3,7 +3,10 @@ package com.example.gymappandroid.ui.account.auth.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.repositories.UserAuthRepository
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val authRepository: UserAuthRepository
@@ -27,12 +30,17 @@ class LoginViewModel(
     }
 
     suspend fun login() {
-        validateCredentials()
-        if (canLogin) {
-            _firebaseStatus.value =
-                (authRepository.login(this.email.value.toString(), this.password.value.toString()))
-        } else {
-            _firebaseStatus.value = "Username/password can't be empty"
+        viewModelScope.launch {
+            validateCredentials()
+            if (canLogin) {
+                _firebaseStatus.value =
+                    (authRepository.login(
+                        email.value.toString(),
+                        password.value.toString()
+                    ))
+            } else {
+                _firebaseStatus.value = "Username/password can't be empty"
+            }
         }
     }
 

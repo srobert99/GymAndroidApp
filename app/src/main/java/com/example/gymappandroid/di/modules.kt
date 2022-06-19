@@ -23,7 +23,7 @@ val appModule = module {
     single { ProductsDataRepository(get()) }
 }
 
-val authViewModelModule = module {
+val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { UserDetailsViewModel(get()) }

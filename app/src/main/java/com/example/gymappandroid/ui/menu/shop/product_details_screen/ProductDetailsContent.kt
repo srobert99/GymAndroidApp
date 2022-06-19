@@ -224,7 +224,7 @@ fun ProductDetailsContent(
                                         .makeText(
                                             context,
                                             "Product added to the shopping list",
-                                            Toast.LENGTH_LONG
+                                            Toast.LENGTH_SHORT
                                         )
                                         .show()
                                     shopViewModel.addItemToShoppingCart(userId)

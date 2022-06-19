@@ -28,7 +28,7 @@ fun ShoppingCartScreenContent(
     shoppingCartProducts: List<ShoppingCartItem>,
     removeItemFromShoppingList: (shoppingItemId: String) -> Unit,
 
-) {
+    ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -90,14 +90,15 @@ fun ShoppingCartScreenContent(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 10.dp)
         )
-        Button(
-            onClick = {},
-            shape = RoundedCornerShape(50.dp),
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 10.dp, bottom = 10.dp)
-        ) {
-            Text("Next")
-        }
+        if (shoppingCartProducts.isNotEmpty())
+            Button(
+                onClick = {},
+                shape = RoundedCornerShape(50.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 10.dp, bottom = 10.dp)
+            ) {
+                Text("Next")
+            }
     }
 }
