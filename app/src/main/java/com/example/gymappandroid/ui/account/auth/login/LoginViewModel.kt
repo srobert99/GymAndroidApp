@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.repositories.UserAuthRepository
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -44,10 +43,6 @@ class LoginViewModel(
         }
     }
 
-    fun logout() {
-        authRepository.logout()
-    }
-
     fun onEmailChange(newEmail: String) {
         _email.value = newEmail
     }
@@ -65,9 +60,7 @@ class LoginViewModel(
     }
 
     private fun validateCredentials() {
-        if (email.value!!.isNotEmpty() && password.value!!.isNotEmpty()) {
-            canLogin = true
-        }
+        canLogin = email.value!!.isNotEmpty() && password.value!!.isNotEmpty()
     }
 
 }

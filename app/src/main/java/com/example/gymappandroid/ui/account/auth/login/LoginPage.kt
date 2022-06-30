@@ -19,7 +19,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -37,24 +36,27 @@ fun LoginScreen(
 ) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
-    val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("")
+    val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("Initial")
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val dataStore = DataStore(context)
     var loading by remember { mutableStateOf(false) }
 
+    if (firebaseResponse == "Success") {
+        LaunchedEffect(Unit) {
+            dataStore.saveUserSession(loginViewModel.getUID() ?: "")
+            loginViewModel.getUID()
+            navController.navigate(Screen.Main.route)
+        }
+    } else {
+        Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
+        loading = false
+    }
+
     val loginUser: () -> Unit = {
         coroutineScope.launch {
             loading = true
             loginViewModel.login()
-            if (firebaseResponse == "Success") {
-                dataStore.saveUserSession(loginViewModel.getUID() ?: "")
-                loginViewModel.getUID()
-                navController.navigate(Screen.Main.route)
-            } else {
-                Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
-            }
-            loading = false
         }
     }
 
