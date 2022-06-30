@@ -43,7 +43,6 @@ class FirestoreProductsDataSource {
         }
     }
 
-    suspend fun addOrder(order: Order) {
-        ordersReference.add(order).await()
-    }
+    suspend fun addOrder(order: Order): String =
+        ordersReference.add(order).await().id
 }

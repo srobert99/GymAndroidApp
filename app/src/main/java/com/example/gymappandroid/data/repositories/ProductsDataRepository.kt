@@ -29,13 +29,13 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
     suspend fun removeShoppingCartItems(userId: String) =
         firestoreProductsDataSource.removeAllShoppingCartItems(userId)
 
-    suspend fun createOrder(products: List<ShoppingCartItem>, userId: String) {
+    suspend fun createOrder(products: List<ShoppingCartItem>, userId: String): String {
         val currentDate = LocalDateTime.now().format(formatter).toString()
         val orderedProducts = products.map {
             it.toOrderItem()
         }
         val order = Order(orderedProducts, userId, currentDate)
-        firestoreProductsDataSource.addOrder(order)
+        return firestoreProductsDataSource.addOrder(order)
     }
 
     fun removeShoppingCartItem(shoppingCartItemId: String) =

@@ -18,12 +18,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.ShoppingCartItem
+import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.ui.menu.shop.cart_screen.CartItemUI
 import com.example.gymappandroid.utils.DataStore
 
 @Composable
-fun CheckoutScreenContent(shopViewModel: ShopViewModel) {
+fun CheckoutScreenContent(
+    shopViewModel: ShopViewModel,
+    userDetailsViewModel: UserDetailsViewModel
+) {
     val shoppingCartProduct by shopViewModel.shoppingCartProducts.collectAsState()
     val context = LocalContext.current
     val dataStore = DataStore(context)
