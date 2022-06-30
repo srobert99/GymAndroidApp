@@ -20,15 +20,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.gymappandroid.R
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
+import com.example.gymappandroid.ui.account.auth.register.RegisterViewModel
 import com.example.gymappandroid.ui.commons.DateTextField
 import com.example.gymappandroid.ui.commons.UserInfoBox
 import com.example.gymappandroid.utils.DataStore
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
+fun ProfileScreenContent(
+    userDetailsViewModel: UserDetailsViewModel,
+    authViewModel: RegisterViewModel,
+    navController: NavController
+) {
     val context = LocalContext.current
     val dataStore = DataStore(context)
     val coroutineScope = rememberCoroutineScope()
@@ -41,6 +48,13 @@ fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
     var saveLoading by remember { mutableStateOf(false) }
     val firestoreResponse by userDetailsViewModel.firestoreStatus.observeAsState("")
     val userSession = dataStore.getUserSession.collectAsState(initial = "")
+
+    val onLogoutClicked: () -> Unit = {
+        authViewModel.logout()
+        navController.navigate(Screen.Login.route) {
+            popUpTo(0)
+        }
+    }
 
     fun initScreen() {
         if (userSession.value != "") {
@@ -178,9 +192,17 @@ fun ProfileScreenContent(userDetailsViewModel: UserDetailsViewModel) {
                             ) {
                                 if (readOnly) Text("EDIT PROFILE") else Text("SAVE")
                             }
+                            Button(
+                                onClick = { onLogoutClicked() },
+                                shape = RoundedCornerShape(20.dp),
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .wrapContentSize()
+                            ) {
+                                Text("LOGOUT")
+                            }
                         }
                     }
-
                 }
             }
         }

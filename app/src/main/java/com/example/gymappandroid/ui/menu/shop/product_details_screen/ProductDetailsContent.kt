@@ -196,7 +196,7 @@ fun ProductDetailsContent(
                         }
                     }
                     Text(
-                        "${200} STARS",
+                        "${selectedProduct.price} STARS",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.ExtraBold,
                         fontFamily = FontFamily.Monospace,

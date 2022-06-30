@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ShopViewModel(val productsDataRepository: ProductsDataRepository) : ViewModel() {
+class ShopViewModel(private val productsDataRepository: ProductsDataRepository) : ViewModel() {
 
     var shopCategories = listOf<ProductCategory>()
 

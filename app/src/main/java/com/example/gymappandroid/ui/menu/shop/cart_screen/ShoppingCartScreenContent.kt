@@ -30,7 +30,6 @@ fun ShoppingCartScreenContent(
     navController: NavController,
     shoppingCartProducts: List<ShoppingCartItem>,
     removeItemFromShoppingList: (shoppingItemId: String) -> Unit,
-
     ) {
     Box(
         modifier = Modifier

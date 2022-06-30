@@ -43,6 +43,10 @@ class RegisterViewModel(
         }
     }
 
+    fun logout() {
+        userAuthRepository.logout()
+    }
+
     fun onEmailChange(newEmail: String) {
         verifyEmail(newEmail)
         _email.value = newEmail

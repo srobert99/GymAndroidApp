@@ -3,8 +3,11 @@ package com.example.gymappandroid.data.repositories
 import com.example.gymappandroid.data.firestore.products_data_source.FirestoreProductsDataSource
 import com.example.gymappandroid.data.models.*
 import com.google.firebase.firestore.DocumentSnapshot
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsDataSource) {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     suspend fun getProductCategories(): List<ProductCategory> =
         firestoreProductsDataSource.getProductsType().map {
@@ -24,7 +27,11 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
     }
 
     suspend fun createOrder(products: List<ShoppingCartItem>, userId: String) {
-        val order = Order(products, userId)
+        val currentDate = LocalDateTime.now().format(formatter).toString()
+        val orderedProducts = products.map {
+            it.toOrderItem()
+        }
+        val order = Order(orderedProducts, userId, currentDate)
         firestoreProductsDataSource.addOrder(order)
     }
 
@@ -89,6 +96,9 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         }
         return availableSizesList
     }
+
+    private fun ShoppingCartItem.toOrderItem(): OrderItem =
+        OrderItem(this.shoppingCartItemId, this.specification)
 }
 
 

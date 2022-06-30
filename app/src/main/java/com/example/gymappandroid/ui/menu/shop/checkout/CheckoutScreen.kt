@@ -22,6 +22,6 @@ fun CheckoutScreen(
             )
         }
     ) {
-        CheckoutScreenContent(navController = navController, shopViewModel = shopViewModel)
+        CheckoutScreenContent(shopViewModel = shopViewModel)
     }
 }
