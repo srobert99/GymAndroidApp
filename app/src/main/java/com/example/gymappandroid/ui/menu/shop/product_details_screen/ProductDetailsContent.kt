@@ -152,12 +152,15 @@ fun ProductDetailsContent(
                         .padding(5.dp, bottom = 15.dp)
                 )
                 Spacer(modifier = Modifier.size(5.dp))
-                LazyRow {
-                    items(productReviews) {
-                        ReviewUI(review = it)
-                        Spacer(modifier = Modifier.size(10.dp))
+                if (productReviews.isEmpty()) {
+                    Text("No reviews yet", color = Color.Gray)
+                } else
+                    LazyRow {
+                        items(productReviews) {
+                            ReviewUI(review = it)
+                            Spacer(modifier = Modifier.size(10.dp))
+                        }
                     }
-                }
                 Spacer(modifier = Modifier.size(20.dp))
                 Box(
                     modifier = Modifier
