@@ -7,8 +7,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddTask
+import androidx.compose.material.icons.filled.RateReview
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -141,16 +145,24 @@ fun ProductDetailsContent(
                     color = Color.White,
                     fontSize = 15.sp
                 )
-                Text(
-                    text = "REVIEWS",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Monospace,
-                    color = Color.White,
-                    modifier = Modifier
-                        .background(colorResource(id = R.color.teal_200))
-                        .padding(5.dp, bottom = 15.dp)
-                )
+                Row(verticalAlignment = CenterVertically) {
+                    Text(
+                        text = "REVIEWS",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Monospace,
+                        color = Color.White,
+                        modifier = Modifier
+                            .background(colorResource(id = R.color.teal_200))
+                            .padding(5.dp, end = 5.dp)
+                    )
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Filled.RateReview,
+                            contentDescription = null
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.size(5.dp))
                 if (productReviews.isEmpty()) {
                     Text("No reviews yet", color = Color.Gray)
