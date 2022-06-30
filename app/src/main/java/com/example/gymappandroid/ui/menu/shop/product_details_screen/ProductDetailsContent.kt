@@ -10,7 +10,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddTask
 import androidx.compose.material.icons.filled.RateReview
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
@@ -29,11 +28,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.data.models.Review
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.ui.commons.DotsIndicator
 import com.example.gymappandroid.ui.menu.shop.product_details_screen.ReviewUI
 import com.example.gymappandroid.ui.menu.shop.product_details_screen.SizeOptionUI
@@ -47,7 +48,8 @@ fun ProductDetailsContent(
     userId: String,
     shopViewModel: ShopViewModel,
     selectedProduct: Product,
-    productReviews: List<Review>
+    productReviews: List<Review>,
+    navController: NavController
 ) {
     val pagerState = rememberPagerState()
     val imageCount = selectedProduct.image.size
@@ -156,7 +158,7 @@ fun ProductDetailsContent(
                             .background(colorResource(id = R.color.teal_200))
                             .padding(5.dp, end = 5.dp)
                     )
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = { navController.navigate(Screen.AddReview.route) }) {
                         Icon(
                             imageVector = Icons.Filled.RateReview,
                             contentDescription = null

@@ -14,6 +14,8 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
             convertDocToProductCategory(it)
         }
 
+    fun addReview(review: Review) = firestoreProductsDataSource.addReview(review)
+
     suspend fun getProductDetails(productId: String): Product =
         convertDocToProduct(firestoreProductsDataSource.getProduct(productId))
 
@@ -115,7 +117,7 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         return Review(
             comment = this["comment"].toString(),
             stars = this["stars"].toString().toInt(),
-            userName = this["username"].toString()
+            username = this["username"].toString()
         )
     }
 }

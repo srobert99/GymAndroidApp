@@ -85,6 +85,10 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
         }
     }
 
+    fun addReview(review: Review) {
+        productsDataRepository.addReview(review)
+    }
+
     fun getShoppingCartItems(userId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _shoppingCartProducts.value = productsDataRepository.getShoppingListItems(userId)

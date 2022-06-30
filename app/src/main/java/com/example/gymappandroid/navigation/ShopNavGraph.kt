@@ -11,6 +11,7 @@ import com.example.gymappandroid.ui.menu.shop.ProductsScreen
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.ui.menu.shop.checkout.CheckoutScreen
 import com.example.gymappandroid.ui.menu.shop.product_details_screen.ProductDetailsScreen
+import com.example.gymappandroid.ui.menu.shop.review_screen.AddReviewScreen
 
 fun NavGraphBuilder.shopNavGraph(
     navController: NavController,
@@ -46,6 +47,15 @@ fun NavGraphBuilder.shopNavGraph(
                 productId = productId,
                 detailsViewModel = detailsViewModel,
                 navController = navController
+            )
+        }
+        composable(
+            route = Screen.AddReview.route
+        ) {
+            AddReviewScreen(
+                detailsViewModel = detailsViewModel,
+                navController = navController,
+                shopViewModel = shopViewModel
             )
         }
         composable(

@@ -54,7 +54,8 @@ fun ProductDetailsScreen(
                     userId!!,
                     shopViewModel,
                     currentSelectedProduct,
-                    productReviews
+                    productReviews,
+                    navController
                 )
             } else {
                 LoadingScreen()

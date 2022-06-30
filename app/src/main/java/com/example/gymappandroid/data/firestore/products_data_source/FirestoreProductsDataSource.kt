@@ -1,6 +1,7 @@
 package com.example.gymappandroid.data.firestore.products_data_source
 
 import com.example.gymappandroid.data.models.Order
+import com.example.gymappandroid.data.models.Review
 import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -42,6 +43,10 @@ class FirestoreProductsDataSource {
                 shoppingCartDBReference.document(item.id).delete()
             }
         }
+    }
+
+    fun addReview(review: Review) {
+        reviewsDBReference.add(review)
     }
 
     suspend fun getProductReviews(productId: String): List<DocumentSnapshot> {

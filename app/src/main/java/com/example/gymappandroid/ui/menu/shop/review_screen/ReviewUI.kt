@@ -27,7 +27,7 @@ fun ReviewUI(review: Review) {
                 Icon(imageVector = Icons.Filled.Star, contentDescription = null)
             }
             Spacer(modifier = Modifier.size(50.dp))
-            Text(review.userName, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(review.username, color = Color.White, fontWeight = FontWeight.Bold)
         }
         Text(review.comment, color = Color.White)
     }
