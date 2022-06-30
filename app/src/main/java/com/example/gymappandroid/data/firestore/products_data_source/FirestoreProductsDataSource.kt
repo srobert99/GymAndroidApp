@@ -34,6 +34,15 @@ class FirestoreProductsDataSource {
         shoppingCartDBReference.document(shoppingCartItemId).delete()
     }
 
+    suspend fun removeAllShoppingCartItems(userId: String) {
+        val x = shoppingCartDBReference.whereEqualTo("userId", userId).get().await().documents
+        for (item in x) {
+            if (item["userId"] == userId) {
+                shoppingCartDBReference.document(item.id).delete()
+            }
+        }
+    }
+
     suspend fun addOrder(order: Order) {
         ordersReference.add(order).await()
     }

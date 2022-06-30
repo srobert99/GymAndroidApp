@@ -56,6 +56,7 @@ fun CheckoutScreenContent(shopViewModel: ShopViewModel) {
 
 private fun onBuyPressed(shopViewModel: ShopViewModel, context: Context, uid: String) {
     shopViewModel.buyProducts(uid)
+    shopViewModel.removeAllProductsFromShoppingCart(uid)
     Toast.makeText(context, "Purchase Successful", Toast.LENGTH_SHORT).show()
 }
 

@@ -27,7 +27,6 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
     var currentSelectedProductSpecification: StateFlow<String> =
         _currentSelectedProductSpecification
 
-
     init {
         viewModelScope.launch {
             shopCategories = productsDataRepository.getProductCategories()
@@ -36,6 +35,12 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
 
     suspend fun getProductsFromCategory(category: String) {
         products = productsDataRepository.getProductsFromCategory(category)
+    }
+
+    fun removeAllProductsFromShoppingCart(userId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            productsDataRepository.removeShoppingCartItems(userId)
+        }
     }
 
     fun addItemToShoppingCart(userId: String) {

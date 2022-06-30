@@ -26,6 +26,9 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         firestoreProductsDataSource.saveItemInShoppingCart(shoppingCartItem)
     }
 
+    suspend fun removeShoppingCartItems(userId: String) =
+        firestoreProductsDataSource.removeAllShoppingCartItems(userId)
+
     suspend fun createOrder(products: List<ShoppingCartItem>, userId: String) {
         val currentDate = LocalDateTime.now().format(formatter).toString()
         val orderedProducts = products.map {
