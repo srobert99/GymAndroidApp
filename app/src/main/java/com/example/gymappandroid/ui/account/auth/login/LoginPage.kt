@@ -36,7 +36,7 @@ fun LoginScreen(
 ) {
     val email by loginViewModel.email.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
-    val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("Initial")
+    val firebaseResponse by loginViewModel.firebaseStatus.observeAsState("")
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val dataStore = DataStore(context)
@@ -49,7 +49,8 @@ fun LoginScreen(
             navController.navigate(Screen.Main.route)
         }
     } else {
-        Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
+        if (firebaseResponse.isNotEmpty())
+            Toast.makeText(context, firebaseResponse, Toast.LENGTH_SHORT).show()
         loading = false
     }
 
