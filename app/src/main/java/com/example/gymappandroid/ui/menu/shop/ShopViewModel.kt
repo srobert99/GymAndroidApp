@@ -17,6 +17,8 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
 
     var products = listOf<Product>()
 
+    var orderId: String = ""
+
     private var _shoppingCartProducts = MutableStateFlow(mutableListOf(ShoppingCartItem()))
     val shoppingCartProducts: StateFlow<List<ShoppingCartItem>> = _shoppingCartProducts
 
@@ -68,7 +70,8 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
 
     fun buyProducts(userId: String) {
         viewModelScope.launch {
-            productsDataRepository.createOrder(shoppingCartProducts.value, userId)
+            orderId =
+                productsDataRepository.createOrder(shoppingCartProducts.value, userId)
         }
     }
 
@@ -84,6 +87,7 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
 
     fun removeItemFromShoppingCart(shoppingCartItemId: String, userId: String) {
         productsDataRepository.removeShoppingCartItem(shoppingCartItemId)
+        _shoppingCartProducts.value = mutableListOf()
         //refresh shopping list
         getShoppingCartItems(userId)
     }

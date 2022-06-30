@@ -1,4 +1,4 @@
-package com.example.gymappandroid.ui.menu.shop.checkout
+package com.example.gymappandroid.ui.menu.shop.OrderInfo
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -8,20 +8,21 @@ import com.example.gymappandroid.ui.menu.MainTopAppBar
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 
 @Composable
-fun CheckoutScreen(
+fun OrderInfoScreen(
+    detailsViewModel: UserDetailsViewModel,
     shopViewModel: ShopViewModel,
-    navController: NavController,
-    detailsViewModel: UserDetailsViewModel
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
             MainTopAppBar(
                 detailsViewModel = detailsViewModel,
                 isOnMainScreen = false,
-                navController = navController
+                navController = navController,
+                isOnOrderDetailScreen = true
             )
         }
     ) {
-        CheckoutScreenContent(shopViewModel = shopViewModel, detailsViewModel, navController)
+        OrderInfoScreenContent(shopViewModel.orderId)
     }
 }

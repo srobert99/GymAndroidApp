@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.navigation.NavController
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.ShoppingCartItem
+import com.example.gymappandroid.navigation.Screen
 import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 import com.example.gymappandroid.ui.menu.shop.ShopViewModel
 import com.example.gymappandroid.ui.menu.shop.cart_screen.CartItemUI
@@ -26,7 +28,8 @@ import com.example.gymappandroid.utils.DataStore
 @Composable
 fun CheckoutScreenContent(
     shopViewModel: ShopViewModel,
-    userDetailsViewModel: UserDetailsViewModel
+    userDetailsViewModel: UserDetailsViewModel,
+    navController: NavController
 ) {
     val shoppingCartProduct by shopViewModel.shoppingCartProducts.collectAsState()
     val context = LocalContext.current
@@ -49,21 +52,40 @@ fun CheckoutScreenContent(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter), verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Total = ${calculateTotal(shoppingCartProduct)} STARS")
+            Text("Total = ${calculateTotal(shoppingCartProduct)} STARS", color = Color.White)
             Spacer(modifier = Modifier.weight(1f))
-            Button({ onBuyPressed(shopViewModel, context, uid = userSession.value!!) }) {
+            Button({
+                onBuyPressed(
+                    shopViewModel,
+                    userDetailsViewModel,
+                    context,
+                    calculateTotal(shoppingCartProduct),
+                    uid = userSession.value!!,
+                    navController
+                )
+            }) {
                 Text("Confirm")
             }
         }
     }
 }
 
-private fun onBuyPressed(shopViewModel: ShopViewModel, context: Context, uid: String) {
-    shopViewModel.buyProducts(uid)
-    shopViewModel.removeAllProductsFromShoppingCart(uid)
-    Toast.makeText(context, "Purchase Successful", Toast.LENGTH_SHORT).show()
+private fun onBuyPressed(
+    shopViewModel: ShopViewModel,
+    detailsViewModel: UserDetailsViewModel,
+    context: Context,
+    total: Long,
+    uid: String,
+    navController: NavController
+) {
+    if (detailsViewModel.spendCoins(uid, total.toInt())) {
+        shopViewModel.buyProducts(uid)
+        shopViewModel.removeAllProductsFromShoppingCart(uid)
+        navController.navigate(Screen.OrderInfo.route)
+    } else {
+        Toast.makeText(context, "Insufficient funds", Toast.LENGTH_SHORT).show()
+    }
 }
-
 
 private fun calculateTotal(shoppingCartProducts: List<ShoppingCartItem>): Long =
     shoppingCartProducts.sumOf { it.price }

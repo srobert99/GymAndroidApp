@@ -1,6 +1,7 @@
 package com.example.gymappandroid.data.firestore.user_data_source
 
 import com.example.gymappandroid.data.models.User
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -37,6 +38,10 @@ class FireStoreUserDataSource {
         }
     }
 
+    suspend fun updatecoins(userId:String):DocumentSnapshot {
+        return dataBaseReference.document(userId).get().await()
+    }
+
     suspend fun deleteProfile(uid: String): String {
         return try {
             dataBaseReference.document(uid).delete().await()
@@ -49,5 +54,9 @@ class FireStoreUserDataSource {
     suspend fun addCoins(uid: String, amount: Int) {
         dataBaseReference.document(uid).update("balance", amount).await()
 
+    }
+
+    suspend fun spendCoins(uid: String, amount: Int) {
+        dataBaseReference.document(uid).update("balance", amount).await()
     }
 }

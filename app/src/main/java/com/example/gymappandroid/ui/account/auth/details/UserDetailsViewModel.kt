@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.User
 import com.example.gymappandroid.data.repositories.UserDataRepository
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 class UserDetailsViewModel(
@@ -15,9 +14,6 @@ class UserDetailsViewModel(
 
     private val _firestoreStatus = MutableLiveData("")
     val firestoreStatus: LiveData<String> = _firestoreStatus
-
-    private val _isError = MutableSharedFlow<Boolean>(1)
-
 
     private val _isMale = MutableLiveData(false)
     val isMale: LiveData<Boolean> = _isMale
@@ -78,10 +74,24 @@ class UserDetailsViewModel(
         _birthdate.value = birthdate
     }
 
-    fun buyCoins(x:String, y:Int) {
+    fun buyCoins(uid: String, amount: Int) {
         viewModelScope.launch {
-            userDataRepository.buyCoins(x, y)
+            userDataRepository.buyCoins(uid, amount + _coins.value!!.toInt())
+            _coins.value = userDataRepository.updatecoins(uid)
         }
+    }
+
+    fun spendCoins(uid: String, amount: Int): Boolean {
+        val currentAmount = _coins.value!!.toInt()
+        if (amount > currentAmount)
+            return false
+
+        viewModelScope.launch {
+            userDataRepository.spendCoins(uid, currentAmount - amount)
+            _coins.value = userDataRepository.updatecoins(uid)
+        }
+
+        return true
     }
 
     suspend fun getUserProfile(userID: String) {

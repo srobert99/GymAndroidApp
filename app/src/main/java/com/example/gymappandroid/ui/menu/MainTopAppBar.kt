@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
@@ -26,7 +27,8 @@ import com.example.gymappandroid.ui.account.auth.details.UserDetailsViewModel
 fun MainTopAppBar(
     detailsViewModel: UserDetailsViewModel,
     isOnMainScreen: Boolean,
-    navController: NavController
+    navController: NavController,
+    isOnOrderDetailScreen: Boolean = false
 ) {
     val name by detailsViewModel.name.observeAsState("")
     val surname by detailsViewModel.surname.observeAsState("")
@@ -35,10 +37,17 @@ fun MainTopAppBar(
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                if (!isOnMainScreen) {
+                if (!isOnMainScreen && !isOnOrderDetailScreen) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back Button"
+                        )
+                    }
+                } else if (isOnOrderDetailScreen) {
+                    IconButton(onClick = { navController.navigate(Screen.Main.route) }) {
+                        Icon(
+                            imageVector = Icons.Filled.Home,
                             contentDescription = "Back Button"
                         )
                     }

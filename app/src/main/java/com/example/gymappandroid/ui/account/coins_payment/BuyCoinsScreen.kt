@@ -26,7 +26,7 @@ fun BuyCoinsScreen(userDetailsViewModel: UserDetailsViewModel, navController: Na
             MainTopAppBar(
                 detailsViewModel = userDetailsViewModel,
                 navController = navController,
-                isOnMainScreen = true
+                isOnMainScreen = false
             )
         }
     ) {
