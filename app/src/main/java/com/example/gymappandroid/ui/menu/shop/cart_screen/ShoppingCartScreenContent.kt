@@ -18,11 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.example.gymappandroid.navigation.Screen
+import com.example.gymappandroid.R
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -34,7 +37,7 @@ fun ShoppingCartScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.LightGray)
+            .background(colorResource(id = R.color.dark_blue))
     ) {
         if (shoppingCartProducts.isEmpty()) {
             Text(

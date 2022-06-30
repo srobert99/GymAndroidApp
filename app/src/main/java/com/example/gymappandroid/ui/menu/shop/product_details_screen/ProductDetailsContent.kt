@@ -30,6 +30,7 @@ import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.ui.commons.DotsIndicator
+import com.example.gymappandroid.ui.menu.shop.product_details_screen.CommentUI
 import com.example.gymappandroid.ui.menu.shop.product_details_screen.SizeOptionUI
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -146,16 +147,15 @@ fun ProductDetailsContent(
                     color = Color.White,
                     modifier = Modifier
                         .background(colorResource(id = R.color.teal_200))
-                        .padding(5.dp)
+                        .padding(5.dp, bottom = 15.dp)
                 )
-                Text(
-                    "No reviews yet",
-                    modifier = Modifier
-                        .padding(top = 5.dp, bottom = 30.dp)
-                        .align(CenterHorizontally),
-                    color = Color.Gray,
-                    fontSize = 12.sp
-                )
+                LazyRow {
+                    items(listOf(1, 2, 3, 4, 5)) {
+                        CommentUI()
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
+                }
+                Spacer(modifier = Modifier.size(20.dp))
                 Box(
                     modifier = Modifier
                         .background(colorResource(id = R.color.teal_200))
