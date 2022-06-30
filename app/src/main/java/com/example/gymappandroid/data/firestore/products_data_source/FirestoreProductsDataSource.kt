@@ -13,6 +13,7 @@ class FirestoreProductsDataSource {
     private val products = fireStoreDataBase.collection("products")
     private val ordersReference = fireStoreDataBase.collection("orders")
     private val shoppingCartDBReference = fireStoreDataBase.collection("shopping_cart")
+    private val reviewsDBReference = fireStoreDataBase.collection("products_review")
 
     suspend fun getProductsType(): List<DocumentSnapshot> =
         productsTypesDBReference.get().await().documents
@@ -41,6 +42,10 @@ class FirestoreProductsDataSource {
                 shoppingCartDBReference.document(item.id).delete()
             }
         }
+    }
+
+    suspend fun getProductReviews(productId: String): List<DocumentSnapshot> {
+        return reviewsDBReference.whereEqualTo("product_id", productId).get().await().documents
     }
 
     suspend fun addOrder(order: Order): String =

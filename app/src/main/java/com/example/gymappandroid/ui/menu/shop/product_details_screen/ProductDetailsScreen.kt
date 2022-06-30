@@ -31,10 +31,12 @@ fun ProductDetailsScreen(
     val dataStoreInstance = DataStore(LocalContext.current)
     val userId by dataStoreInstance.getUserSession.collectAsState(initial = "null")
     val currentSelectedProduct by shopViewModel.currentSelectedProduct.collectAsState()
+    val productReviews by shopViewModel.reviews.collectAsState()
 
     LaunchedEffect(key1 = productId) {
         shopViewModel.resetSelectedProduct()
         shopViewModel.getProductDetails(productId)
+        shopViewModel.getProductReviews(productId)
     }
 
     Scaffold(
@@ -48,7 +50,12 @@ fun ProductDetailsScreen(
         },
         content = {
             if (currentSelectedProduct != Product()) {
-                ProductDetailsContent(userId!!, shopViewModel, currentSelectedProduct)
+                ProductDetailsContent(
+                    userId!!,
+                    shopViewModel,
+                    currentSelectedProduct,
+                    productReviews
+                )
             } else {
                 LoadingScreen()
             }

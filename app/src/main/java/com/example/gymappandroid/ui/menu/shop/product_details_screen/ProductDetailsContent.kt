@@ -29,8 +29,9 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.gymappandroid.R
 import com.example.gymappandroid.data.models.Product
+import com.example.gymappandroid.data.models.Review
 import com.example.gymappandroid.ui.commons.DotsIndicator
-import com.example.gymappandroid.ui.menu.shop.product_details_screen.CommentUI
+import com.example.gymappandroid.ui.menu.shop.product_details_screen.ReviewUI
 import com.example.gymappandroid.ui.menu.shop.product_details_screen.SizeOptionUI
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -41,7 +42,8 @@ import com.google.accompanist.pager.rememberPagerState
 fun ProductDetailsContent(
     userId: String,
     shopViewModel: ShopViewModel,
-    selectedProduct: Product
+    selectedProduct: Product,
+    productReviews: List<Review>
 ) {
     val pagerState = rememberPagerState()
     val imageCount = selectedProduct.image.size
@@ -149,9 +151,10 @@ fun ProductDetailsContent(
                         .background(colorResource(id = R.color.teal_200))
                         .padding(5.dp, bottom = 15.dp)
                 )
+                Spacer(modifier = Modifier.size(5.dp))
                 LazyRow {
-                    items(listOf(1, 2, 3, 4, 5)) {
-                        CommentUI()
+                    items(productReviews) {
+                        ReviewUI(review = it)
                         Spacer(modifier = Modifier.size(10.dp))
                     }
                 }

@@ -50,6 +50,14 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
         return shoppingCartItems.toMutableList()
     }
 
+    suspend fun getProductReviews(productId: String): List<Review> {
+        val productReviews = mutableListOf<Review>()
+        firestoreProductsDataSource.getProductReviews(productId).map {
+            productReviews.add(it.toProductReview())
+        }
+        return productReviews
+    }
+
     private fun DocumentSnapshot.convertToShoppingCartItem(): ShoppingCartItem {
         return ShoppingCartItem(
             shoppingCartItemId = this.id,
@@ -102,6 +110,14 @@ class ProductsDataRepository(val firestoreProductsDataSource: FirestoreProductsD
 
     private fun ShoppingCartItem.toOrderItem(): OrderItem =
         OrderItem(this.shoppingCartItemId, this.specification)
+
+    private fun DocumentSnapshot.toProductReview(): Review {
+        return Review(
+            comment = this["comment"].toString(),
+            stars = this["stars"].toString().toInt(),
+            userName = this["username"].toString()
+        )
+    }
 }
 
 

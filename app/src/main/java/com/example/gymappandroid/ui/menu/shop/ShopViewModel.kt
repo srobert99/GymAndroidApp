@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymappandroid.data.models.Product
 import com.example.gymappandroid.data.models.ProductCategory
+import com.example.gymappandroid.data.models.Review
 import com.example.gymappandroid.data.models.ShoppingCartItem
 import com.example.gymappandroid.data.repositories.ProductsDataRepository
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,9 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
 
     private var _currentSelectedProduct = MutableStateFlow(Product())
     val currentSelectedProduct: StateFlow<Product> = _currentSelectedProduct
+
+    private var _reviews = MutableStateFlow(listOf(Review()))
+    val reviews: StateFlow<List<Review>> = _reviews
 
     private var _currentSelectedProductSpecification = MutableStateFlow("")
     var currentSelectedProductSpecification: StateFlow<String> =
@@ -65,6 +69,12 @@ class ShopViewModel(private val productsDataRepository: ProductsDataRepository) 
         viewModelScope.launch(Dispatchers.IO) {
             _currentSelectedProduct.value =
                 productsDataRepository.getProductDetails(productId)
+        }
+    }
+
+    fun getProductReviews(productId: String) {
+        viewModelScope.launch {
+            _reviews.value = productsDataRepository.getProductReviews(productId)
         }
     }
 

@@ -13,22 +13,22 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.gymappandroid.R
-
+import com.example.gymappandroid.data.models.Review
 
 @Composable
-fun CommentUI() {
+fun ReviewUI(review: Review) {
     Column(
         modifier = Modifier
             .width(250.dp)
             .background(colorResource(id = R.color.teal_700))
     ) {
         Row() {
-            for (i in 1..3) {
+            for (i in 1..review.stars) {
                 Icon(imageVector = Icons.Filled.Star, contentDescription = null)
             }
             Spacer(modifier = Modifier.size(50.dp))
-            Text("Solymosi Robert", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(review.userName, color = Color.White, fontWeight = FontWeight.Bold)
         }
-        Text("Recomand", color = Color.White)
+        Text(review.comment, color = Color.White)
     }
 }
